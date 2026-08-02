@@ -81,7 +81,7 @@ function openMachine(machine){
 
     localStorage.setItem("selectedMachine",machine);
 
-    window.location.href="machine.html";
+    window.location.href="./machine.html";
 
 }
 
