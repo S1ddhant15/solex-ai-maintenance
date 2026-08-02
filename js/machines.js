@@ -1,25 +1,29 @@
 // =====================================================
 // SAMA - AI Maintenance Assistant
 // Machine Database
-// File: machine.js
+// File: machines.js
 // =====================================================
 
 
 // =====================================================
-// Machine Master Database
+// MACHINE MASTER DATABASE
 // =====================================================
 
 
 const machineDatabase = {
 
 
-    "stringer":{
+
+    "Stringer-01":{
+
 
         id:"STR-001",
 
-        name:"Stringer Machine",
+        name:"Stringer-01",
 
         department:"Stringing",
+
+        type:"Stringer Machine",
 
         manufacturer:"Meyer Burger",
 
@@ -45,13 +49,15 @@ const machineDatabase = {
         },
 
 
-        runtime:"12450 hrs",
+        runtime:12450,
 
 
-        lastMaintenance:"28-Jul-2026",
+        lastMaintenance:
+        "28-Jul-2026",
 
 
-        nextPM:"28-Aug-2026",
+        nextPM:
+        "28-Aug-2026",
 
 
 
@@ -59,20 +65,29 @@ const machineDatabase = {
 
 
             {
-                date:"25-Jul-2026",
-                issue:"Servo Alarm E37",
-                downtime:"35 min"
+
+            date:"25-Jul-2026",
+
+            issue:"Servo Alarm E37",
+
+            downtime:"35 min"
+
             },
 
 
             {
-                date:"15-Jul-2026",
-                issue:"Vacuum Low",
-                downtime:"20 min"
+
+            date:"15-Jul-2026",
+
+            issue:"Vacuum Low",
+
+            downtime:"20 min"
+
             }
 
 
         ]
+
 
     },
 
@@ -80,20 +95,27 @@ const machineDatabase = {
 
 
 
-    "laminator":{
+
+
+
+    "Laminator-01":{
 
 
         id:"LAM-001",
 
-        name:"Solar Module Laminator",
+        name:"Laminator-01",
 
         department:"Lamination",
 
+        type:"Solar Module Laminator",
+
         manufacturer:"Teamtechnik",
+
 
         status:"Running",
 
         health:91,
+
 
 
         parameters:{
@@ -113,13 +135,16 @@ const machineDatabase = {
         },
 
 
-        runtime:"18500 hrs",
+
+        runtime:18500,
 
 
-        lastMaintenance:"20-Jul-2026",
+        lastMaintenance:
+        "20-Jul-2026",
 
 
-        nextPM:"20-Aug-2026",
+        nextPM:
+        "20-Aug-2026",
 
 
 
@@ -127,20 +152,29 @@ const machineDatabase = {
 
 
             {
-                date:"30-Jul-2026",
-                issue:"Temperature Deviation",
-                downtime:"45 min"
+
+            date:"30-Jul-2026",
+
+            issue:"Temperature Deviation",
+
+            downtime:"45 min"
+
             },
 
 
             {
-                date:"12-Jul-2026",
-                issue:"Vacuum Pump Alarm",
-                downtime:"30 min"
+
+            date:"12-Jul-2026",
+
+            issue:"Vacuum Pump Alarm",
+
+            downtime:"30 min"
+
             }
 
 
         ]
+
 
     },
 
@@ -148,16 +182,22 @@ const machineDatabase = {
 
 
 
-    "el tester":{
+
+
+
+    "EL-Tester-01":{
 
 
         id:"EL-001",
 
-        name:"EL Inspection System",
+        name:"EL-Tester-01",
 
         department:"Quality",
 
+        type:"EL Inspection System",
+
         manufacturer:"VisiTech",
+
 
         status:"Running",
 
@@ -177,13 +217,15 @@ const machineDatabase = {
         },
 
 
-        runtime:"8600 hrs",
+        runtime:8600,
 
 
-        lastMaintenance:"22-Jul-2026",
+        lastMaintenance:
+        "22-Jul-2026",
 
 
-        nextPM:"22-Aug-2026"
+        nextPM:
+        "22-Aug-2026"
 
 
     },
@@ -192,16 +234,22 @@ const machineDatabase = {
 
 
 
-    "aoi":{
+
+
+
+    "AOI-01":{
 
 
         id:"AOI-001",
 
-        name:"AOI Inspection",
+        name:"AOI-01",
 
         department:"Quality",
 
+        type:"AOI Inspection",
+
         manufacturer:"Omron",
+
 
         status:"Running",
 
@@ -215,20 +263,21 @@ const machineDatabase = {
 
             inspectionRate:"98.5%",
 
-
             falseReject:"1.2%"
 
 
         },
 
 
-        runtime:"9200 hrs",
+        runtime:9200,
 
 
-        lastMaintenance:"18-Jul-2026",
+        lastMaintenance:
+        "18-Jul-2026",
 
 
-        nextPM:"18-Aug-2026"
+        nextPM:
+        "18-Aug-2026"
 
 
     }
@@ -240,19 +289,45 @@ const machineDatabase = {
 
 
 
+
+
+
+
+
 // =====================================================
-// Get Machine Details
+// GET MACHINE DETAILS
 // =====================================================
 
 
 function getMachineDetails(machineName){
 
 
-    machineName =
-    machineName.toLowerCase();
+
+let search =
+machineName.toLowerCase();
 
 
-    return machineDatabase[machineName] || null;
+
+for(let key in machineDatabase)
+{
+
+
+if(
+key.toLowerCase().includes(search)
+)
+
+{
+
+return machineDatabase[key];
+
+}
+
+
+}
+
+
+
+return null;
 
 
 }
@@ -260,15 +335,20 @@ function getMachineDetails(machineName){
 
 
 
+
+
+
+
+
 // =====================================================
-// Get All Machines
+// GET ALL MACHINES
 // =====================================================
 
 
 function getAllMachines(){
 
 
-    return Object.keys(machineDatabase);
+return Object.keys(machineDatabase);
 
 
 }
@@ -276,131 +356,69 @@ function getAllMachines(){
 
 
 
+
+
+
+
+
 // =====================================================
-// Machine Health
+// MACHINE HEALTH
 // =====================================================
 
 
 function getMachineHealth(machineName){
 
 
-    let machine =
-    getMachineDetails(machineName);
 
+let machine =
+getMachineDetails(machineName);
 
 
-    if(!machine)
 
-    return null;
+if(!machine)
 
+return null;
 
 
-    let score =
-    machine.health;
 
 
+let score =
+machine.health;
 
-    let status;
 
 
+let status;
 
-    if(score >= 90)
 
-    {
 
-        status="Healthy 🟢";
+if(score>=90)
 
-    }
+status="Healthy 🟢";
 
 
-    else if(score >=70)
+else if(score>=70)
 
-    {
+status="Warning 🟡";
 
-        status="Warning 🟡";
 
-    }
+else
 
+status="Critical 🔴";
 
-    else
 
-    {
 
-        status="Critical 🔴";
 
-    }
 
+return {
 
 
-    return {
+score:score,
 
+status:status
 
-        score:score,
 
-        status:status
+};
 
-
-    };
-
-
-}
-
-
-
-
-// =====================================================
-// Breakdown History
-// =====================================================
-
-
-function getBreakdownHistory(machineName){
-
-
-
-    let machine =
-    getMachineDetails(machineName);
-
-
-
-    if(machine && machine.breakdownHistory)
-
-    {
-
-        return machine.breakdownHistory;
-
-    }
-
-
-    return [];
-
-}
-
-
-
-
-// =====================================================
-// Update Machine Status
-// =====================================================
-
-
-function updateMachineStatus(
-machineName,
-newStatus
-){
-
-
-    let machine =
-    getMachineDetails(machineName);
-
-
-
-    if(machine)
-
-    {
-
-        machine.status=newStatus;
-
-    }
 
 
 }
@@ -410,8 +428,11 @@ newStatus
 
 
 
+
+
+
 // =====================================================
-// Generate Machine Report
+// GENERATE HEALTH REPORT
 // =====================================================
 
 
@@ -431,21 +452,29 @@ if(!machine)
 
 return `
 
-<b>Machine not found</b>
+
+<b>❌ Machine Not Found</b>
+
 
 <br><br>
 
-Available machines:
+
+Available Machines:
+
 
 <br>
 
-${getAllMachines().join(", ")}
+
+${getAllMachines().join("<br>")}
+
 
 `;
 
 
 
 }
+
+
 
 
 
@@ -460,7 +489,15 @@ return `
 
 Machine:
 
-<b>${machine.name}</b>
+<b>${machine.type}</b>
+
+
+<br><br>
+
+
+ID:
+
+${machine.id}
 
 
 <br><br>
@@ -474,9 +511,17 @@ ${machine.department}
 <br><br>
 
 
+Manufacturer:
+
+${machine.manufacturer}
+
+
+<br><br>
+
+
 Status:
 
-${machine.status}
+🟢 ${machine.status}
 
 
 <br><br>
@@ -484,17 +529,61 @@ ${machine.status}
 
 Health Score:
 
-${machine.health}%
+<b>${machine.health}%</b>
 
 
 <br><br>
 
 
-Parameters:
+<b>Live Parameters</b>
+
+
+<br><br>
+
+
+Temperature:
+
+${machine.parameters.temperature || "-"}
+
 
 <br>
 
-${JSON.stringify(machine.parameters)}
+
+Vacuum:
+
+${machine.parameters.vacuum || "-"}
+
+
+<br>
+
+
+Pressure:
+
+${machine.parameters.pressure || "-"}
+
+
+<br>
+
+
+Speed:
+
+${machine.parameters.speed || "-"}
+
+
+<br>
+
+
+Vibration:
+
+${machine.parameters.vibration || "-"}
+
+
+<br><br>
+
+
+Runtime:
+
+${machine.runtime} Hours
 
 
 <br><br>
@@ -505,7 +594,7 @@ Last Maintenance:
 ${machine.lastMaintenance}
 
 
-<br><br>
+<br>
 
 
 Next PM:
@@ -515,6 +604,81 @@ ${machine.nextPM}
 
 `;
 
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// BREAKDOWN HISTORY
+// =====================================================
+
+
+function getBreakdownHistory(machineName){
+
+
+
+let machine =
+getMachineDetails(machineName);
+
+
+
+if(
+machine &&
+machine.breakdownHistory
+)
+
+return machine.breakdownHistory;
+
+
+
+return [];
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// UPDATE MACHINE STATUS
+// =====================================================
+
+
+function updateMachineStatus(
+machineName,
+newStatus
+){
+
+
+
+let machine =
+getMachineDetails(machineName);
+
+
+
+if(machine)
+
+{
+
+
+machine.status =
+newStatus;
+
+
+}
 
 
 }
