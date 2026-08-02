@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Machine Library</title>
+<title>Solex AI - Machine Library</title>
 
 <link rel="stylesheet" href="../css/style.css">
 
@@ -45,12 +46,17 @@ AI Chat
 
 <li onclick="location.href='alarms.html'">
 <i class="fa-solid fa-triangle-exclamation"></i>
-Alarms
+Alarm Lookup
 </li>
 
 <li onclick="location.href='pm.html'">
 <i class="fa-solid fa-screwdriver-wrench"></i>
-PM
+Preventive Maintenance
+</li>
+
+<li onclick="location.href='settings.html'">
+<i class="fa-solid fa-gear"></i>
+Settings
 </li>
 
 <li onclick="logout()">
@@ -78,60 +84,90 @@ Logout
 
 </div>
 
+<!-- Search -->
+
+<div class="search-container">
+
+<input
+type="text"
+id="machineSearch"
+placeholder="🔍 Search Machine..."
+onkeyup="searchMachines()">
+
+</div>
+
+<!-- Machine Cards -->
+
 <div class="cards">
 
-<div class="card" onclick="openMachine('Stringer 01')">
+<div class="card machine-card" onclick="openMachine('Stringer 01')">
 
 <h3>⚙️ Stringer 01</h3>
 
-<p>Status : Running</p>
+<p><b>Status:</b> Running</p>
 
-<p>Health : 97%</p>
+<p><b>Health:</b> 97%</p>
+
+<p><b>Department:</b> Stringing</p>
 
 <button class="btn btn-primary">
+
 View Details
+
 </button>
 
 </div>
 
-<div class="card" onclick="openMachine('Laminator 01')">
+<div class="card machine-card" onclick="openMachine('Laminator 01')">
 
 <h3>🔥 Laminator 01</h3>
 
-<p>Status : Running</p>
+<p><b>Status:</b> Running</p>
 
-<p>Health : 94%</p>
+<p><b>Health:</b> 94%</p>
+
+<p><b>Department:</b> Lamination</p>
 
 <button class="btn btn-primary">
+
 View Details
+
 </button>
 
 </div>
 
-<div class="card" onclick="openMachine('EL Tester')">
+<div class="card machine-card" onclick="openMachine('EL Tester')">
 
 <h3>📷 EL Tester</h3>
 
-<p>Status : Running</p>
+<p><b>Status:</b> Running</p>
 
-<p>Health : 98%</p>
+<p><b>Health:</b> 98%</p>
+
+<p><b>Department:</b> Inspection</p>
 
 <button class="btn btn-primary">
+
 View Details
+
 </button>
 
 </div>
 
-<div class="card" onclick="openMachine('Bussing Machine')">
+<div class="card machine-card" onclick="openMachine('Bussing Machine')">
 
 <h3>🔧 Bussing Machine</h3>
 
-<p>Status : Stopped</p>
+<p><b>Status:</b> Stopped</p>
 
-<p>Health : 81%</p>
+<p><b>Health:</b> 81%</p>
+
+<p><b>Department:</b> Bussing</p>
 
 <button class="btn btn-primary">
+
 View Details
+
 </button>
 
 </div>
@@ -151,6 +187,32 @@ function openMachine(machine){
 localStorage.setItem("selectedMachine",machine);
 
 window.location.href="machine.html";
+
+}
+
+function searchMachines(){
+
+let input=document.getElementById("machineSearch").value.toLowerCase();
+
+let cards=document.querySelectorAll(".machine-card");
+
+cards.forEach(card=>{
+
+let text=card.innerText.toLowerCase();
+
+if(text.includes(input)){
+
+card.style.display="block";
+
+}
+
+else{
+
+card.style.display="none";
+
+}
+
+});
 
 }
 
