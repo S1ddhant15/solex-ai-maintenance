@@ -1,470 +1,239 @@
-// ==========================================
-// SAMA - AI Maintenance Assistant
-// Advanced Chat Controller
-// ==========================================
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
-let conversationHistory = [];
+<meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Solex AI Maintenance Assistant</title>
 
-let chatBox;
 
+<link rel="stylesheet" href="../css/style.css">
 
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
 
-chatBox =
-document.getElementById("chatBox");
+<link 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+rel="stylesheet">
 
-});
 
+</head>
 
 
+<body>
 
 
-// ==========================================
-// Send Message
-// ==========================================
+<div class="dashboard">
 
 
-function sendMessage(){
 
+<!-- =========================
+SIDEBAR
+========================= -->
 
-let input =
-document.getElementById("userInput");
 
+<div class="sidebar">
 
-let message =
-input.value.trim();
 
+<div class="logo-area">
 
+<h2>🤖 SAMA</h2>
 
-if(message==="")
-
-return;
-
-
-
-
-addUserMessage(message);
-
-
-
-input.value="";
-
-
-
-conversationHistory.push({
-
-role:"user",
-
-message:message
-
-});
-
-
-
-
-
-showTyping();
-
-
-
-
-setTimeout(()=>{
-
-
-removeTyping();
-
-
-
-let reply =
-processSAMAQuery(message);
-
-
-
-addBotMessage(reply);
-
-
-
-conversationHistory.push({
-
-role:"assistant",
-
-message:reply
-
-});
-
-
-
-},800);
-
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// AI ENGINE CONNECTION
-// ==========================================
-
-
-function processSAMAQuery(query){
-
-
-
-try{
-
-
-
-if(typeof generateAIResponse === "function"){
-
-
-return generateAIResponse(query);
-
-
-}
-
-
-
-return fallbackResponse(query);
-
-
-
-}
-
-
-catch(error){
-
-
-console.error(error);
-
-
-
-return `
-
-⚠️ SAMA AI connection error.
-
-Please check:
-
-<br>
-
-✓ aiEngine.js
-
-<br>
-
-✓ knowledge.js
-
-<br>
-
-✓ alarmDatabase.js
-
-`;
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// User Message
-// ==========================================
-
-
-function addUserMessage(message){
-
-
-
-let div =
-document.createElement("div");
-
-
-
-div.className="user-message";
-
-
-
-div.innerHTML=`
-
-<div class="message-header">
-
-👨‍🔧 Operator
+<p>AI Maintenance</p>
 
 </div>
 
 
-${message}
 
-`;
-
+<ul>
 
 
-chatBox.appendChild(div);
+<li onclick="location.href='../dashboard.html'">
 
+<i class="fa-solid fa-house"></i>
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
+Dashboard
 
-
-
-}
+</li>
 
 
 
+<li onclick="location.href='machines.html'">
+
+<i class="fa-solid fa-gears"></i>
+
+Machines
+
+</li>
 
 
 
+<li class="active">
 
+<i class="fa-solid fa-robot"></i>
 
-// ==========================================
-// Bot Message
-// ==========================================
+AI Chat
 
-
-function addBotMessage(message){
-
-
-
-let div =
-document.createElement("div");
+</li>
 
 
 
-div.className="bot-message";
+<li onclick="location.href='alarms.html'">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+Alarm Lookup
+
+</li>
 
 
 
-div.innerHTML=`
+<li onclick="location.href='pm.html'">
 
-<div class="message-header">
+<i class="fa-solid fa-screwdriver-wrench"></i>
 
-🤖 SAMA
+PM
+
+</li>
+
+
+
+<li onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</li>
+
+
+</ul>
+
 
 </div>
 
 
-${message}
 
-`;
 
 
+<!-- =========================
+MAIN CONTENT
+========================= -->
 
-chatBox.appendChild(div);
 
+<div class="main-content">
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
 
 
+<div class="topbar">
 
-}
 
+<h1>
+🤖 Solex AI Maintenance Assistant
+</h1>
 
 
+</div>
 
 
 
 
 
-// ==========================================
-// Typing Animation
-// ==========================================
+<!-- =========================
+CHAT AREA
+========================= -->
 
 
-function showTyping(){
+<div class="chat-container">
 
 
 
-let div =
-document.createElement("div");
+<div 
+id="chatBox" 
+class="chat-box">
 
+</div>
 
 
-div.id="typing";
 
-div.className="bot-message";
 
 
-div.innerHTML=
+<div class="chat-input">
 
-"🤖 SAMA is analyzing...";
 
 
+<input
 
-chatBox.appendChild(div);
 
+type="text"
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
 
+id="userInput"
 
-}
 
+placeholder="Ask about machine, alarm, PM..."
 
 
+onkeypress="if(event.key==='Enter') sendMessage();"
 
 
+>
 
 
-function removeTyping(){
 
+<button onclick="sendMessage()">
 
-let typing =
-document.getElementById("typing");
 
+<i class="fa-solid fa-paper-plane"></i>
 
 
-if(typing)
+</button>
 
-typing.remove();
 
 
-}
+</div>
 
 
 
+</div>
 
 
 
 
-// ==========================================
-// Fallback
-// ==========================================
 
+</div>
 
-function fallbackResponse(query){
 
+</div>
 
 
-return `
 
 
-🤖 SAMA received:
 
-<b>${query}</b>
+<!-- =========================
+SAMA ENGINE FILES
+ORDER IS IMPORTANT
+========================= -->
 
-
-<br><br>
-
-
-Please provide:
-
-<br>
-
-Machine name
-
-<br>
-
-Alarm code
-
-<br>
-
-Problem symptom
-
-
-`;
-
-}
-
-// ==========================================
-// SAMA Startup Message
-// ==========================================
-
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-
-addBotMessage(`
-
-
-👋 Welcome to <b>SAMA</b>
-
-
-<br><br>
-
-
-I am Solex AI Maintenance Assistant.
-
-
-<br><br>
-
-
-I can help with:
-
-
-<br><br>
-
-
-⚙ Machine Breakdown
-
-<br>
-
-🚨 Alarm Troubleshooting
-
-<br>
-
-🛠 Preventive Maintenance
-
-<br>
-
-📦 Spare Recommendation
-
-<br>
-
-📊 Machine Health
-
-
-<br><br>
-
-
-Try:
-
-<br>
-
-"Stringer cell breakage"
-
-<br>
-
-"Servo alarm E37"
-
-<br>
-
-"Laminator bubble defect"
-
-
-`);
-
-
-});
 
 <script src="../js/database.js"></script>
 
+
 <script src="../js/knowledge.js"></script>
+
 
 <script src="../js/alarmDatabase.js"></script>
 
+
 <script src="../js/aiEngine.js"></script>
+
 
 <script src="../js/chat.js"></script>
 
+
+
 </body>
+
 
 </html>
