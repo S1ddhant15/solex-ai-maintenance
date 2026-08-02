@@ -1,7 +1,3 @@
-// =============================================
-// SOLEX AI MAINTENANCE KNOWLEDGE BASE
-// =============================================
-
 const knowledgeBase = [
 
 {
@@ -9,33 +5,41 @@ const knowledgeBase = [
 
     title:"String Stops Frequently",
 
-    keywords:[
-        "stringer",
-        "stop",
-        "conveyor",
-        "string",
-        "stoppage"
-    ],
+    keywords:["stringer","stop","conveyor","cell jam"],
 
     causes:[
-        "Conveyor sensor dirty",
+        "Dirty conveyor sensor",
         "Servo overload",
-        "Low air pressure",
         "Cell jam",
-        "Loose encoder cable"
+        "Encoder cable loose"
     ],
 
     checks:[
         "Clean photo sensor",
-        "Check servo drive alarm",
-        "Verify air pressure above 6 bar",
         "Inspect conveyor",
-        "Check encoder connection"
+        "Check encoder cable",
+        "Reset servo drive"
     ],
 
     repair:"15-30 Minutes",
 
-    safety:"Lockout power before opening safety guard."
+    safety:"Lockout power before maintenance.",
+
+    tools:[
+        "Allen Key Set",
+        "Multimeter",
+        "Air Gun"
+    ],
+
+    spareParts:[
+        "Photo Sensor",
+        "Encoder",
+        "Servo Coupling"
+    ],
+
+    technician:"Mechanical + Electrical",
+
+    priority:"High"
 },
 
 {
@@ -43,62 +47,76 @@ const knowledgeBase = [
 
     title:"Low Vacuum Alarm",
 
-    keywords:[
-        "laminator",
-        "vacuum",
-        "low vacuum",
-        "lamination"
-    ],
+    keywords:["laminator","vacuum","low vacuum"],
 
     causes:[
-        "Vacuum pump failure",
         "Vacuum leakage",
-        "Door seal damaged",
-        "Vacuum valve faulty"
+        "Pump failure",
+        "Door gasket damage"
     ],
 
     checks:[
-        "Inspect vacuum pump",
-        "Check vacuum hose",
-        "Replace door gasket",
-        "Verify vacuum valve operation"
+        "Inspect pump",
+        "Check vacuum pipe",
+        "Replace gasket"
     ],
 
     repair:"30-45 Minutes",
 
-    safety:"Wait until chamber pressure reaches atmospheric pressure."
+    safety:"Release chamber pressure before opening.",
+
+    tools:[
+        "Vacuum Gauge",
+        "Spanner Set"
+    ],
+
+    spareParts:[
+        "Vacuum Pump",
+        "Vacuum Valve",
+        "Door Gasket"
+    ],
+
+    technician:"Mechanical",
+
+    priority:"Critical"
 },
 
 {
     machine:"EL Tester",
 
-    title:"Image Capture Failure",
+    title:"Camera Communication Failure",
 
-    keywords:[
-        "el",
-        "camera",
-        "image",
-        "capture",
-        "tester"
-    ],
+    keywords:["camera","el","image"],
 
     causes:[
+        "LAN disconnected",
         "Camera offline",
-        "Lens dirty",
-        "Lighting issue",
-        "Network disconnected"
+        "Lens dirty"
     ],
 
     checks:[
         "Restart camera",
-        "Clean camera lens",
-        "Check LAN cable",
-        "Verify lighting"
+        "Clean lens",
+        "Check Ethernet cable"
     ],
 
     repair:"20 Minutes",
 
-    safety:"Switch off camera before maintenance."
+    safety:"Switch OFF power.",
+
+    tools:[
+        "LAN Tester",
+        "Cleaning Cloth"
+    ],
+
+    spareParts:[
+        "Industrial Camera",
+        "Ethernet Cable"
+    ],
+
+    technician:"Electrical",
+
+    priority:"Medium"
 },
 
 {
@@ -106,80 +124,82 @@ const knowledgeBase = [
 
     title:"Ribbon Feeding Error",
 
-    keywords:[
-        "bussing",
-        "ribbon",
-        "feeding",
-        "jam"
-    ],
+    keywords:["bussing","ribbon","jam"],
 
     causes:[
         "Ribbon misalignment",
-        "Roller worn",
-        "Sensor blocked",
-        "Motor overload"
+        "Sensor dirty"
     ],
 
     checks:[
         "Realign ribbon",
-        "Inspect roller",
-        "Clean sensor",
-        "Reset motor drive"
+        "Clean sensor"
     ],
 
     repair:"25 Minutes",
 
-    safety:"Disconnect machine before replacing ribbon."
+    safety:"Stop machine before servicing.",
+
+    tools:[
+        "Allen Key",
+        "Brush"
+    ],
+
+    spareParts:[
+        "Ribbon Roller",
+        "Photo Sensor"
+    ],
+
+    technician:"Mechanical",
+
+    priority:"High"
 },
 
 {
     machine:"Flash Tester",
 
-    title:"Flash Test Failure",
+    title:"Calibration Failure",
 
-    keywords:[
-        "flash",
-        "tester",
-        "irradiance",
-        "calibration"
-    ],
+    keywords:["flash","calibration"],
 
     causes:[
-        "Lamp aging",
-        "Calibration expired",
-        "Sensor failure"
+        "Lamp ageing",
+        "Calibration expired"
     ],
 
     checks:[
         "Run calibration",
-        "Check irradiance sensor",
-        "Replace flash lamp if required"
+        "Replace flash lamp"
     ],
 
     repair:"40 Minutes",
 
-    safety:"High voltage present inside flash chamber."
+    safety:"High Voltage.",
+
+    tools:[
+        "Calibration Kit"
+    ],
+
+    spareParts:[
+        "Flash Lamp",
+        "Irradiance Sensor"
+    ],
+
+    technician:"Electrical",
+
+    priority:"Medium"
 }
 
 ];
 
-// =============================================
-
 function searchKnowledge(question){
 
-    question = question.toLowerCase();
+    question=question.toLowerCase();
 
     for(let item of knowledgeBase){
 
-        for(let keyword of item.keywords){
-
-            if(question.includes(keyword.toLowerCase())){
-
-                return item;
-
-            }
-
-        }
+        if(item.keywords.some(k=>question.includes(k.toLowerCase())))
+            return item;
 
     }
 
