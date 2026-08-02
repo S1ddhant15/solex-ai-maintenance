@@ -1,148 +1,365 @@
-<!DOCTYPE html>
-<html lang="en">
+// ==========================================
+// SAMA - AI Maintenance Assistant
+// Chat Engine
+// ==========================================
 
-<head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+const chatBox = document.getElementById("chatBox");
 
-<title>Solex AI Maintenance Assistant</title>
 
-<link rel="stylesheet" href="../css/style.css">
+// Send Message
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+function sendMessage(){
 
-</head>
 
-<body>
+let input = document.getElementById("userInput");
 
-<div class="dashboard">
+let message = input.value.trim();
 
-<!-- Sidebar -->
 
-<div class="sidebar">
+if(message==="")
+return;
 
-<div class="logo-area">
-<h2>🤖 SAMA</h2>
-<p>AI Maintenance</p>
-</div>
 
-<ul>
 
-<li onclick="location.href='../dashboard.html'">
-<i class="fa-solid fa-house"></i>
-Dashboard
-</li>
+// User Message
 
-<li onclick="location.href='machines.html'">
-<i class="fa-solid fa-gears"></i>
-Machines
-</li>
+addUserMessage(message);
 
-<li class="active">
-<i class="fa-solid fa-robot"></i>
-AI Chat
-</li>
 
-<li onclick="location.href='alarms.html'">
-<i class="fa-solid fa-triangle-exclamation"></i>
-Alarm Lookup
-</li>
+input.value="";
 
-<li onclick="location.href='pm.html'">
-<i class="fa-solid fa-screwdriver-wrench"></i>
-PM
-</li>
 
-<li onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
-Logout
-</li>
 
-</ul>
+// AI Thinking
 
-</div>
+setTimeout(()=>{
 
-<!-- Main -->
+let reply = getSAMAResponse(message);
 
-<div class="main-content">
+addBotMessage(reply);
 
-<div class="topbar">
 
-<h1>🤖 Solex AI Maintenance Assistant</h1>
+},700);
 
-</div>
 
-<div class="chat-container">
 
-<div id="chatBox" class="chat-box">
+}
 
-<div class="bot-message">
 
-👋 Hello! I am <b>SAMA</b>.
 
-Ask me anything about:
+
+// Add User Message
+
+function addUserMessage(message){
+
+
+let div = document.createElement("div");
+
+
+div.className="user-message";
+
+
+div.innerHTML = message;
+
+
+chatBox.appendChild(div);
+
+
+chatBox.scrollTop = chatBox.scrollHeight;
+
+
+}
+
+
+
+
+// Add Bot Message
+
+function addBotMessage(message){
+
+
+let div = document.createElement("div");
+
+
+div.className="bot-message";
+
+
+div.innerHTML = message;
+
+
+chatBox.appendChild(div);
+
+
+chatBox.scrollTop = chatBox.scrollHeight;
+
+
+}
+
+
+
+
+// ==========================================
+// SAMA Knowledge Engine
+// ==========================================
+
+
+function getSAMAResponse(query){
+
+
+let text = query.toLowerCase();
+
+
+
+// Breakdown Questions
+
+if(
+text.includes("breakdown") ||
+text.includes("stopped") ||
+text.includes("not running")
+)
+
+{
+
+return `
+
+<b>🔧 Breakdown Analysis</b>
 
 <br><br>
 
-✅ Machine Breakdown
+Possible causes:
 
 <br>
 
-✅ Alarm Codes
+1️⃣ Check machine alarm history
 
 <br>
 
-✅ PM Checklist
+2️⃣ Verify sensor status
 
 <br>
 
-✅ Spare Parts
+3️⃣ Check servo drive condition
 
 <br>
 
-✅ Troubleshooting
+4️⃣ Verify air pressure
 
-</div>
+<br>
 
-</div>
+5️⃣ Check communication fault
 
-<div class="chat-input">
+<br><br>
 
-<input
+<b>Recommended Action:</b>
 
-type="text"
+Inspect PLC alarm screen and IO status.
 
-id="userInput"
+`;
 
-placeholder="Ask about any machine..."
+}
 
-onkeypress="if(event.key==='Enter')sendMessage();">
 
-<button onclick="sendMessage()">
 
-<i class="fa-solid fa-paper-plane"></i>
 
-</button>
 
-</div>
+// Servo Related
 
-</div>
+if(
+text.includes("servo") ||
+text.includes("motor")
+)
 
-</div>
+{
 
-</div>
+return `
 
-<script src="../js/database.js"></script>
+<b>⚙ Servo Troubleshooting</b>
 
-<script src="../js/knowledge.js"></script>
+<br><br>
 
-<script src="../js/alarmDatabase.js"></script>
+Check:
 
-<script src="../js/chat.js"></script>
+<br>
 
-<script src="../js/app.js"></script>
+✅ Servo alarm code
 
-</body>
+<br>
 
-</html>
+✅ Motor temperature
+
+<br>
+
+✅ Encoder feedback
+
+<br>
+
+✅ Drive communication
+
+<br>
+
+✅ Mechanical jam
+
+`;
+
+}
+
+
+
+
+
+// Alarm
+
+if(
+text.includes("alarm") ||
+text.includes("error") ||
+text.includes("fault")
+)
+
+{
+
+return `
+
+<b>⚠ Alarm Investigation</b>
+
+<br><br>
+
+Please provide:
+
+<br>
+
+• Machine name
+
+<br>
+
+• Alarm code
+
+<br>
+
+• Time of occurrence
+
+<br><br>
+
+I will provide troubleshooting steps.
+
+`;
+
+}
+
+
+
+
+
+// PM
+
+if(
+text.includes("pm") ||
+text.includes("maintenance")
+)
+
+{
+
+return `
+
+<b>🛠 Preventive Maintenance</b>
+
+<br><br>
+
+Recommended checks:
+
+<br>
+
+✅ Lubrication
+
+<br>
+
+✅ Sensor cleaning
+
+<br>
+
+✅ Servo inspection
+
+<br>
+
+✅ Pneumatic leakage
+
+<br>
+
+✅ Electrical tightening
+
+`;
+
+}
+
+
+
+
+// Spare
+
+if(
+text.includes("spare")
+)
+
+{
+
+return `
+
+<b>📦 Spare Recommendation</b>
+
+<br><br>
+
+Please share:
+
+<br>
+
+Machine name
+
+<br>
+
+Part name
+
+<br>
+
+Failure symptom
+
+<br><br>
+
+SAMA will suggest required spare.
+
+`;
+
+}
+
+
+
+
+// Default Response
+
+
+return `
+
+🤖 I am still learning this area.
+
+<br><br>
+
+Try asking:
+
+<br>
+
+"Stringer machine stopped"
+
+<br>
+
+"Servo alarm"
+
+<br>
+
+"PM checklist"
+
+<br>
+
+"Spare required"
+
+`;
+
+}
