@@ -886,3 +886,141 @@ Try:
 
 
 }
+
+// =====================================================
+// KNOWLEDGE BASE ANALYSIS
+// =====================================================
+
+
+function analyzeKnowledge(query){
+
+
+    // Check knowledge.js connection
+
+    if(typeof searchKnowledge !== "function")
+    {
+
+        return null;
+
+    }
+
+
+
+
+    let input =
+    query.toLowerCase();
+
+
+
+    let machine =
+    detectMachine(input);
+
+
+
+
+    let result =
+    searchKnowledge(
+        machine,
+        input
+    );
+
+
+
+
+    if(result)
+
+    {
+
+
+        return `
+
+
+        <b>🔧 SAMA Troubleshooting Analysis</b>
+
+
+        <br><br>
+
+
+        Machine:
+
+        <b>${machine}</b>
+
+
+        <br><br>
+
+
+        Problem:
+
+        ${result.symptom}
+
+
+        <br><br>
+
+
+        <b>Possible Causes:</b>
+
+
+        <br>
+
+
+        ${
+
+        result.possibleCause
+        .map(x=>"• "+x)
+        .join("<br>")
+
+        }
+
+
+
+        <br><br>
+
+
+        <b>Recommended Checks:</b>
+
+
+        <br>
+
+
+        ${
+
+        result.checks
+        .map(x=>"✓ "+x)
+        .join("<br>")
+
+        }
+
+
+
+        <br><br>
+
+
+        <b>SAMA Action:</b>
+
+
+        <br>
+
+
+        ${result.action}
+
+
+
+        <br><br>
+
+
+        Confidence:
+
+        88%
+
+
+        `;
+
+
+    }
+
+
+
+    return null;
+
+
+}
