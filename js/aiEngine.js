@@ -70,20 +70,34 @@ function generateAIResponse(query){
 
 
 
-    // ==========================================
-    // PM Recommendation
-    // ==========================================
+// ==========================================
+// PM Recommendation
+// ==========================================
 
 
-    else if(intent === "pm")
-    {
+else if(intent === "pm")
+{
 
 
-        response =
-        generatePM(machine);
+if(typeof generatePMReport === "function")
+{
+
+response =
+generatePMReport(machine);
+
+}
+
+else
+
+{
+
+response =
+generatePM(machine);
+
+}
 
 
-    }
+}
 
 
 
