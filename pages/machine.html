@@ -6,22 +6,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Solex AI - Machine Details</title>
+<title>Machine Monitor</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
 </head>
 
-
 <body>
 
-
 <div class="dashboard">
-
-
-<!-- Sidebar -->
 
 <div class="sidebar">
 
@@ -33,453 +28,134 @@
 
 </div>
 
-
 <ul>
 
-<li onclick="location.href='home.html'">
-<i class="fa-solid fa-house"></i>
-Home
+<li onclick="location.href='../dashboard.html'">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
 </li>
-
-
-<li onclick="location.href='chat.html'">
-<i class="fa-solid fa-comments"></i>
-AI Chat
-</li>
-
 
 <li onclick="location.href='machines.html'" class="active">
 <i class="fa-solid fa-gears"></i>
 Machines
 </li>
 
+<li onclick="location.href='chat.html'">
+<i class="fa-solid fa-comments"></i>
+AI Chat
+</li>
 
 <li onclick="location.href='alarms.html'">
 <i class="fa-solid fa-triangle-exclamation"></i>
-Alarms
+Alarm Lookup
 </li>
-
-
-<li onclick="location.href='pm.html'">
-<i class="fa-solid fa-screwdriver-wrench"></i>
-PM
-</li>
-
-
-<li onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
-Logout
-</li>
-
 
 </ul>
 
-
 </div>
-
-
-
-<!-- Main -->
-
 
 <div class="main-content">
 
-
-<div class="topbar">
-
-<div>
-
-<h1 id="machineName">
-Machine Details
-</h1>
-
-<p>
-AI assisted troubleshooting
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<!-- Machine Overview -->
-
+<h1 id="machineTitle">Machine Details</h1>
 
 <div class="cards">
 
+<div class="card">
+<h3>Status</h3>
+<h1 id="status">Running</h1>
+</div>
 
 <div class="card">
-
-<h3>
-⚙ Machine Information
-</h3>
-
-<p>
-Machine Name:
-<span id="name">
-Laminator
-</span>
-</p>
-
-<p>
-Category:
-Process Equipment
-</p>
-
-<p>
-Application:
-PV Module Lamination
-</p>
-
-
+<h3>Health</h3>
+<h1 id="health">97%</h1>
 </div>
-
-
-
 
 <div class="card">
-
-<h3>
-📊 Status
-</h3>
-
-
-<p>
-Current Status:
-</p>
-
-<h2 style="color:#10b981">
-● Running
-</h2>
-
-
-<p>
-Last Maintenance:
-
-02-Aug-2026
-
-</p>
-
-
+<h3>Temperature</h3>
+<h1 id="temperature">42°C</h1>
 </div>
 
-
-
+<div class="card">
+<h3>Air Pressure</h3>
+<h1 id="pressure">6.2 Bar</h1>
 </div>
 
+<div class="card">
+<h3>Running Hours</h3>
+<h1 id="hours">1245</h1>
+</div>
 
+<div class="card">
+<h3>Next PM</h3>
+<h1 id="pm">12 Aug</h1>
+</div>
 
-
-<!-- Fault Section -->
-
+</div>
 
 <div class="recent">
 
+<h2>🤖 AI Health Assessment</h2>
 
-<h2>
-⚠ Common Problems
-</h2>
+<div class="card">
 
+<p id="aiRecommendation">
 
+Machine operating normally.
+
+No abnormal trend detected.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="recent">
+
+<h2>Current Parameters</h2>
 
 <table>
 
-
 <tr>
-
-<th>
-Problem
-</th>
-
-<th>
-Possible Cause
-</th>
-
-<th>
-Action
-</th>
-
+<th>Parameter</th>
+<th>Value</th>
+<th>Status</th>
 </tr>
 
-
-
 <tr>
-
-<td>
-Vacuum Error
-</td>
-
-<td>
-Leakage / Pump / Sensor
-</td>
-
-<td>
-
-<button class="btn btn-primary"
-onclick="askAI('Vacuum Error')">
-
-Ask AI
-
-</button>
-
-</td>
-
+<td>Servo Load</td>
+<td>63%</td>
+<td class="status-success">Normal</td>
 </tr>
 
-
-
-
 <tr>
-
-<td>
-Temperature Issue
-</td>
-
-<td>
-Heater / SSR / Thermocouple
-</td>
-
-<td>
-
-<button class="btn btn-primary"
-onclick="askAI('Temperature Issue')">
-
-Ask AI
-
-</button>
-
-</td>
-
+<td>Vacuum</td>
+<td>-92 kPa</td>
+<td class="status-success">Normal</td>
 </tr>
 
-
-
-
 <tr>
-
-<td>
-PLC Alarm
-</td>
-
-<td>
-Sensor / IO / Drive Fault
-</td>
-
-<td>
-
-<button class="btn btn-primary"
-onclick="askAI('PLC Alarm')">
-
-Ask AI
-
-</button>
-
-</td>
-
+<td>Conveyor Speed</td>
+<td>28 m/min</td>
+<td class="status-success">Normal</td>
 </tr>
 
+<tr>
+<td>Heater Temperature</td>
+<td>148°C</td>
+<td class="status-warning">Monitor</td>
+</tr>
 
 </table>
 
+</div>
 
 </div>
 
-
-
-
-<!-- PM Section -->
-
-
-<div class="cards">
-
-
-<div class="card">
-
-
-<h3>
-🛠 Preventive Maintenance
-</h3>
-
-
-<p>
-Daily Checks
-</p>
-
-<p>
-✓ Cleaning</p>
-
-<p>
-✓ Leakage Inspection
-</p>
-
-<p>
-✓ Sensor Checking
-</p>
-
-
-<button class="btn btn-success">
-
-Open Checklist
-
-</button>
-
-
 </div>
 
-
-
-
-<div class="card">
-
-
-<h3>
-📚 Documents
-</h3>
-
-
-<p>
-SOP Manual
-</p>
-
-<p>
-Electrical Drawing
-</p>
-
-<p>
-Pneumatic Diagram
-</p>
-
-
-<button class="btn btn-warning">
-
-View Documents
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-<script src="js/app.js"></script>
-<script src="js/alarmDatabase.js"></script>
-<script src="js/database.js"></script>
-<script src="js/knowledge.js"></script>
-<script src="js/chat.js"></script>
-
-
-
-<script>
-
-
-function askAI(problem){
-
-
-localStorage.setItem(
-"selectedProblem",
-problem
-);
-
-
-window.location.href="chat.html";
-
-
-}
-
-
-
-</script>
-
-
+<script src="../js/machineMonitor.js"></script>
 
 </body>
 
 </html>
-
-<script src="../js/app.js"></script>
-
-<script>
-const machine = localStorage.getItem("selectedMachine") || "No Machine Selected";
-
-// Update page title
-document.getElementById("machineTitle").innerHTML = machine;
-
-// Sample Data
-const machines = {
-
-"Stringer 01":{
-
-status:"Running",
-
-health:"97%",
-
-department:"Stringing",
-
-manufacturer:"Autowell"
-
-},
-
-"Laminator 01":{
-
-status:"Running",
-
-health:"94%",
-
-department:"Lamination",
-
-manufacturer:"Boostsolar"
-
-},
-
-"EL Tester":{
-
-status:"Running",
-
-health:"98%",
-
-department:"Inspection",
-
-manufacturer:"BT Imaging"
-
-},
-
-"Bussing Machine":{
-
-status:"Stopped",
-
-health:"81%",
-
-department:"Bussing",
-
-manufacturer:"Jinchen"
-
-}
-
-};
-
-if(machines[machine]){
-
-document.getElementById("status").innerHTML = machines[machine].status;
-
-document.getElementById("health").innerHTML = machines[machine].health;
-
-document.getElementById("department").innerHTML = machines[machine].department;
-
-document.getElementById("manufacturer").innerHTML = machines[machine].manufacturer;
-
-}
-</script>
