@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solex AI - Alarm Lookup</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo-area">
+
+<h2>🤖 SAMA</h2>
+
+<p>AI Maintenance</p>
+
+</div>
+
+
+<ul>
+
+
+<li onclick="location.href='home.html'">
+
+<i class="fa-solid fa-house"></i>
+Home
+
+</li>
+
+
+<li onclick="location.href='chat.html'">
+
+<i class="fa-solid fa-comments"></i>
+AI Chat
+
+</li>
+
+
+<li onclick="location.href='machines.html'">
+
+<i class="fa-solid fa-gears"></i>
+Machines
+
+</li>
+
+
+<li class="active">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+Alarm Lookup
+
+</li>
+
+
+<li onclick="location.href='pm.html'">
+
+<i class="fa-solid fa-screwdriver-wrench"></i>
+PM
+
+</li>
+
+
+<li onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+
+</li>
+
+
+</ul>
+
+</div>
+
+
+
+<!-- Main -->
+
+
+<div class="main-content">
+
+
+
+<div class="topbar">
+
+<div>
+
+<h1>
+PLC Alarm Lookup
+</h1>
+
+<p>
+Search machine alarms and solutions
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- Search -->
+
+
+<div class="search-box">
+
+
+<input
+
+type="text"
+
+id="alarmSearch"
+
+placeholder="Enter Alarm Code (Example: E205)"
+
+onkeyup="searchAlarm()"
+
+/>
+
+
+</div>
+
+
+
+
+
+<!-- Alarm Cards -->
+
+
+<div id="alarmList" class="cards">
+
+
+
+<div class="card alarm-card">
+
+
+<h3>
+⚠ E205
+</h3>
+
+
+<p>
+<b>Machine:</b>
+Stringer Servo
+</p>
+
+
+<p>
+<b>Alarm:</b>
+Servo Overload
+</p>
+
+
+<p>
+<b>Cause:</b>
+Mechanical resistance or motor overload
+</p>
+
+
+<p>
+<b>Action:</b>
+
+<br>
+
+✓ Check motor movement
+
+<br>
+
+✓ Inspect mechanical obstruction
+
+<br>
+
+✓ Reset servo drive
+
+</p>
+
+
+
+<button class="btn btn-primary"
+onclick="askAlarm('E205')">
+
+Ask AI
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="card alarm-card">
+
+
+<h3>
+⚠ E101
+</h3>
+
+
+<p>
+<b>Machine:</b>
+Laminator
+</p>
+
+
+<p>
+<b>Alarm:</b>
+Vacuum Low Pressure
+</p>
+
+
+<p>
+<b>Cause:</b>
+Vacuum leakage or pump issue
+</p>
+
+
+<p>
+
+<b>Action:</b>
+
+<br>
+
+✓ Check vacuum pump
+
+<br>
+
+✓ Inspect leakage
+
+<br>
+
+✓ Verify sensor
+
+</p>
+
+
+
+<button class="btn btn-primary"
+onclick="askAlarm('E101')">
+
+Ask AI
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="card alarm-card">
+
+
+<h3>
+⚠ A045
+</h3>
+
+
+<p>
+<b>Machine:</b>
+EL Tester
+</p>
+
+
+<p>
+<b>Alarm:</b>
+Camera Communication Error
+</p>
+
+
+<p>
+<b>Cause:</b>
+Ethernet / Trigger Issue
+</p>
+
+
+<p>
+
+<b>Action:</b>
+
+<br>
+
+✓ Restart camera
+
+<br>
+
+✓ Check network
+
+<br>
+
+✓ Verify trigger signal
+
+</p>
+
+
+
+<button class="btn btn-primary"
+onclick="askAlarm('A045')">
+
+Ask AI
+
+</button>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script src="js/app.js"></script>
+
+
+<script>
+
+
+function searchAlarm(){
+
+
+let input =
+document.getElementById("alarmSearch")
+.value
+.toLowerCase();
+
+
+
+let cards =
+document.querySelectorAll(".alarm-card");
+
+
+
+cards.forEach(card=>{
+
+
+let text =
+card.innerText.toLowerCase();
+
+
+
+if(text.includes(input)){
+
+card.style.display="block";
+
+}
+
+else{
+
+card.style.display="none";
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+function askAlarm(code){
+
+
+localStorage.setItem(
+"selectedProblem",
+"Alarm Code "+code
+);
+
+
+window.location.href="chat.html";
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
