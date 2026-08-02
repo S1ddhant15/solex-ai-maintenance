@@ -4,11 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Solex AI Analytics</title>
+<title>Maintenance Analytics</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
@@ -19,8 +19,6 @@
 <body>
 
 <div class="dashboard">
-
-<!-- Sidebar -->
 
 <div class="sidebar">
 
@@ -34,24 +32,9 @@
 
 <ul>
 
-<li onclick="location.href='home.html'">
+<li onclick="location.href='../dashboard.html'">
 <i class="fa fa-home"></i>
-Home
-</li>
-
-<li onclick="location.href='dashboard.html'">
-<i class="fa fa-chart-line"></i>
 Dashboard
-</li>
-
-<li class="active">
-<i class="fa fa-chart-pie"></i>
-Analytics
-</li>
-
-<li onclick="location.href='chat.html'">
-<i class="fa fa-comments"></i>
-AI Chat
 </li>
 
 <li onclick="location.href='machines.html'">
@@ -59,73 +42,74 @@ AI Chat
 Machines
 </li>
 
+<li onclick="location.href='chat.html'">
+<i class="fa fa-robot"></i>
+AI Chat
+</li>
+
 <li onclick="location.href='workorder.html'">
-<i class="fa fa-clipboard-list"></i>
+<i class="fa fa-wrench"></i>
 Work Orders
 </li>
 
-<li onclick="location.href='settings.html'">
-<i class="fa fa-cog"></i>
-Settings
+<li class="active">
+<i class="fa fa-chart-column"></i>
+Analytics
 </li>
 
 </ul>
 
 </div>
 
-<!-- Main -->
-
 <div class="main-content">
 
-<div class="topbar">
-
-<div>
-
-<h1>AI Maintenance Analytics</h1>
-
-<p>Machine Performance & AI Insights</p>
-
-</div>
-
-</div>
+<h1>Maintenance Analytics</h1>
 
 <div class="cards">
 
 <div class="card">
 
-<h3>Total Machines</h3>
+<h2>98%</h2>
 
-<h1>18</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Running</h3>
-
-<h1>15</h1>
+<p>Machine Availability</p>
 
 </div>
 
 <div class="card">
 
-<h3>Breakdown</h3>
+<h2>12</h2>
 
-<h1>2</h1>
+<p>Open Work Orders</p>
 
 </div>
 
 <div class="card">
 
-<h3>PM Due</h3>
+<h2>28 min</h2>
 
-<h1>5</h1>
+<p>Average MTTR</p>
+
+</div>
+
+<div class="card">
+
+<h2>425 hrs</h2>
+
+<p>MTBF</p>
 
 </div>
 
 </div>
 
-<div class="recent">
+<div class="card">
+
+<h2>Machine Health</h2>
+
+<canvas id="healthChart"></canvas>
+
+</div>
+
+<div class="card">
 
 <h2>Breakdown Trend</h2>
 
@@ -133,59 +117,11 @@ Settings
 
 </div>
 
-<div class="recent">
-
-<h2>Machine Availability</h2>
-
-<canvas id="availabilityChart"></canvas>
-
 </div>
 
 </div>
 
-</div>
-
-<script>
-
-new Chart(document.getElementById("breakdownChart"),{
-
-type:'bar',
-
-data:{
-
-labels:['Mon','Tue','Wed','Thu','Fri','Sat'],
-
-datasets:[{
-
-label:'Breakdowns',
-
-data:[3,2,5,1,4,2]
-
-}]
-
-}
-
-});
-
-new Chart(document.getElementById("availabilityChart"),{
-
-type:'doughnut',
-
-data:{
-
-labels:['Running','Stopped'],
-
-datasets:[{
-
-data:[15,3]
-
-}]
-
-}
-
-});
-
-</script>
+<script src="../js/analytics.js"></script>
 
 </body>
 
