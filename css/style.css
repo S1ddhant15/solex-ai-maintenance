@@ -585,3 +585,314 @@ textarea:focus{
     background:#eee;
 
 }
+
+/* ==========================================
+   PART 3
+   RESPONSIVE • DARK MODE • PREMIUM UI
+========================================== */
+
+/* Dashboard Title */
+
+.page-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:32px;
+    color:#0f172a;
+}
+
+/* Card Hover */
+
+.card:hover h1{
+    color:#1d4ed8;
+}
+
+/* AI Recommendation Box */
+
+.ai-box{
+    background:#eff6ff;
+    border-left:6px solid #2563eb;
+    padding:20px;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+.ai-box h3{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.ai-box p{
+    color:#334155;
+    line-height:1.7;
+}
+
+/* Machine Status Badge */
+
+.badge{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:25px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.badge-running{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-warning{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-stopped{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* Progress Bar */
+
+.progress{
+    width:100%;
+    background:#e5e7eb;
+    border-radius:30px;
+    overflow:hidden;
+    height:12px;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:12px;
+    background:#2563eb;
+    border-radius:30px;
+}
+
+/* Dashboard Grid */
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+/* Tables */
+
+table tr:nth-child(even){
+    background:#f8fafc;
+}
+
+/* Login */
+
+.login-page{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#2563eb,#0f172a);
+}
+
+.login-box{
+    background:white;
+    width:420px;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.login-box h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.login-box button{
+    width:100%;
+}
+
+/* Footer */
+
+.footer{
+    margin-top:40px;
+    text-align:center;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* Fade Animation */
+
+.fade-in{
+    animation:fadeIn .8s;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+}
+
+to{
+opacity:1;
+}
+
+}
+
+/* Slide Animation */
+
+.slide-up{
+animation:slideUp .6s;
+}
+
+@keyframes slideUp{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* Responsive */
+
+@media(max-width:1200px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:900px){
+
+.sidebar{
+
+width:220px;
+
+}
+
+.main-content{
+
+margin-left:220px;
+
+width:calc(100% - 220px);
+
+padding:20px;
+
+}
+
+.grid-3{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+
+position:relative;
+
+width:100%;
+
+height:auto;
+
+}
+
+.main-content{
+
+margin-left:0;
+
+width:100%;
+
+}
+
+.dashboard{
+
+flex-direction:column;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.grid-2{
+
+grid-template-columns:1fr;
+
+}
+
+.chat-input{
+
+flex-direction:column;
+
+}
+
+.chat-input button{
+
+width:100%;
+
+}
+
+table{
+
+font-size:13px;
+
+overflow-x:auto;
+
+display:block;
+
+}
+
+.login-box{
+
+width:95%;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.topbar h1{
+
+font-size:24px;
+
+}
+
+.card h1{
+
+font-size:28px;
+
+}
+
+.logo-area h2{
+
+font-size:24px;
+
+}
+
+}
+
+/* End of CSS */
