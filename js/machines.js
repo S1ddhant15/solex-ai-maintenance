@@ -1,213 +1,520 @@
-// ==========================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// MACHINES.JS
-// ==========================================
+// =====================================================
+// SAMA - AI Maintenance Assistant
+// Machine Database
+// File: machine.js
+// =====================================================
 
-let machineList = [];
 
-// ==========================================
-// Load Machines
-// ==========================================
+// =====================================================
+// Machine Master Database
+// =====================================================
 
-document.addEventListener("DOMContentLoaded", loadMachines);
 
-async function loadMachines() {
+const machineDatabase = {
 
-    try {
 
-        const response = await fetch("../data/machines.json");
+    "stringer":{
 
-        const data = await response.json();
+        id:"STR-001",
 
-        machineList = data.machines;
+        name:"Stringer Machine",
 
-        displayMachines(machineList);
+        department:"Stringing",
+
+        manufacturer:"Meyer Burger",
+
+        status:"Running",
+
+        health:96,
+
+
+        parameters:{
+
+
+            temperature:"42°C",
+
+            vacuum:"-82 kPa",
+
+            pressure:"5.8 Bar",
+
+            speed:"18 CPM",
+
+            vibration:"Normal"
+
+
+        },
+
+
+        runtime:"12450 hrs",
+
+
+        lastMaintenance:"28-Jul-2026",
+
+
+        nextPM:"28-Aug-2026",
+
+
+
+        breakdownHistory:[
+
+
+            {
+                date:"25-Jul-2026",
+                issue:"Servo Alarm E37",
+                downtime:"35 min"
+            },
+
+
+            {
+                date:"15-Jul-2026",
+                issue:"Vacuum Low",
+                downtime:"20 min"
+            }
+
+
+        ]
+
+    },
+
+
+
+
+
+    "laminator":{
+
+
+        id:"LAM-001",
+
+        name:"Solar Module Laminator",
+
+        department:"Lamination",
+
+        manufacturer:"Teamtechnik",
+
+        status:"Running",
+
+        health:91,
+
+
+        parameters:{
+
+
+            temperature:"145°C",
+
+            vacuum:"-95 kPa",
+
+            pressure:"8 Bar",
+
+            cycleTime:"12 min",
+
+            vibration:"Normal"
+
+
+        },
+
+
+        runtime:"18500 hrs",
+
+
+        lastMaintenance:"20-Jul-2026",
+
+
+        nextPM:"20-Aug-2026",
+
+
+
+        breakdownHistory:[
+
+
+            {
+                date:"30-Jul-2026",
+                issue:"Temperature Deviation",
+                downtime:"45 min"
+            },
+
+
+            {
+                date:"12-Jul-2026",
+                issue:"Vacuum Pump Alarm",
+                downtime:"30 min"
+            }
+
+
+        ]
+
+    },
+
+
+
+
+
+    "el tester":{
+
+
+        id:"EL-001",
+
+        name:"EL Inspection System",
+
+        department:"Quality",
+
+        manufacturer:"VisiTech",
+
+        status:"Running",
+
+        health:94,
+
+
+        parameters:{
+
+
+            imageQuality:"Good",
+
+            cameraStatus:"Normal",
+
+            lighting:"Stable"
+
+
+        },
+
+
+        runtime:"8600 hrs",
+
+
+        lastMaintenance:"22-Jul-2026",
+
+
+        nextPM:"22-Aug-2026"
+
+
+    },
+
+
+
+
+
+    "aoi":{
+
+
+        id:"AOI-001",
+
+        name:"AOI Inspection",
+
+        department:"Quality",
+
+        manufacturer:"Omron",
+
+        status:"Running",
+
+        health:89,
+
+
+        parameters:{
+
+
+            camera:"OK",
+
+            inspectionRate:"98.5%",
+
+
+            falseReject:"1.2%"
+
+
+        },
+
+
+        runtime:"9200 hrs",
+
+
+        lastMaintenance:"18-Jul-2026",
+
+
+        nextPM:"18-Aug-2026"
+
 
     }
 
-    catch (error) {
 
-        console.error("Machine data could not be loaded.", error);
 
-        document.getElementById("machineContainer").innerHTML =
-        "<h3>❌ Unable to load machine database.</h3>";
+};
+
+
+
+
+// =====================================================
+// Get Machine Details
+// =====================================================
+
+
+function getMachineDetails(machineName){
+
+
+    machineName =
+    machineName.toLowerCase();
+
+
+    return machineDatabase[machineName] || null;
+
+
+}
+
+
+
+
+// =====================================================
+// Get All Machines
+// =====================================================
+
+
+function getAllMachines(){
+
+
+    return Object.keys(machineDatabase);
+
+
+}
+
+
+
+
+// =====================================================
+// Machine Health
+// =====================================================
+
+
+function getMachineHealth(machineName){
+
+
+    let machine =
+    getMachineDetails(machineName);
+
+
+
+    if(!machine)
+
+    return null;
+
+
+
+    let score =
+    machine.health;
+
+
+
+    let status;
+
+
+
+    if(score >= 90)
+
+    {
+
+        status="Healthy 🟢";
 
     }
 
-}
 
-// ==========================================
-// Display Machine Cards
-// ==========================================
+    else if(score >=70)
 
-function displayMachines(machines) {
+    {
 
-    const container = document.getElementById("machineContainer");
-
-    container.innerHTML = "";
-
-    machines.forEach(machine => {
-
-        let healthClass = getHealthClass(machine.health);
-
-        let statusBadge = getStatusBadge(machine.status);
-
-        container.innerHTML += `
-
-        <div class="card machine-card"
-        onclick="openMachine(${machine.id})">
-
-            <h3>${getIcon(machine.name)} ${machine.name}</h3>
-
-            <p><b>Department :</b> ${machine.department}</p>
-
-            <p><b>Status :</b> ${statusBadge}</p>
-
-            <p>
-                <b>Health :</b>
-
-                <span class="${healthClass}">
-
-                ${machine.health}%
-
-                </span>
-
-            </p>
-
-            <p><b>Running Hours :</b> ${machine.runningHours}</p>
-
-            <p><b>Next PM :</b> ${machine.nextPM}</p>
-
-            <p><b>Alarm :</b> ${machine.alarm}</p>
-
-            <p><b>AI Score :</b> ⭐ ${machine.aiScore}</p>
-
-            <button class="btn btn-primary">
-
-                View Details
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-// ==========================================
-// Health Color
-// ==========================================
-
-function getHealthClass(value){
-
-    if(value>=95)
-        return "health-good";
-
-    if(value>=85)
-        return "health-warning";
-
-    return "health-danger";
-
-}
-
-// ==========================================
-// Status Badge
-// ==========================================
-
-function getStatusBadge(status){
-
-    switch(status){
-
-        case "Running":
-
-            return '<span class="badge badge-running">🟢 Running</span>';
-
-        case "Stopped":
-
-            return '<span class="badge badge-stopped">🔴 Stopped</span>';
-
-        default:
-
-            return '<span class="badge badge-warning">🟡 Attention</span>';
+        status="Warning 🟡";
 
     }
 
-}
 
-// ==========================================
-// Icons
-// ==========================================
+    else
 
-function getIcon(name){
+    {
 
-    let machine = name.toLowerCase();
+        status="Critical 🔴";
 
-    if(machine.includes("string"))
-        return "⚙️";
+    }
 
-    if(machine.includes("laminator"))
-        return "🔥";
 
-    if(machine.includes("el"))
-        return "📷";
 
-    if(machine.includes("bussing"))
-        return "🔧";
+    return {
 
-    if(machine.includes("flash"))
-        return "💡";
 
-    if(machine.includes("frame"))
-        return "🪟";
+        score:score,
 
-    if(machine.includes("junction"))
-        return "📦";
+        status:status
 
-    if(machine.includes("tape"))
-        return "🏷️";
 
-    if(machine.includes("packing"))
-        return "📦";
+    };
 
-    return "🏭";
 
 }
 
-// ==========================================
-// Search
-// ==========================================
 
-function searchMachines(){
 
-    let keyword = document
-        .getElementById("machineSearch")
-        .value
-        .toLowerCase();
 
-    let filtered = machineList.filter(machine =>
+// =====================================================
+// Breakdown History
+// =====================================================
 
-        machine.name.toLowerCase().includes(keyword) ||
 
-        machine.department.toLowerCase().includes(keyword) ||
+function getBreakdownHistory(machineName){
 
-        machine.status.toLowerCase().includes(keyword)
 
-    );
 
-    displayMachines(filtered);
+    let machine =
+    getMachineDetails(machineName);
+
+
+
+    if(machine && machine.breakdownHistory)
+
+    {
+
+        return machine.breakdownHistory;
+
+    }
+
+
+    return [];
 
 }
 
-// ==========================================
-// Open Machine
-// ==========================================
 
-function openMachine(id){
 
-    localStorage.setItem("selectedMachineId", id);
 
-    window.location.href = "machine.html";
+// =====================================================
+// Update Machine Status
+// =====================================================
+
+
+function updateMachineStatus(
+machineName,
+newStatus
+){
+
+
+    let machine =
+    getMachineDetails(machineName);
+
+
+
+    if(machine)
+
+    {
+
+        machine.status=newStatus;
+
+    }
+
+
+}
+
+
+
+
+
+
+// =====================================================
+// Generate Machine Report
+// =====================================================
+
+
+function generateMachineReport(machineName){
+
+
+
+let machine =
+getMachineDetails(machineName);
+
+
+
+if(!machine)
+
+{
+
+
+return `
+
+<b>Machine not found</b>
+
+<br><br>
+
+Available machines:
+
+<br>
+
+${getAllMachines().join(", ")}
+
+`;
+
+
+
+}
+
+
+
+return `
+
+
+<b>📊 Machine Health Report</b>
+
+
+<br><br>
+
+
+Machine:
+
+<b>${machine.name}</b>
+
+
+<br><br>
+
+
+Department:
+
+${machine.department}
+
+
+<br><br>
+
+
+Status:
+
+${machine.status}
+
+
+<br><br>
+
+
+Health Score:
+
+${machine.health}%
+
+
+<br><br>
+
+
+Parameters:
+
+<br>
+
+${JSON.stringify(machine.parameters)}
+
+
+<br><br>
+
+
+Last Maintenance:
+
+${machine.lastMaintenance}
+
+
+<br><br>
+
+
+Next PM:
+
+${machine.nextPM}
+
+
+`;
+
+
 
 }
