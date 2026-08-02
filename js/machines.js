@@ -682,3 +682,151 @@ newStatus;
 
 
 }
+
+// =====================================================
+// SAMA MACHINE HEALTH REPORT
+// =====================================================
+
+function generateMachineReport(machineName){
+
+
+let machine = getMachineDetails(machineName);
+
+
+
+if(!machine)
+
+{
+
+return `
+
+<b>❌ Machine Not Found</b>
+
+<br><br>
+
+Requested Machine:
+
+${machineName}
+
+<br><br>
+
+Available:
+
+${getAllMachines().join("<br>")}
+
+`;
+
+}
+
+
+
+
+return `
+
+<b>📊 Machine Health Report</b>
+
+<br><br>
+
+
+Machine:
+
+<b>${machine.type}</b>
+
+
+<br><br>
+
+
+Machine ID:
+
+${machine.id}
+
+
+<br><br>
+
+
+Department:
+
+${machine.department}
+
+
+<br><br>
+
+
+Manufacturer:
+
+${machine.manufacturer}
+
+
+<br><br>
+
+
+Status:
+
+🟢 ${machine.status}
+
+
+<br><br>
+
+
+Health Score:
+
+<b>${machine.health}%</b>
+
+
+<br><br>
+
+
+<b>Live Parameters</b>
+
+
+<br><br>
+
+
+Temperature:
+
+${machine.parameters.temperature || "-"}
+
+
+<br>
+
+
+Vacuum:
+
+${machine.parameters.vacuum || "-"}
+
+
+<br>
+
+
+Pressure:
+
+${machine.parameters.pressure || "-"}
+
+
+<br>
+
+
+Runtime:
+
+${machine.runtime} Hours
+
+
+<br><br>
+
+
+Last Maintenance:
+
+${machine.lastMaintenance}
+
+
+<br>
+
+
+Next PM:
+
+${machine.nextPM}
+
+
+`;
+
+}
