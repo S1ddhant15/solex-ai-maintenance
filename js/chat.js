@@ -60,7 +60,7 @@ function initializeSAMA(){
     📚 Maintenance History
 
     `);
-
+addSuggestionButtons();
 
 }
 
@@ -476,5 +476,92 @@ I understand your query:
 Please provide machine name or alarm code for detailed troubleshooting.
 
 `;
+
+}
+
+// =====================================================
+// SAMA Suggested Questions
+// =====================================================
+
+
+function addSuggestionButtons(){
+
+
+let box =
+
+document.getElementById("chatBox");
+
+
+
+let div =
+document.createElement("div");
+
+
+
+div.className="bot-message";
+
+
+
+div.innerHTML=`
+
+<div class="message-header">
+🤖 Try asking:
+</div>
+
+
+<button class="suggestion"
+onclick="sendSuggestion('Stringer breakdown')">
+
+Stringer Breakdown
+
+</button>
+
+
+<button class="suggestion"
+onclick="sendSuggestion('Servo alarm E37')">
+
+Servo Alarm E37
+
+</button>
+
+
+<button class="suggestion"
+onclick="sendSuggestion('Laminator bubble defect')">
+
+Laminator Bubble
+
+</button>
+
+
+<button class="suggestion"
+onclick="sendSuggestion('AOI false rejection')">
+
+AOI False NG
+
+</button>
+
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+}
+
+
+
+
+
+function sendSuggestion(text){
+
+
+document.getElementById("userInput").value=text;
+
+
+sendMessage();
+
 
 }
