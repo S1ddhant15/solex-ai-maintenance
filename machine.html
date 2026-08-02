@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solex AI - Machine Details</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo-area">
+
+<h2>🤖 SAMA</h2>
+
+<p>AI Maintenance</p>
+
+</div>
+
+
+<ul>
+
+<li onclick="location.href='home.html'">
+<i class="fa-solid fa-house"></i>
+Home
+</li>
+
+
+<li onclick="location.href='chat.html'">
+<i class="fa-solid fa-comments"></i>
+AI Chat
+</li>
+
+
+<li onclick="location.href='machines.html'" class="active">
+<i class="fa-solid fa-gears"></i>
+Machines
+</li>
+
+
+<li onclick="location.href='alarms.html'">
+<i class="fa-solid fa-triangle-exclamation"></i>
+Alarms
+</li>
+
+
+<li onclick="location.href='pm.html'">
+<i class="fa-solid fa-screwdriver-wrench"></i>
+PM
+</li>
+
+
+<li onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+<!-- Main -->
+
+
+<div class="main-content">
+
+
+<div class="topbar">
+
+<div>
+
+<h1 id="machineName">
+Machine Details
+</h1>
+
+<p>
+AI assisted troubleshooting
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- Machine Overview -->
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>
+⚙ Machine Information
+</h3>
+
+<p>
+Machine Name:
+<span id="name">
+Laminator
+</span>
+</p>
+
+<p>
+Category:
+Process Equipment
+</p>
+
+<p>
+Application:
+PV Module Lamination
+</p>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+📊 Status
+</h3>
+
+
+<p>
+Current Status:
+</p>
+
+<h2 style="color:#10b981">
+● Running
+</h2>
+
+
+<p>
+Last Maintenance:
+
+02-Aug-2026
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+<!-- Fault Section -->
+
+
+<div class="recent">
+
+
+<h2>
+⚠ Common Problems
+</h2>
+
+
+
+<table>
+
+
+<tr>
+
+<th>
+Problem
+</th>
+
+<th>
+Possible Cause
+</th>
+
+<th>
+Action
+</th>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+Vacuum Error
+</td>
+
+<td>
+Leakage / Pump / Sensor
+</td>
+
+<td>
+
+<button class="btn btn-primary"
+onclick="askAI('Vacuum Error')">
+
+Ask AI
+
+</button>
+
+</td>
+
+</tr>
+
+
+
+
+<tr>
+
+<td>
+Temperature Issue
+</td>
+
+<td>
+Heater / SSR / Thermocouple
+</td>
+
+<td>
+
+<button class="btn btn-primary"
+onclick="askAI('Temperature Issue')">
+
+Ask AI
+
+</button>
+
+</td>
+
+</tr>
+
+
+
+
+<tr>
+
+<td>
+PLC Alarm
+</td>
+
+<td>
+Sensor / IO / Drive Fault
+</td>
+
+<td>
+
+<button class="btn btn-primary"
+onclick="askAI('PLC Alarm')">
+
+Ask AI
+
+</button>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+</div>
+
+
+
+
+<!-- PM Section -->
+
+
+<div class="cards">
+
+
+<div class="card">
+
+
+<h3>
+🛠 Preventive Maintenance
+</h3>
+
+
+<p>
+Daily Checks
+</p>
+
+<p>
+✓ Cleaning</p>
+
+<p>
+✓ Leakage Inspection
+</p>
+
+<p>
+✓ Sensor Checking
+</p>
+
+
+<button class="btn btn-success">
+
+Open Checklist
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<h3>
+📚 Documents
+</h3>
+
+
+<p>
+SOP Manual
+</p>
+
+<p>
+Electrical Drawing
+</p>
+
+<p>
+Pneumatic Diagram
+</p>
+
+
+<button class="btn btn-warning">
+
+View Documents
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+<script src="js/app.js"></script>
+
+
+
+<script>
+
+
+function askAI(problem){
+
+
+localStorage.setItem(
+"selectedProblem",
+problem
+);
+
+
+window.location.href="chat.html";
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
