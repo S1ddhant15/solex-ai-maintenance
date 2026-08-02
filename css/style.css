@@ -896,3 +896,350 @@ font-size:24px;
 }
 
 /* End of CSS */
+
+/* ==========================================
+   SAMA AI CHATBOX - ADVANCED UI
+========================================== */
+
+
+/* Chat Container Upgrade */
+
+.chat-container{
+
+    background:#ffffff;
+    border-radius:18px;
+    height:75vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.12);
+
+}
+
+
+
+/* Chat Header */
+
+.chat-header{
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #0f172a
+    );
+
+    color:white;
+
+    padding:20px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+/* Chat Messages Area */
+
+.chat-box{
+
+    flex:1;
+
+    padding:25px;
+
+    overflow-y:auto;
+
+    background:#f8fafc;
+
+}
+
+
+
+
+/* Common Message */
+
+.bot-message,
+.user-message{
+
+
+    max-width:75%;
+
+    padding:16px 20px;
+
+    margin-bottom:18px;
+
+    border-radius:18px;
+
+    line-height:1.7;
+
+    animation:messageAppear .3s ease;
+
+
+}
+
+
+
+
+/* SAMA Message */
+
+
+.bot-message{
+
+
+    background:white;
+
+    color:#1e293b;
+
+    border-left:
+
+    5px solid #2563eb;
+
+    margin-right:auto;
+
+    box-shadow:
+
+    0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+
+
+/* Operator Message */
+
+
+.user-message{
+
+
+    background:#2563eb;
+
+    color:white;
+
+    margin-left:auto;
+
+    border-bottom-right-radius:5px;
+
+}
+
+
+
+
+
+/* Message Header */
+
+.message-header{
+
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+    opacity:.8;
+
+
+}
+
+
+
+
+
+/* Chat Input */
+
+
+.chat-input{
+
+
+    background:white;
+
+    border-top:
+
+    1px solid #e5e7eb;
+
+    padding:18px;
+
+
+}
+
+
+
+.chat-input input{
+
+
+    height:50px;
+
+    border-radius:25px;
+
+    padding-left:20px;
+
+    background:#f1f5f9;
+
+
+}
+
+
+
+.chat-input button{
+
+
+    width:55px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    cursor:pointer;
+
+
+}
+
+
+
+.chat-input button:hover{
+
+
+    background:#1d4ed8;
+
+    transform:scale(1.05);
+
+
+}
+
+
+
+
+
+/* AI Thinking Animation */
+
+
+#typing{
+
+
+    color:#64748b;
+
+    font-style:italic;
+
+    background:#f1f5f9;
+
+}
+
+
+
+
+
+/* AI Confidence Badge */
+
+
+.confidence{
+
+
+    display:inline-block;
+
+    margin-top:12px;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    background:#dcfce7;
+
+    color:#166534;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+/* AI Recommendation */
+
+
+.ai-recommendation{
+
+
+    margin-top:15px;
+
+    padding:15px;
+
+    background:#eff6ff;
+
+    border-left:5px solid #2563eb;
+
+    border-radius:10px;
+
+
+}
+
+
+
+
+
+/* Animation */
+
+
+@keyframes messageAppear{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(10px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
+
+
+/* Mobile Chat */
+
+
+@media(max-width:768px){
+
+
+.bot-message,
+.user-message{
+
+max-width:90%;
+
+}
+
+
+.chat-container{
+
+height:85vh;
+
+}
+
+
+}
