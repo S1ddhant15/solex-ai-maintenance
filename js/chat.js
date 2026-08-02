@@ -1,6 +1,12 @@
 // =====================================================
-// SAMA - Solex AI Maintenance Assistant
-// CHAT CONTROLLER
+// SAMA - AI Maintenance Assistant
+// Chat Controller
+// File: chat.js
+// =====================================================
+
+
+// =====================================================
+// Global Variables
 // =====================================================
 
 
@@ -10,8 +16,10 @@ let chatBox;
 
 
 
+
+
 // =====================================================
-// INITIALIZATION
+// INITIALIZE SAMA
 // =====================================================
 
 
@@ -20,21 +28,12 @@ document.addEventListener(
 ()=>{
 
 
-    chatBox = document.getElementById("chatBox");
+chatBox =
+document.getElementById("chatBox");
 
 
-    if(!chatBox){
 
-        console.error(
-        "SAMA ERROR: chatBox not found"
-        );
-
-        return;
-
-    }
-
-
-    initializeSAMA();
+initializeSAMA();
 
 
 });
@@ -42,10 +41,6 @@ document.addEventListener(
 
 
 
-
-// =====================================================
-// START MESSAGE
-// =====================================================
 
 
 function initializeSAMA(){
@@ -61,19 +56,19 @@ addBotMessage(`
 <br><br>
 
 
-I am <b>Solex AI Maintenance Assistant</b>
+<b>S</b>olex <b>A</b>I <b>M</b>aintenance Assistant
 
 
 <br><br>
 
 
-I can help you with:
+I can help with:
 
 
 <br><br>
 
 
-⚙ Machine Breakdown Analysis
+⚙ Machine Breakdown
 
 
 <br>
@@ -96,41 +91,44 @@ I can help you with:
 📊 Machine Health
 
 
+<br>
+
+📚 Breakdown History
+
+
 <br><br>
 
 
-Try asking:
-
-
-<br><br>
-
-
-<b>"Stringer breakdown"</b>
+Try:
 
 
 <br>
 
-
-<b>"Servo alarm E37"</b>
-
-
-<br>
-
-
-<b>"Laminator PM checklist"</b>
+"Servo alarm E37"
 
 
 <br>
 
+"Stringer cell breakage"
 
-<b>"AOI false rejection"</b>
 
+<br>
+
+"Laminator bubble defect"
+
+
+<br>
+
+"Stringer health"
 
 
 `);
 
 
 }
+
+
+
 
 
 
@@ -151,19 +149,19 @@ document.getElementById("userInput");
 
 
 
-let query =
+let message =
 input.value.trim();
 
 
 
-if(query==="")
+if(message==="")
 
 return;
 
 
 
 
-addUserMessage(query);
+addUserMessage(message);
 
 
 
@@ -171,21 +169,19 @@ input.value="";
 
 
 
-
 conversationHistory.push({
+
 
 role:"user",
 
-message:query
+message:message
+
 
 });
 
 
 
-
-
 showTyping();
-
 
 
 
@@ -199,7 +195,7 @@ removeTyping();
 
 
 let response =
-processSAMAQuery(query);
+processSAMAQuery(message);
 
 
 
@@ -209,9 +205,11 @@ addBotMessage(response);
 
 conversationHistory.push({
 
+
 role:"assistant",
 
 message:response
+
 
 });
 
@@ -229,8 +227,10 @@ message:response
 
 
 
+
+
 // =====================================================
-// AI ENGINE CONNECTION
+// CONNECT AI ENGINE
 // =====================================================
 
 
@@ -244,8 +244,9 @@ try{
 
 if(
 typeof generateAIResponse === "function"
-){
+)
 
+{
 
 
 return generateAIResponse(query);
@@ -255,51 +256,33 @@ return generateAIResponse(query);
 
 
 
-return fallbackResponse(query);
+return `
+
+⚠️ AI Engine not connected.
+
+Check aiEngine.js
+
+`;
 
 
 
 }
 
-
 catch(error){
 
 
 
-console.error(
-"SAMA ERROR:",
-error
-);
+console.error(error);
 
 
 
 return `
 
-
-⚠️ SAMA AI Error
-
-
-<br><br>
-
-
-Please check:
-
+⚠️ SAMA Error
 
 <br>
 
-✓ aiEngine.js
-
-
-<br>
-
-✓ knowledge.js
-
-
-<br>
-
-✓ alarmDatabase.js
-
-
+${error}
 
 `;
 
@@ -310,6 +293,7 @@ Please check:
 
 
 }
+
 
 
 
@@ -369,6 +353,8 @@ scrollChat();
 
 
 
+
+
 // =====================================================
 // BOT MESSAGE
 // =====================================================
@@ -411,7 +397,6 @@ chatBox.appendChild(div);
 scrollChat();
 
 
-
 }
 
 
@@ -420,8 +405,10 @@ scrollChat();
 
 
 
+
+
 // =====================================================
-// TYPING EFFECT
+// TYPING
 // =====================================================
 
 
@@ -433,18 +420,16 @@ let div =
 document.createElement("div");
 
 
-
-div.id =
-"typing";
+div.id="typing";
 
 
-
-div.className =
-"bot-message";
+div.className="bot-message";
 
 
 
-div.innerHTML = `
+div.innerHTML =
+
+`
 
 🤖 SAMA is analyzing...
 
@@ -455,12 +440,15 @@ div.innerHTML = `
 chatBox.appendChild(div);
 
 
-
 scrollChat();
 
 
 
 }
+
+
+
+
 
 
 
@@ -488,8 +476,10 @@ typing.remove();
 
 
 
+
+
 // =====================================================
-// AUTO SCROLL
+// SCROLL
 // =====================================================
 
 
@@ -501,177 +491,17 @@ if(chatBox)
 
 {
 
+
 chatBox.scrollTop =
 chatBox.scrollHeight;
 
-}
-
 
 }
 
 
 
-
-
-
-
-// =====================================================
-// FALLBACK AI
-// =====================================================
-
-
-function fallbackResponse(query){
-
-
-
-let text =
-query.toLowerCase();
-
-
-
-
-if(text.includes("stringer"))
-
-{
-
-
-return `
-
-
-<b>Machine Detected:</b> Stringer
-
-
-<br><br>
-
-
-Please provide:
-
-
-<br>
-
-1. Alarm Code
-
-
-<br>
-
-2. Current condition
-
-
-<br>
-
-3. Production status
-
-
-<br><br>
-
-
-Check:
-
-
-<br>
-
-✓ Servo drive
-
-
-<br>
-
-✓ Vacuum pressure
-
-
-<br>
-
-✓ Cell loading sensor
-
-
-<br>
-
-✓ PLC alarm history
-
-
-
-`;
-
 }
 
-
-
-if(text.includes("alarm"))
-
-{
-
-
-return `
-
-
-<b>🚨 Alarm Investigation</b>
-
-
-<br><br>
-
-
-Please provide:
-
-
-<br>
-
-Machine Name
-
-
-<br>
-
-Alarm Code
-
-
-<br>
-
-Problem Symptom
-
-
-
-<br><br>
-
-
-Example:
-
-
-<br>
-
-
-Stringer Alarm E37
-
-
-
-`;
-
-}
-
-
-
-
-
-return `
-
-
-🤖 I received:
-
-
-<br><br>
-
-
-<b>${query}</b>
-
-
-<br><br>
-
-
-Please provide machine name or alarm code.
-
-
-`;
-
-
-
-}
 
 
 
@@ -681,72 +511,18 @@ Please provide machine name or alarm code.
 
 
 // =====================================================
-// QUICK QUESTIONS
+// QUICK BUTTONS
 // =====================================================
-
-
-function addSuggestionButtons(){
-
-
-
-let div =
-document.createElement("div");
-
-
-
-div.className =
-"bot-message";
-
-
-
-div.innerHTML = `
-
-
-<b>Try:</b>
-
-
-<br><br>
-
-
-<button onclick="sendSuggestion('Stringer breakdown')">
-
-Stringer Breakdown
-
-</button>
-
-
-<button onclick="sendSuggestion('Servo alarm E37')">
-
-Servo Alarm E37
-
-</button>
-
-
-<button onclick="sendSuggestion('Laminator PM')">
-
-Laminator PM
-
-</button>
-
-
-`;
-
-
-
-chatBox.appendChild(div);
-
-
-}
-
-
-
 
 
 function sendSuggestion(text){
 
 
 
-document.getElementById("userInput").value=text;
+document.getElementById(
+"userInput"
+).value=text;
+
 
 
 sendMessage();
