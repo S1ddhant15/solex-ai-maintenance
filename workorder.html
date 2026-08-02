@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solex AI - Work Orders</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo-area">
+
+<h2>🤖 SAMA</h2>
+
+<p>AI Maintenance</p>
+
+</div>
+
+<ul>
+
+<li onclick="location.href='home.html'">
+<i class="fa-solid fa-house"></i>
+Home
+</li>
+
+<li onclick="location.href='dashboard.html'">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</li>
+
+<li onclick="location.href='chat.html'">
+<i class="fa-solid fa-comments"></i>
+AI Chat
+</li>
+
+<li onclick="location.href='machines.html'">
+<i class="fa-solid fa-gears"></i>
+Machines
+</li>
+
+<li onclick="location.href='alarms.html'">
+<i class="fa-solid fa-triangle-exclamation"></i>
+Alarm Lookup
+</li>
+
+<li onclick="location.href='pm.html'">
+<i class="fa-solid fa-screwdriver-wrench"></i>
+PM
+</li>
+
+<li class="active">
+<i class="fa-solid fa-clipboard-list"></i>
+Work Orders
+</li>
+
+<li onclick="location.href='settings.html'">
+<i class="fa-solid fa-gear"></i>
+Settings
+</li>
+
+<li onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</li>
+
+</ul>
+
+</div>
+
+<!-- Main -->
+
+<div class="main-content">
+
+<div class="topbar">
+
+<div>
+
+<h1>Maintenance Work Orders</h1>
+
+<p>Create and track breakdown jobs</p>
+
+</div>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>➕ New Work Order</h3>
+
+<input
+type="text"
+id="machine"
+placeholder="Machine Name">
+
+<br><br>
+
+<input
+type="text"
+id="problem"
+placeholder="Problem">
+
+<br><br>
+
+<select id="priority">
+
+<option>Low</option>
+
+<option>Medium</option>
+
+<option>High</option>
+
+<option>Critical</option>
+
+</select>
+
+<br><br>
+
+<button
+class="btn btn-primary"
+onclick="createWO()">
+
+Create Work Order
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Summary</h3>
+
+<p>Open Work Orders</p>
+
+<h2 id="openWO">4</h2>
+
+<p>Completed Today</p>
+
+<h2>12</h2>
+
+</div>
+
+</div>
+
+<div class="recent">
+
+<h2>Current Work Orders</h2>
+
+<table id="woTable">
+
+<tr>
+
+<th>ID</th>
+
+<th>Machine</th>
+
+<th>Issue</th>
+
+<th>Priority</th>
+
+<th>Status</th>
+
+</tr>
+
+<tr>
+
+<td>WO-1001</td>
+
+<td>Stringer 01</td>
+
+<td>Servo Alarm</td>
+
+<td>High</td>
+
+<td class="status-warning">Open</td>
+
+</tr>
+
+<tr>
+
+<td>WO-1002</td>
+
+<td>Laminator 02</td>
+
+<td>Vacuum Error</td>
+
+<td>Critical</td>
+
+<td class="status-danger">In Progress</td>
+
+</tr>
+
+<tr>
+
+<td>WO-1003</td>
+
+<td>EL Tester</td>
+
+<td>Camera Fault</td>
+
+<td>Medium</td>
+
+<td class="status-success">Closed</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/app.js"></script>
+
+<script>
+
+let workOrder = 1004;
+
+function createWO(){
+
+let machine =
+document.getElementById("machine").value;
+
+let problem =
+document.getElementById("problem").value;
+
+let priority =
+document.getElementById("priority").value;
+
+if(machine=="" || problem==""){
+
+alert("Please fill all fields");
+
+return;
+
+}
+
+let table =
+document.getElementById("woTable");
+
+let row =
+table.insertRow(-1);
+
+row.innerHTML=`
+
+<td>WO-${workOrder}</td>
+
+<td>${machine}</td>
+
+<td>${problem}</td>
+
+<td>${priority}</td>
+
+<td class="status-warning">
+
+Open
+
+</td>
+
+`;
+
+workOrder++;
+
+document.getElementById("openWO").innerHTML++;
+
+alert("Work Order Created Successfully");
+
+document.getElementById("machine").value="";
+document.getElementById("problem").value="";
+
+}
+
+</script>
+
+</body>
+
+</html>
