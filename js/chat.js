@@ -1,280 +1,480 @@
-// ==========================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// CHAT.JS
-// ==========================================
+// =====================================================
+// SAMA - AI Maintenance Assistant
+// Advanced Chat Controller
+// =====================================================
 
-const chatBox = document.getElementById("chatBox");
-const userInput = document.getElementById("userInput");
 
-// Welcome Message
-window.onload = function () {
+// Global Chat Memory
 
-    addBotMessage(
-        "👋 Hello! I am <b>SAMA</b> (Solex AI Maintenance Assistant).<br><br>" +
-        "I can help you with:<br><br>" +
-        "⚙️ Machine Breakdown<br>" +
-        "🔧 Troubleshooting<br>" +
-        "📅 Preventive Maintenance<br>" +
-        "🚨 Alarm Codes<br>" +
-        "📋 Work Orders<br><br>" +
-        "Ask me anything."
-    );
+let conversationHistory = [];
 
-};
 
-// Send by Enter Key
-if (userInput) {
+// Initialize Chat
 
-    userInput.addEventListener("keypress", function (e) {
+document.addEventListener("DOMContentLoaded", () => {
 
-        if (e.key === "Enter") {
+    initializeSAMA();
 
-            sendMessage();
+});
 
-        }
+
+
+function initializeSAMA(){
+
+
+    console.log("SAMA AI Engine Connected");
+
+
+    addBotMessage(`
+
+    👋 Welcome back!
+
+    I am <b>SAMA</b> - Solex AI Maintenance Assistant.
+
+    <br><br>
+
+    I can help with:
+
+    <br>
+
+    ⚙ Machine Breakdown Analysis
+
+    <br>
+
+    🚨 Alarm Troubleshooting
+
+    <br>
+
+    🛠 Preventive Maintenance
+
+    <br>
+
+    📦 Spare Recommendation
+
+    <br>
+
+    📊 Machine Health Analysis
+
+    <br>
+
+    📚 Maintenance History
+
+    `);
+
+
+}
+
+
+
+
+
+// =====================================================
+// Send User Message
+// =====================================================
+
+
+function sendMessage(){
+
+
+    let input =
+    document.getElementById("userInput");
+
+
+    let query =
+    input.value.trim();
+
+
+
+    if(query==="")
+    return;
+
+
+
+    addUserMessage(query);
+
+
+
+    input.value="";
+
+
+
+    conversationHistory.push({
+
+        role:"user",
+
+        message:query
 
     });
 
-}
 
-// ==========================================
-
-function sendMessage() {
-
-    let question = userInput.value.trim();
-
-    if (question === "") return;
-
-    addUserMessage(question);
-
-    userInput.value = "";
 
     showTyping();
 
-    setTimeout(() => {
+
+
+    setTimeout(()=>{
+
 
         removeTyping();
 
-        generateReply(question);
 
-    }, 1000);
+
+        let response =
+        processSAMAQuery(query);
+
+
+
+        addBotMessage(response);
+
+
+
+        conversationHistory.push({
+
+            role:"assistant",
+
+            message:response
+
+        });
+
+
+
+    },800);
+
+
 
 }
 
-// ==========================================
 
-function generateReply(question) {
 
-    question = question.toLowerCase();
 
-    //------------------------------------------------
-    // Knowledge Base Search
-    //------------------------------------------------
 
-    if (typeof searchKnowledge === "function") {
+// =====================================================
+// AI Engine Connection
+// =====================================================
 
-        const result = searchKnowledge(question);
 
-        if (result) {
+function processSAMAQuery(query){
 
-            let answer = `
 
-<b>🏭 Machine</b><br>
 
-${result.machine}
+    try{
 
-<br><br>
 
-<b>⚠️ Problem</b><br>
+        // Connect with AI Engine
 
-${result.title}
 
-<br><br>
+        if(typeof generateAIResponse === "function"){
 
-<b>🔍 Possible Causes</b><br>
 
-${result.causes.map(c => "• " + c).join("<br>")}
+            return generateAIResponse(query);
 
-<br><br>
-
-<b>✅ Recommended Checks</b><br>
-
-${result.checks.map(c => "✔ " + c).join("<br>")}
-
-<br><br>
-
-<b>🛠 Estimated Repair</b><br>
-
-${result.repair}
-
-<br><br>
-
-<b>🦺 Safety</b><br>
-
-${result.safety}
-
-`;
-
-            addBotMessage(answer);
-
-            return;
 
         }
 
-    }
 
-    //------------------------------------------------
 
-    if (question.includes("hello") || question.includes("hi")) {
 
-        addBotMessage("👋 Hello Engineer! How can I help you today?");
+        return fallbackResponse(query);
 
-        return;
+
 
     }
 
-    if (question.includes("pm")) {
 
-        addBotMessage(
+    catch(error){
 
-            "📅 Preventive Maintenance Tips<br><br>" +
 
-            "✔ Check Lubrication<br>" +
+        console.error(error);
 
-            "✔ Clean Sensors<br>" +
 
-            "✔ Tighten Bolts<br>" +
+        return `
 
-            "✔ Verify Air Pressure<br>" +
+        ⚠️ SAMA encountered an error.
 
-            "✔ Inspect Servo Motors"
+        Please check AI Engine connection.
 
-        );
+        `;
 
-        return;
 
     }
 
-    if (question.includes("work order")) {
 
-        addBotMessage(
-
-            "📋 Work Order Generated Successfully.<br><br>" +
-
-            "Status : Open<br>" +
-
-            "Priority : Medium<br>" +
-
-            "Assigned : Maintenance Team"
-
-        );
-
-        return;
-
-    }
-
-    if (question.includes("alarm")) {
-
-        addBotMessage(
-
-            "🚨 Search the Alarm Lookup page or enter the alarm code like E101."
-
-        );
-
-        return;
-
-    }
-
-    if (question.includes("machine")) {
-
-        addBotMessage(
-
-            "🏭 Open the Machine Library to view machine details and health."
-
-        );
-
-        return;
-
-    }
-
-    //------------------------------------------------
-
-    addBotMessage(
-
-        "🤖 Sorry, I don't have an answer for that yet.<br><br>" +
-
-        "Please try another maintenance-related question."
-
-    );
 
 }
 
-// ==========================================
 
-function addUserMessage(text) {
 
-    const msg = document.createElement("div");
 
-    msg.className = "message user";
 
-    msg.innerHTML = text;
 
-    chatBox.appendChild(msg);
 
-    scrollBottom();
+// =====================================================
+// Chat UI Functions
+// =====================================================
 
-}
 
-// ==========================================
+function addUserMessage(message){
 
-function addBotMessage(text) {
 
-    const msg = document.createElement("div");
 
-    msg.className = "message bot";
+let div =
+document.createElement("div");
 
-    msg.innerHTML = text;
 
-    chatBox.appendChild(msg);
+div.className="user-message";
 
-    scrollBottom();
 
-}
+div.innerHTML=`
 
-// ==========================================
+<div class="message-header">
 
-function showTyping() {
+👨‍🔧 Operator
 
-    const typing = document.createElement("div");
+</div>
 
-    typing.className = "message bot";
+${message}
 
-    typing.id = "typing";
+`;
 
-    typing.innerHTML = "🤖 Typing...";
 
-    chatBox.appendChild(typing);
 
-    scrollBottom();
+document.getElementById("chatBox")
+.appendChild(div);
+
+
+
+scrollChat();
+
 
 }
 
-// ==========================================
 
-function removeTyping() {
 
-    let typing = document.getElementById("typing");
 
-    if (typing)
+function addBotMessage(message){
 
-        typing.remove();
+
+
+let div =
+document.createElement("div");
+
+
+div.className="bot-message";
+
+
+div.innerHTML=`
+
+<div class="message-header">
+
+🤖 SAMA
+
+</div>
+
+
+${message}
+
+`;
+
+
+
+document.getElementById("chatBox")
+.appendChild(div);
+
+
+
+scrollChat();
+
 
 }
 
-// ==========================================
 
-function scrollBottom() {
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+
+
+// =====================================================
+// Typing Animation
+// =====================================================
+
+
+function showTyping(){
+
+
+let div =
+document.createElement("div");
+
+
+div.id="typing";
+
+
+div.className="bot-message";
+
+
+div.innerHTML=
+
+`
+
+🤖 SAMA is analyzing...
+
+`;
+
+
+
+document.getElementById("chatBox")
+.appendChild(div);
+
+
+
+scrollChat();
+
+
+}
+
+
+
+
+function removeTyping(){
+
+
+let typing =
+document.getElementById("typing");
+
+
+if(typing)
+
+typing.remove();
+
+
+}
+
+
+
+
+
+function scrollChat(){
+
+
+let box =
+document.getElementById("chatBox");
+
+
+box.scrollTop =
+box.scrollHeight;
+
+
+}
+
+
+
+
+
+// =====================================================
+// Offline Fallback Intelligence
+// =====================================================
+
+
+function fallbackResponse(query){
+
+
+let q =
+query.toLowerCase();
+
+
+
+if(q.includes("stringer"))
+
+{
+
+
+return `
+
+<b>Machine Detected:</b> Stringer
+
+<br><br>
+
+I need more details:
+
+<br>
+
+1. Alarm code
+
+<br>
+
+2. Current condition
+
+<br>
+
+3. Production status
+
+<br><br>
+
+Meanwhile check:
+
+<br>
+
+✓ Servo drive
+
+<br>
+
+✓ Vacuum pressure
+
+<br>
+
+✓ Cell loading sensor
+
+<br>
+
+✓ PLC alarm history
+
+
+`;
+
+}
+
+
+
+
+if(q.includes("alarm"))
+
+{
+
+
+return `
+
+<b>Alarm Analysis Required</b>
+
+<br><br>
+
+Please provide:
+
+<br>
+
+Machine Name + Alarm Code
+
+<br><br>
+
+Example:
+
+<br>
+
+"Stringer 02 Alarm E37"
+
+`;
+
+}
+
+
+
+
+return `
+
+I understand your query:
+
+<b>${query}</b>
+
+<br><br>
+
+Please provide machine name or alarm code for detailed troubleshooting.
+
+`;
 
 }
