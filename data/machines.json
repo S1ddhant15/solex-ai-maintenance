@@ -1,0 +1,97 @@
+{
+  "machines": [
+    {
+      "id": "M001",
+      "name": "Stringer 01",
+      "department": "Stringing",
+      "manufacturer": "Autowell",
+      "model": "ATL-6000",
+      "status": "Running",
+      "health": 97,
+      "availability": 99.2,
+      "mttr": "18 min",
+      "mtbf": "326 hrs",
+      "installationDate": "2025-04-10",
+      "location": "Line 1",
+      "operator": "Production",
+      "maintenanceOwner": "Maintenance",
+      "criticality": "High",
+      "commonFaults": [
+        "Servo Alarm",
+        "Ribbon Break",
+        "Encoder Error",
+        "Wire Feed Error"
+      ]
+    },
+
+    {
+      "id": "M002",
+      "name": "Laminator 01",
+      "department": "Lamination",
+      "manufacturer": "Boostsolar",
+      "model": "LM-3200",
+      "status": "Running",
+      "health": 94,
+      "availability": 98.6,
+      "mttr": "22 min",
+      "mtbf": "298 hrs",
+      "installationDate": "2025-05-16",
+      "location": "Line 2",
+      "operator": "Production",
+      "maintenanceOwner": "Maintenance",
+      "criticality": "Critical",
+      "commonFaults": [
+        "Vacuum Error",
+        "Heater Fault",
+        "Temperature High",
+        "Door Alarm"
+      ]
+    },
+
+    {
+      "id": "M003",
+      "name": "EL Tester",
+      "department": "Inspection",
+      "manufacturer": "BT Imaging",
+      "model": "EL-Pro",
+      "status": "Running",
+      "health": 98,
+      "availability": 99.6,
+      "mttr": "12 min",
+      "mtbf": "412 hrs",
+      "installationDate": "2025-07-02",
+      "location": "Inspection Area",
+      "operator": "Quality",
+      "maintenanceOwner": "Maintenance",
+      "criticality": "Medium",
+      "commonFaults": [
+        "Camera Fault",
+        "Communication Error",
+        "Lighting Error"
+      ]
+    },
+
+    {
+      "id": "M004",
+      "name": "Bussing Machine",
+      "department": "Bussing",
+      "manufacturer": "Jinchen",
+      "model": "BUS-4500",
+      "status": "Stopped",
+      "health": 81,
+      "availability": 91.5,
+      "mttr": "35 min",
+      "mtbf": "205 hrs",
+      "installationDate": "2025-06-11",
+      "location": "Line 3",
+      "operator": "Production",
+      "maintenanceOwner": "Maintenance",
+      "criticality": "High",
+      "commonFaults": [
+        "Solder Temperature Low",
+        "Ribbon Jam",
+        "Cylinder Error"
+      ]
+    }
+  ]
+}
