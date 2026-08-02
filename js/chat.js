@@ -19,49 +19,130 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-function initializeSAMA(){
+// =====================================================
+// AI Engine Connection With Memory
+// =====================================================
 
 
-    console.log("SAMA AI Engine Connected");
+function processSAMAQuery(query){
 
 
-    addBotMessage(`
+    try{
 
-    👋 Welcome back!
 
-    I am <b>SAMA</b> - Solex AI Maintenance Assistant.
+        // Store current conversation context
 
-    <br><br>
+        conversationHistory.push({
 
-    I can help with:
 
-    <br>
+            role:"context",
 
-    ⚙ Machine Breakdown Analysis
 
-    <br>
+            message:query
 
-    🚨 Alarm Troubleshooting
 
-    <br>
+        });
 
-    🛠 Preventive Maintenance
 
-    <br>
 
-    📦 Spare Recommendation
 
-    <br>
 
-    📊 Machine Health Analysis
+        // Limit memory size
+        // Keep latest 20 conversations only
 
-    <br>
 
-    📚 Maintenance History
+        if(conversationHistory.length > 20){
 
-    `);
-addSuggestionButtons();
 
+            conversationHistory.shift();
+
+
+        }
+
+
+
+
+
+        // Connect with AI Engine
+
+
+        if(typeof generateAIResponse === "function"){
+
+
+
+            let response =
+
+            generateAIResponse(query);
+
+
+
+            return response;
+
+
+
+        }
+
+
+
+
+
+        return fallbackResponse(query);
+
+
+
+    }
+
+
+    catch(error){
+
+
+
+        console.error(
+            "SAMA AI Error:",
+            error
+        );
+
+
+
+        return `
+
+
+        ⚠️ SAMA encountered an error.
+
+
+        <br><br>
+
+
+        Please check:
+
+
+        <br>
+
+
+        ✓ aiEngine.js loaded
+
+
+        <br>
+
+
+        ✓ knowledge.js connected
+
+
+        <br>
+
+
+        ✓ alarmDatabase.js connected
+
+
+
+        `;
+
+
+    }
+
+
+
+}
 }
 
 
