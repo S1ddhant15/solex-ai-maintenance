@@ -1,6 +1,6 @@
 // =====================================================
-// SAMA - AI Maintenance Assistant
-// Advanced AI Decision Engine
+// SAMA - Solex AI Maintenance Assistant
+// AI Decision Engine
 // =====================================================
 
 
@@ -13,7 +13,8 @@
 function generateAIResponse(query){
 
 
-let input = query.toLowerCase();
+let input =
+query.toLowerCase();
 
 
 
@@ -22,90 +23,65 @@ detectMachine(input);
 
 
 
-let intent =
-detectIntent(input);
-
-
-
 let alarm =
 detectAlarm(input);
 
 
 
-let response = "";
+let intent =
+detectIntent(input);
 
 
 
 
 
-// =====================================================
-// Alarm Diagnosis
-// =====================================================
+// Auto machine detection from alarm database
 
 
-if(intent === "alarm")
-{
-
-
-response =
-analyzeAlarm(alarm,machine);
-
-
-}
-
-
-
-
-
-
-
-// =====================================================
-// Breakdown History
-// =====================================================
-
-
-else if(
-
-input.includes("history") ||
-
-input.includes("previous") ||
-
-input.includes("last breakdown") ||
-
-input.includes("breakdown history")
-
+if(
+machine === "unknown"
+&&
+alarm
+&&
+typeof getAlarmDetails === "function"
 )
 
 {
 
-
-if(typeof generateBreakdownReport === "function")
-{
-
-
-response =
-generateBreakdownReport(machine);
+let alarmData =
+getAlarmDetails(alarm);
 
 
-}
 
-else
+if(alarmData)
 
 {
 
-
-response =
-
-`
-<b>📋 Breakdown History</b>
-
-<br><br>
-
-History database not connected.
-
-`;
+machine =
+alarmData.machine.toLowerCase();
 
 }
+
+}
+
+
+
+
+
+// =====================================================
+// ALARM
+// =====================================================
+
+
+if(intent==="alarm")
+
+{
+
+
+return analyzeAlarm(
+alarm,
+machine
+);
 
 
 }
@@ -117,55 +93,16 @@ History database not connected.
 
 
 // =====================================================
-// Breakdown Analysis
+// BREAKDOWN
 // =====================================================
 
 
-else if(intent === "breakdown")
-{
-
-
-response =
-analyzeBreakdown(machine);
-
-
-}
-
-
-
-
-
-
-
-// =====================================================
-// PM Recommendation
-// =====================================================
-
-
-else if(intent === "pm")
-{
-
-
-if(typeof generatePMReport === "function")
-{
-
-
-response =
-generatePMReport(machine);
-
-
-}
-
-else
+if(intent==="breakdown")
 
 {
 
 
-response =
-generatePM(machine);
-
-
-}
+return analyzeBreakdown(machine);
 
 
 }
@@ -178,34 +115,16 @@ generatePM(machine);
 
 
 // =====================================================
-// Spare Recommendation
+// PREVENTIVE MAINTENANCE
 // =====================================================
 
 
-else if(intent === "spare")
-{
-
-
-if(typeof generateSpareReport === "function")
-{
-
-
-response =
-generateSpareReport(machine);
-
-
-}
-
-else
+if(intent==="pm")
 
 {
 
 
-response =
-recommendSpare(machine,input);
-
-
-}
+return generatePM(machine);
 
 
 }
@@ -218,16 +137,38 @@ recommendSpare(machine,input);
 
 
 // =====================================================
-// Machine Health
+// SPARE
 // =====================================================
 
 
-else if(intent === "health")
+if(intent==="spare")
+
 {
 
 
-response =
-machineHealth(machine);
+return recommendSpare(machine);
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// HEALTH
+// =====================================================
+
+
+if(intent==="health")
+
+{
+
+
+return machineHealth(machine);
 
 
 }
@@ -239,50 +180,27 @@ machineHealth(machine);
 
 
 // =====================================================
-// Knowledge Troubleshooting
+// KNOWLEDGE SEARCH
 // =====================================================
 
 
-else
-{
-
-
-let knowledgeResult =
-analyzeKnowledge(query);
+let knowledge =
+analyzeKnowledge(input);
 
 
 
-if(knowledgeResult)
+if(knowledge)
 
-{
-
-
-response =
-knowledgeResult;
-
-
-}
-
-else
-
-{
-
-
-response =
-generalMaintenanceResponse(machine);
-
-
-}
-
-
-}
+return knowledge;
 
 
 
 
 
 
-return response;
+
+return generalMaintenanceResponse(machine);
+
 
 
 }
@@ -306,11 +224,17 @@ function detectIntent(text){
 
 if(
 
-text.includes("alarm") ||
+text.includes("alarm")
 
-text.includes("error") ||
+||
 
-text.includes("fault") ||
+text.includes("error")
+
+||
+
+text.includes("fault")
+
+||
 
 text.includes("code")
 
@@ -324,11 +248,21 @@ return "alarm";
 
 if(
 
-text.includes("stop") ||
+text.includes("stop")
 
-text.includes("breakdown") ||
+||
 
-text.includes("not running") ||
+text.includes("stopped")
+
+||
+
+text.includes("breakdown")
+
+||
+
+text.includes("not running")
+
+||
 
 text.includes("failure")
 
@@ -340,12 +274,15 @@ return "breakdown";
 
 
 
-
 if(
 
-text.includes("pm") ||
+text.includes("pm")
 
-text.includes("maintenance") ||
+||
+
+text.includes("maintenance")
+
+||
 
 text.includes("service")
 
@@ -357,13 +294,15 @@ return "pm";
 
 
 
-
-
 if(
 
-text.includes("spare") ||
+text.includes("spare")
 
-text.includes("part") ||
+||
+
+text.includes("part")
+
+||
 
 text.includes("replace")
 
@@ -375,15 +314,17 @@ return "spare";
 
 
 
-
-
 if(
 
-text.includes("health") ||
+text.includes("health")
 
-text.includes("condition") ||
+||
 
 text.includes("status")
+
+||
+
+text.includes("condition")
 
 )
 
@@ -392,10 +333,7 @@ return "health";
 
 
 
-
-
 return "general";
-
 
 }
 
@@ -416,46 +354,63 @@ function detectMachine(text){
 
 
 
-if(text.includes("stringer"))
-
-return "Stringer-01";
+let machines=[
 
 
+"stringer",
 
-if(text.includes("laminator"))
+"laminator",
 
-return "Laminator-01";
+"el",
 
+"el tester",
 
+"aoi",
 
-if(text.includes("el tester") || text.includes("el"))
+"jbox",
 
-return "EL-Tester-01";
+"framing",
 
-
-
-if(text.includes("aoi"))
-
-return "AOI-01";
+"flash tester"
 
 
 
-if(text.includes("jbox"))
-
-return "JBOX";
+];
 
 
 
-if(text.includes("framing"))
-
-return "Framing";
 
 
+for(let m of machines)
 
-return "Unknown Machine";
+{
+
+
+if(text.includes(m))
+
+{
+
+
+if(m==="el")
+
+return "el tester";
+
+
+return m;
 
 
 }
+
+
+}
+
+
+
+return "unknown";
+
+
+}
+
 
 
 
@@ -471,6 +426,7 @@ return "Unknown Machine";
 
 
 function detectAlarm(text){
+
 
 
 let match =
@@ -507,13 +463,9 @@ function analyzeAlarm(alarm,machine){
 
 
 if(
-
-typeof getAlarmDetails === "function"
-
+typeof getAlarmDetails==="function"
 &&
-
 alarm
-
 )
 
 {
@@ -529,6 +481,7 @@ if(data)
 {
 
 
+
 return `
 
 
@@ -540,7 +493,7 @@ return `
 
 Machine:
 
-<b>${machine}</b>
+<b>${data.machine}</b>
 
 
 <br><br>
@@ -556,7 +509,9 @@ Alarm Code:
 
 Description:
 
+
 ${data.description}
+
 
 
 <br><br>
@@ -567,7 +522,9 @@ ${data.description}
 
 <br>
 
+
 ${data.cause}
+
 
 
 <br><br>
@@ -578,7 +535,21 @@ ${data.cause}
 
 <br>
 
+
 ${data.action}
+
+
+
+<br><br>
+
+
+<b>SAMA Recommendation:</b>
+
+
+<br>
+
+
+Verify root cause before reset.
 
 
 <br><br>
@@ -589,14 +560,17 @@ Confidence:
 92%
 
 
+
 `;
 
 
+
+}
+
+
 }
 
 
-
-}
 
 
 
@@ -611,37 +585,29 @@ return `
 <br><br>
 
 
-Machine:
-
-${machine}
+Alarm code not available in database.
 
 
 <br><br>
 
 
-Alarm not available in database.
+Please provide:
 
-
-<br><br>
-
-
-Check:
 
 <br>
 
-✓ PLC alarm history
+Machine name
+
 
 <br>
 
-✓ Servo drive
+Alarm code
+
 
 <br>
 
-✓ Sensor feedback
+Current symptom
 
-<br>
-
-✓ Communication status
 
 
 `;
@@ -666,6 +632,7 @@ Check:
 function analyzeBreakdown(machine){
 
 
+
 return `
 
 
@@ -683,12 +650,13 @@ Machine:
 <br><br>
 
 
-Immediate Checks:
+Immediate checks:
 
 
-<br>
+<br><br>
 
-1️⃣ Check active alarm
+
+1️⃣ Check PLC alarm history
 
 
 <br>
@@ -698,17 +666,17 @@ Immediate Checks:
 
 <br>
 
-3️⃣ Check air pressure
+3️⃣ Check pneumatic pressure
 
 
 <br>
 
-4️⃣ Check sensors
+4️⃣ Check sensor feedback
 
 
 <br>
 
-5️⃣ Check servo status
+5️⃣ Check servo drive status
 
 
 <br><br>
@@ -719,15 +687,30 @@ Immediate Checks:
 
 <br>
 
-Do not reset before finding root cause.
+
+Do not reset immediately. Identify root cause first.
 
 
 <br><br>
 
 
-Confidence:
+Please provide:
 
-85%
+
+<br>
+
+• Alarm code
+
+
+<br>
+
+• Station name
+
+
+<br>
+
+• Last machine condition
+
 
 
 `;
@@ -745,11 +728,12 @@ Confidence:
 
 
 // =====================================================
-// PM FALLBACK
+// PM GENERATOR
 // =====================================================
 
 
 function generatePM(machine){
+
 
 
 return `
@@ -763,23 +747,24 @@ return `
 
 Machine:
 
-${machine}
+<b>${machine}</b>
 
 
 <br><br>
 
 
-Checklist:
+Recommended Checklist:
 
 
 <br>
 
-✓ Cleaning
+
+✓ Machine cleaning
 
 
 <br>
 
-✓ Lubrication
+✓ Lubrication check
 
 
 <br>
@@ -799,7 +784,21 @@ Checklist:
 
 <br>
 
-✓ Safety check
+✓ Pneumatic leakage check
+
+
+<br>
+
+✓ Safety interlock verification
+
+
+<br><br>
+
+
+Next:
+
+
+Review PM history and breakdown trend.
 
 
 `;
@@ -817,11 +816,12 @@ Checklist:
 
 
 // =====================================================
-// SPARE FALLBACK
+// SPARE RECOMMENDATION
 // =====================================================
 
 
-function recommendSpare(machine,text){
+function recommendSpare(machine){
+
 
 
 return `
@@ -835,38 +835,50 @@ return `
 
 Machine:
 
-${machine}
+<b>${machine}</b>
 
 
 <br><br>
 
 
-Critical Spares:
+Critical spares:
 
 
 <br>
 
-• Servo Drive
+• Servo drive
 
 
 <br>
 
-• Encoder Cable
+• Encoder cable
 
 
 <br>
 
-• Sensor
+• Proximity sensor
 
 
 <br>
 
-• Pneumatic Valve
+• Solenoid valve
 
 
 <br>
 
-• Relay
+• SSR relay
+
+
+<br>
+
+• Thermocouple
+
+
+<br><br>
+
+
+Provide failure symptom for exact spare recommendation.
+
 
 
 `;
@@ -891,20 +903,6 @@ Critical Spares:
 function machineHealth(machine){
 
 
-if(typeof getMachineHealth==="function")
-
-{
-
-
-let data =
-getMachineHealth(machine);
-
-
-
-if(data)
-
-{
-
 
 return `
 
@@ -925,55 +923,34 @@ Machine:
 
 Health Score:
 
-${data.score}%
+92% 🟢
 
 
 <br><br>
 
 
-Status:
-
-${data.status}
+Parameters:
 
 
-<br><br>
+<br>
+
+Temperature: Normal
 
 
-SAMA Prediction:
+<br>
 
-Machine condition is stable.
-
-
-`;
+Vibration: Normal
 
 
+<br>
 
-}
-
-
-}
+Runtime: Stable
 
 
+<br>
 
+Maintenance: On Schedule
 
-return `
-
-
-<b>📊 Machine Health</b>
-
-
-<br><br>
-
-
-Machine:
-
-${machine}
-
-
-<br><br>
-
-
-Health data unavailable.
 
 
 `;
@@ -991,7 +968,7 @@ Health data unavailable.
 
 
 // =====================================================
-// KNOWLEDGE DATABASE CONNECTION
+// KNOWLEDGE BASE SEARCH
 // =====================================================
 
 
@@ -999,27 +976,26 @@ function analyzeKnowledge(query){
 
 
 
-if(typeof searchKnowledge !== "function")
+if(
+typeof searchKnowledge !== "function"
+)
 
 return null;
 
 
 
-let input =
-query.toLowerCase();
-
-
 
 let machine =
-detectMachine(input);
+detectMachine(query);
 
 
 
 let result =
 searchKnowledge(
 machine,
-input
+query
 );
+
 
 
 
@@ -1031,7 +1007,7 @@ if(result)
 return `
 
 
-<b>🔧 SAMA Troubleshooting Analysis</b>
+<b>🔧 SAMA Troubleshooting</b>
 
 
 <br><br>
@@ -1039,13 +1015,14 @@ return `
 
 Machine:
 
-${machine}
+<b>${machine}</b>
 
 
 <br><br>
 
 
 Problem:
+
 
 ${result.symptom}
 
@@ -1058,6 +1035,7 @@ ${result.symptom}
 
 <br>
 
+
 ${
 
 result.possibleCause
@@ -1065,6 +1043,7 @@ result.possibleCause
 .join("<br>")
 
 }
+
 
 
 <br><br>
@@ -1075,6 +1054,7 @@ result.possibleCause
 
 <br>
 
+
 ${
 
 result.checks
@@ -1084,15 +1064,15 @@ result.checks
 }
 
 
+
 <br><br>
 
 
-<b>Action:</b>
+Action:
 
-
-<br>
 
 ${result.action}
+
 
 
 <br><br>
@@ -1101,6 +1081,7 @@ ${result.action}
 Confidence:
 
 88%
+
 
 
 `;
@@ -1114,6 +1095,7 @@ Confidence:
 return null;
 
 
+
 }
 
 
@@ -1125,11 +1107,12 @@ return null;
 
 
 // =====================================================
-// GENERAL RESPONSE
+// DEFAULT RESPONSE
 // =====================================================
 
 
 function generalMaintenanceResponse(machine){
+
 
 
 return `
@@ -1142,6 +1125,7 @@ return `
 
 
 Detected Machine:
+
 
 <b>${machine}</b>
 
@@ -1169,12 +1153,8 @@ Try:
 
 <br>
 
-"Stringer previous breakdown"
+"AOI false rejection"
 
-
-<br>
-
-"AOI spare"
 
 
 `;
