@@ -1,158 +1,365 @@
-// ==============================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// INDUSTRIAL ALARM DATABASE
-// Version 1.0
-// ==============================================
+// =====================================================
+// SAMA - AI Maintenance Assistant
+// Industrial Alarm Database
+// =====================================================
 
-const alarmDatabase = [
 
-{
-    code:"E101",
-    machine:"Laminator",
-    alarm:"Vacuum Low Pressure",
-    cause:"Vacuum leakage or pump failure",
-    action:[
-        "Check vacuum pump",
-        "Inspect vacuum pipe",
-        "Check vacuum sensor",
-        "Reset alarm"
-    ]
-},
+// Alarm Database
 
-{
-    code:"E102",
-    machine:"Laminator",
-    alarm:"Vacuum Timeout",
-    cause:"Required vacuum not achieved",
-    action:[
-        "Inspect air leakage",
-        "Check pump capacity",
-        "Verify pressure sensor"
-    ]
-},
+const alarmDatabase = {
 
-{
-    code:"E205",
-    machine:"Stringer",
-    alarm:"Servo Overload",
-    cause:"Motor overloaded",
-    action:[
-        "Check motor movement",
-        "Inspect coupling",
-        "Reset servo"
-    ]
-},
 
-{
-    code:"E206",
-    machine:"Stringer",
-    alarm:"Encoder Error",
-    cause:"Encoder cable loose",
-    action:[
-        "Reconnect encoder",
-        "Replace encoder cable",
-        "Restart drive"
-    ]
-},
+    // ==========================
+    // Servo Alarms
+    // ==========================
 
-{
-    code:"A045",
-    machine:"EL Tester",
-    alarm:"Camera Communication Error",
-    cause:"Ethernet communication lost",
-    action:[
-        "Check Ethernet cable",
-        "Restart software",
-        "Check camera power"
-    ]
-},
 
-{
-    code:"A051",
-    machine:"EL Tester",
-    alarm:"Image Capture Failed",
-    cause:"Camera trigger missing",
-    action:[
-        "Verify trigger sensor",
-        "Restart camera",
-        "Inspect PLC signal"
-    ]
-},
+    "E37": {
 
-{
-    code:"S101",
-    machine:"Bussing Machine",
-    alarm:"Solder Temperature Low",
-    cause:"Heater failure",
-    action:[
-        "Measure heater resistance",
-        "Check SSR",
-        "Check thermocouple"
-    ]
-},
 
-{
-    code:"S102",
-    machine:"Bussing Machine",
-    alarm:"Ribbon Jam",
-    cause:"Ribbon misalignment",
-    action:[
-        "Remove ribbon",
-        "Clean guide",
-        "Reset machine"
-    ]
-},
+        machine:"Stringer",
 
-{
-    code:"P301",
-    machine:"Framing Machine",
-    alarm:"Cylinder Home Sensor Fault",
-    cause:"Sensor not detected",
-    action:[
-        "Check sensor",
-        "Inspect cylinder",
-        "Verify PLC input"
-    ]
-},
+        category:"Servo",
 
-{
-    code:"P401",
-    machine:"Flash Tester",
-    alarm:"Safety Door Open",
-    cause:"Door switch active",
-    action:[
-        "Close door",
-        "Check limit switch",
-        "Reset alarm"
-    ]
-}
+        description:
+        "Servo communication or positioning error",
 
-];
+        cause:
+
+        `
+        1. Encoder feedback loss
+        <br>
+        2. Servo cable loose
+        <br>
+        3. Servo drive communication failure
+        <br>
+        4. Mechanical axis obstruction
+        `,
+
+
+        action:
+
+        `
+        ✓ Check servo alarm history
+        <br>
+        ✓ Verify encoder connection
+        <br>
+        ✓ Check PLC communication
+        <br>
+        ✓ Reset only after root cause verification
+        `
+
+    },
 
 
 
-// ==============================================
-// SEARCH ALARM
-// ==============================================
+    "E01": {
 
-function searchAlarm(query){
 
-    query = query.toLowerCase();
+        machine:"General",
 
-    for(const alarm of alarmDatabase){
+        category:"Servo Overload",
 
-        if(
-            alarm.code.toLowerCase().includes(query) ||
-            alarm.machine.toLowerCase().includes(query) ||
-            alarm.alarm.toLowerCase().includes(query)
-        ){
+        description:
+        "Servo motor overload detected",
 
-            return alarm;
 
-        }
+        cause:
+
+        `
+        1. Mechanical jam
+        <br>
+        2. Excessive load
+        <br>
+        3. Incorrect servo parameters
+        `,
+
+
+        action:
+
+        `
+        ✓ Check mechanical movement
+        <br>
+        ✓ Check motor temperature
+        <br>
+        ✓ Verify servo parameters
+        `
+
+    },
+
+
+
+
+
+    // ==========================
+    // Pneumatic / Sensor
+    // ==========================
+
+
+    "S01": {
+
+
+        machine:"Stringer",
+
+        category:"Sensor",
+
+        description:
+        "Cell detection sensor failure",
+
+
+        cause:
+
+        `
+        1. Sensor dirty
+        <br>
+        2. Sensor alignment issue
+        <br>
+        3. Cable damage
+        `,
+
+
+        action:
+
+        `
+        ✓ Clean sensor
+        <br>
+        ✓ Check sensor LED
+        <br>
+        ✓ Verify PLC input
+        `
+
+    },
+
+
+
+
+
+    "P01": {
+
+
+        machine:"Laminator",
+
+        category:"Pneumatic",
+
+        description:
+        "Low air pressure alarm",
+
+
+        cause:
+
+        `
+        1. Air leakage
+        <br>
+        2. Compressor pressure low
+        <br>
+        3. Solenoid valve issue
+        `,
+
+
+        action:
+
+        `
+        ✓ Check FRL unit
+        <br>
+        ✓ Check pressure gauge
+        <br>
+        ✓ Inspect pneumatic line
+        `
+
+    },
+
+
+
+
+
+
+    // ==========================
+    // Temperature Alarms
+    // ==========================
+
+
+    "T01": {
+
+
+        machine:"Laminator",
+
+        category:"Temperature",
+
+        description:
+        "Heating zone temperature deviation",
+
+
+        cause:
+
+        `
+        1. Heater failure
+        <br>
+        2. SSR failure
+        <br>
+        3. Thermocouple issue
+        `,
+
+
+        action:
+
+        `
+        ✓ Check heater current
+        <br>
+        ✓ Check SSR output
+        <br>
+        ✓ Verify thermocouple signal
+        `
+
+    },
+
+
+
+
+
+
+    // ==========================
+    // Communication
+    // ==========================
+
+
+    "C01": {
+
+
+        machine:"General",
+
+        category:"Communication",
+
+        description:
+        "PLC communication error",
+
+
+        cause:
+
+        `
+        1. Network cable issue
+        <br>
+        2. EtherCAT communication loss
+        <br>
+        3. Module power failure
+        `,
+
+
+        action:
+
+        `
+        ✓ Check network status
+        <br>
+        ✓ Check IO module LEDs
+        <br>
+        ✓ Restart communication module
+        `
 
     }
 
+
+
+};
+
+
+
+
+
+
+
+// =====================================================
+// Alarm Search Function
+// =====================================================
+
+
+function getAlarmDetails(alarmCode){
+
+
+
+    alarmCode =
+    alarmCode.toUpperCase();
+
+
+
+    if(alarmDatabase[alarmCode])
+
+    {
+
+        return alarmDatabase[alarmCode];
+
+    }
+
+
+
     return null;
+
+
+
+}
+
+
+
+
+
+
+// =====================================================
+// Search Similar Alarm
+// =====================================================
+
+
+function searchAlarm(keyword){
+
+
+
+let result=[];
+
+
+
+for(let code in alarmDatabase){
+
+
+let alarm =
+alarmDatabase[code];
+
+
+
+if(
+
+alarm.description
+.toLowerCase()
+.includes(keyword.toLowerCase())
+
+||
+
+alarm.category
+.toLowerCase()
+.includes(keyword.toLowerCase())
+
+)
+
+{
+
+
+result.push({
+
+code:code,
+
+machine:alarm.machine,
+
+description:alarm.description
+
+
+});
+
+
+}
+
+
+
+}
+
+
+
+return result;
+
 
 }
