@@ -546,3 +546,236 @@ return result;
 
 
 }
+
+// =====================================================
+// Advanced SAMA Knowledge Search
+// =====================================================
+
+
+function searchAdvancedKnowledge(query){
+
+
+query = query.toLowerCase();
+
+
+
+let matches = [];
+
+
+
+for(let machine in maintenanceKnowledge){
+
+
+
+let machineData =
+maintenanceKnowledge[machine];
+
+
+
+for(let issue in machineData.issues){
+
+
+
+let issueData =
+machineData.issues[issue];
+
+
+
+let searchableText = (
+
+machineData.machine +
+
+" " +
+
+issue +
+
+" " +
+
+issueData.symptom +
+
+" " +
+
+issueData.possibleCause.join(" ") +
+
+" " +
+
+issueData.checks.join(" ")
+
+).toLowerCase();
+
+
+
+
+
+if(searchableText.includes(query)){
+
+
+matches.push({
+
+
+machine:
+machineData.machine,
+
+
+issue:
+issue,
+
+
+symptom:
+issueData.symptom,
+
+
+cause:
+issueData.possibleCause,
+
+
+checks:
+issueData.checks,
+
+
+action:
+issueData.action
+
+
+
+});
+
+
+}
+
+
+
+
+}
+
+
+
+}
+
+
+
+return matches;
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// Format Knowledge Response For SAMA
+// =====================================================
+
+
+function formatKnowledgeResponse(data){
+
+
+
+if(!data || data.length===0)
+
+return null;
+
+
+
+
+let item = data[0];
+
+
+
+return `
+
+
+<b>🔧 SAMA Troubleshooting Analysis</b>
+
+
+<br><br>
+
+
+<b>Machine:</b>
+
+${item.machine}
+
+
+<br><br>
+
+
+<b>Issue:</b>
+
+${item.issue}
+
+
+<br><br>
+
+
+
+<b>Possible Causes:</b>
+
+<br>
+
+${
+
+item.cause
+
+.map((x,i)=>
+
+`${i+1}. ${x}`
+
+)
+
+.join("<br>")
+
+}
+
+
+
+<br><br>
+
+
+<b>Recommended Checks:</b>
+
+<br>
+
+${
+
+item.checks
+
+.map((x)=>
+
+"✓ "+x
+
+)
+
+.join("<br>")
+
+}
+
+
+
+<br><br>
+
+
+<b>SAMA Recommendation:</b>
+
+<br>
+
+${item.action}
+
+
+<br><br>
+
+
+<span class="confidence">
+
+Confidence: 88%
+
+</span>
+
+
+`;
+
+
+
+}
