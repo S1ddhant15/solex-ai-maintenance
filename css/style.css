@@ -248,3 +248,340 @@ textarea:focus{
     border-color:#2563eb;
     box-shadow:0 0 5px rgba(37,99,235,.3);
 }
+
+/* ==========================================
+   PART 2
+   CHAT • MACHINE CARDS • ANALYTICS
+========================================== */
+
+/* Search Box */
+
+.search-container{
+    margin:20px 0;
+}
+
+.search-container input{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:16px;
+}
+
+/* Machine Cards */
+
+.machine-card{
+    cursor:pointer;
+    transition:0.3s;
+    border-left:6px solid #2563eb;
+}
+
+.machine-card:hover{
+    transform:scale(1.03);
+}
+
+.machine-card h3{
+    color:#2563eb;
+    margin-bottom:12px;
+}
+
+.machine-card p{
+    margin:8px 0;
+}
+
+/* Health Colors */
+
+.health-good{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.health-warning{
+    color:#f59e0b;
+    font-weight:bold;
+}
+
+.health-danger{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+/* Chat */
+
+.chat-container{
+
+    background:#fff;
+
+    border-radius:15px;
+
+    height:70vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+
+}
+
+.chat-header{
+
+    padding:20px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:22px;
+
+    border-radius:15px 15px 0 0;
+
+}
+
+.chat-box{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    background:#f8fafc;
+
+}
+
+.message{
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    margin-bottom:18px;
+
+    max-width:75%;
+
+    line-height:1.6;
+
+    word-wrap:break-word;
+
+}
+
+.user{
+
+    background:#2563eb;
+
+    color:white;
+
+    margin-left:auto;
+
+}
+
+.bot{
+
+    background:white;
+
+    border:1px solid #ddd;
+
+}
+
+.chat-input{
+
+    display:flex;
+
+    padding:18px;
+
+    gap:12px;
+
+    border-top:1px solid #ddd;
+
+}
+
+.chat-input input{
+
+    flex:1;
+
+    margin:0;
+
+}
+
+.chat-input button{
+
+    width:140px;
+
+}
+
+/* KPI */
+
+.kpi{
+
+    text-align:center;
+
+}
+
+.kpi h1{
+
+    color:#2563eb;
+
+    font-size:42px;
+
+}
+
+.kpi p{
+
+    margin-top:8px;
+
+}
+
+/* Analytics */
+
+.chart-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    margin-top:25px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+/* Notification */
+
+.notification{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.notification:last-child{
+
+    border-bottom:none;
+
+}
+
+.notification:hover{
+
+    background:#f5f5f5;
+
+}
+
+/* Work Order */
+
+.workorder{
+
+    padding:18px;
+
+    border-left:5px solid #2563eb;
+
+    margin-bottom:18px;
+
+    background:white;
+
+    border-radius:10px;
+
+}
+
+.priority-high{
+
+    color:#dc2626;
+
+    font-weight:bold;
+
+}
+
+.priority-medium{
+
+    color:#f59e0b;
+
+    font-weight:bold;
+
+}
+
+.priority-low{
+
+    color:#16a34a;
+
+    font-weight:bold;
+
+}
+
+/* Spare Parts */
+
+.stock-low{
+
+    color:#f59e0b;
+
+}
+
+.stock-zero{
+
+    color:#dc2626;
+
+}
+
+.stock-good{
+
+    color:#16a34a;
+
+}
+
+/* Dashboard Animation */
+
+.card{
+
+    animation:fadeUp .5s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#eee;
+
+}
