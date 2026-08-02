@@ -1,195 +1,495 @@
-// ==========================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// MACHINE MONITOR
-// ==========================================
+// =====================================================
+// SAMA - AI Maintenance Assistant
+// Machine Health Monitoring Engine
+// =====================================================
 
-let machineData = null;
 
-// ==========================================
-// Initialize
-// ==========================================
+// =====================================================
+// Start Monitoring
+// =====================================================
 
-document.addEventListener("DOMContentLoaded", loadMachine);
 
-// ==========================================
-// Load Selected Machine
-// ==========================================
+document.addEventListener("DOMContentLoaded",()=>{
 
-async function loadMachine() {
 
-    try {
+    monitorAllMachines();
 
-        const response = await fetch("../data/machines.json");
 
-        const data = await response.json();
+});
 
-        const selectedId = parseInt(localStorage.getItem("selectedMachineId"));
 
-        machineData = data.machines.find(m => m.id === selectedId);
 
-        if (!machineData) {
 
-            document.getElementById("machineName").innerHTML = "Machine Not Found";
 
-            return;
+// =====================================================
+// Monitor All Machines
+// =====================================================
+
+
+function monitorAllMachines(){
+
+
+
+    let machines =
+    getAllMachines();
+
+
+
+    machines.forEach(machine=>{
+
+
+        analyzeMachine(machine);
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// Machine Analysis
+// =====================================================
+
+
+function analyzeMachine(machineName){
+
+
+
+    let machine =
+    getMachineDetails(machineName);
+
+
+
+    if(!machine)
+    return;
+
+
+
+    let alerts=[];
+
+
+
+    // Temperature Check
+
+
+    if(machine.parameters.temperature)
+
+    {
+
+
+        let temp =
+        parseInt(
+            machine.parameters.temperature
+        );
+
+
+
+        if(temp > 150)
+
+        {
+
+
+            alerts.push({
+
+                type:"Temperature",
+
+                severity:"High",
+
+                message:
+                "Temperature above normal limit"
+
+
+            });
+
 
         }
 
-        updateScreen();
 
-        // Simulate Live Data Every 5 Seconds
-
-        setInterval(simulateLiveData, 5000);
 
     }
 
-    catch (error) {
 
-        console.error(error);
 
-    }
 
-}
 
-// ==========================================
-// Update Screen
-// ==========================================
 
-function updateScreen() {
+    // Health Score Check
 
-    document.getElementById("machineName").innerHTML = machineData.name;
 
-    document.getElementById("health").innerHTML = machineData.health + "%";
+    if(machine.health < 80)
 
-    document.getElementById("temperature").innerHTML =
-        machineData.temperature + " °C";
+    {
 
-    document.getElementById("pressure").innerHTML =
-        machineData.pressure;
 
-    document.getElementById("hours").innerHTML =
-        machineData.runningHours;
+        alerts.push({
 
-    document.getElementById("department").innerHTML =
-        machineData.department;
+            type:"Health",
 
-    document.getElementById("status").innerHTML =
-        machineData.status;
+            severity:"Warning",
 
-    document.getElementById("pm").innerHTML =
-        machineData.nextPM;
+            message:
+            "Machine health decreasing"
 
-    document.getElementById("alarm").innerHTML =
-        machineData.alarm;
 
-    document.getElementById("score").innerHTML =
-        machineData.aiScore;
+        });
 
-    document.getElementById("recommendation").innerHTML =
-        getRecommendation(machineData);
-
-}
-
-// ==========================================
-// AI Recommendation
-// ==========================================
-
-function getRecommendation(machine){
-
-    if(machine.health>=97){
-
-        return `
-        ✅ Machine operating normally.<br><br>
-        Continue routine inspection only.
-        `;
 
     }
 
-    if(machine.health>=90){
 
-        return `
-        ⚠ Preventive maintenance recommended.<br><br>
-        Check lubrication, sensors and cooling fan.
-        `;
 
-    }
 
-    if(machine.health>=80){
 
-        return `
-        🔧 Machine condition degrading.<br><br>
-        Schedule maintenance within 24 hours.
-        `;
 
-    }
 
-    return `
-    🚨 Critical Machine Health.<br><br>
 
-    Immediate maintenance required.<br><br>
+    // PM Due Check
 
-    Generate Work Order immediately.
-    `;
 
-}
+    let pmDate =
+    new Date(machine.nextPM);
 
-// ==========================================
-// Live Simulation
-// ==========================================
 
-function simulateLiveData(){
 
-    machineData.temperature += random(-1,2);
+    let today =
+    new Date();
 
-    machineData.health += random(-1,1);
 
-    machineData.pressure += randomFloat(-0.2,0.2);
 
-    machineData.runningHours++;
+    let days =
 
-    if(machineData.health>100)
-        machineData.health=100;
+    Math.ceil(
 
-    if(machineData.health<60)
-        machineData.health=60;
+        (pmDate-today)
 
-    machineData.pressure =
-        Number(machineData.pressure).toFixed(1);
+        /
 
-    updateScreen();
-
-}
-
-// ==========================================
-// Helpers
-// ==========================================
-
-function random(min,max){
-
-    return Math.floor(Math.random()*(max-min+1))+min;
-
-}
-
-function randomFloat(min,max){
-
-    return Math.random()*(max-min)+min;
-
-}
-
-// ==========================================
-// Generate Work Order
-// ==========================================
-
-function generateWO(){
-
-    alert(
-
-        "Work Order Generated\n\n" +
-
-        "Machine : "+machineData.name+
-
-        "\nPriority : High"
+        (1000*60*60*24)
 
     );
+
+
+
+    if(days <=7)
+
+    {
+
+
+        alerts.push({
+
+            type:"PM",
+
+            severity:"Medium",
+
+            message:
+            "Preventive maintenance due soon"
+
+
+        });
+
+
+    }
+
+
+
+
+
+    saveMachineAlerts(
+        machineName,
+        alerts
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Alert Storage
+// =====================================================
+
+
+let machineAlerts = {};
+
+
+
+function saveMachineAlerts(
+machine,
+alerts
+){
+
+
+machineAlerts[machine]=alerts;
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Get Machine Alerts
+// =====================================================
+
+
+function getMachineAlerts(machine){
+
+
+
+return machineAlerts[machine] || [];
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Predictive Health Score
+// =====================================================
+
+
+function calculateHealthScore(machineName){
+
+
+
+let machine =
+getMachineDetails(machineName);
+
+
+
+if(!machine)
+
+return 0;
+
+
+
+
+let score =
+100;
+
+
+
+// Temperature Impact
+
+
+if(machine.parameters.temperature)
+
+{
+
+
+let temp =
+parseInt(
+machine.parameters.temperature
+);
+
+
+
+if(temp >120)
+
+score -=10;
+
+
+}
+
+
+
+
+
+// Breakdown History Impact
+
+
+if(machine.breakdownHistory)
+
+{
+
+
+score -=
+
+machine.breakdownHistory.length * 2;
+
+
+}
+
+
+
+
+
+// PM Impact
+
+
+let pm =
+new Date(machine.nextPM);
+
+
+
+let today =
+new Date();
+
+
+
+if(pm < today)
+
+score -=15;
+
+
+
+if(score <0)
+
+score=0;
+
+
+
+return score;
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// AI Health Report
+// =====================================================
+
+
+function generateHealthReport(machineName){
+
+
+
+let machine =
+getMachineDetails(machineName);
+
+
+
+if(!machine)
+
+return "Machine not found";
+
+
+
+let score =
+calculateHealthScore(machineName);
+
+
+
+let condition;
+
+
+
+if(score>=90)
+
+condition="Excellent 🟢";
+
+
+else if(score>=75)
+
+condition="Normal 🟡";
+
+
+else
+
+condition="Critical 🔴";
+
+
+
+
+
+return `
+
+
+<b>📊 SAMA Machine Health Report</b>
+
+
+<br><br>
+
+
+Machine:
+
+${machineName}
+
+
+<br><br>
+
+
+Health Score:
+
+<b>${score}%</b>
+
+
+<br><br>
+
+
+Condition:
+
+${condition}
+
+
+<br><br>
+
+
+Runtime:
+
+${machine.runtime} hrs
+
+
+<br><br>
+
+
+Next PM:
+
+${machine.nextPM}
+
+
+<br><br>
+
+
+Recommendation:
+
+${
+
+score <75
+
+?
+
+"Schedule maintenance immediately"
+
+:
+
+"Continue monitoring"
+
+}
+
+
+
+`;
+
+
 
 }
