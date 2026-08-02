@@ -8,7 +8,17 @@ let conversationHistory = [];
 
 
 
-const chatBox = document.getElementById("chatBox");
+let chatBox;
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+chatBox =
+document.getElementById("chatBox");
+
+});
 
 
 
@@ -371,3 +381,76 @@ Problem symptom
 `;
 
 }
+
+// ==========================================
+// SAMA Startup Message
+// ==========================================
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+addBotMessage(`
+
+
+👋 Welcome to <b>SAMA</b>
+
+
+<br><br>
+
+
+I am Solex AI Maintenance Assistant.
+
+
+<br><br>
+
+
+I can help with:
+
+
+<br><br>
+
+
+⚙ Machine Breakdown
+
+<br>
+
+🚨 Alarm Troubleshooting
+
+<br>
+
+🛠 Preventive Maintenance
+
+<br>
+
+📦 Spare Recommendation
+
+<br>
+
+📊 Machine Health
+
+
+<br><br>
+
+
+Try:
+
+<br>
+
+"Stringer cell breakage"
+
+<br>
+
+"Servo alarm E37"
+
+<br>
+
+"Laminator bubble defect"
+
+
+`);
+
+
+});
