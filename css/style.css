@@ -1,55 +1,31 @@
-/* =====================================================
-   SAMA - Solex AI Maintenance Assistant
-   Premium Industrial UI
-===================================================== */
-
-
 *{
-
 margin:0;
-
 padding:0;
-
 box-sizing:border-box;
-
-font-family:"Segoe UI",Arial,sans-serif;
-
+font-family:Segoe UI;
 }
-
 
 
 body{
 
-background:#f1f5f9;
-
-color:#1e293b;
+background:#eef2f7;
 
 }
 
 
 
-
-
-/* =====================================================
-   MAIN LAYOUT
-===================================================== */
-
-
-.dashboard{
+.app{
 
 display:flex;
 
-min-height:100vh;
+height:100vh;
 
 }
 
 
 
 
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
+/* SIDEBAR */
 
 
 .sidebar{
@@ -60,71 +36,43 @@ background:#0f172a;
 
 color:white;
 
-position:fixed;
-
-top:0;
-
-bottom:0;
-
-left:0;
-
-box-shadow:3px 0 15px rgba(0,0,0,0.2);
-
 }
 
 
-
-
-
-.logo-area{
+.logo{
 
 text-align:center;
 
-padding:25px 15px;
+padding:25px;
 
-border-bottom:1px solid rgba(255,255,255,.15);
-
-}
-
-
-
-.solex-logo{
-
-width:150px;
-
-background:white;
-
-padding:8px;
-
-border-radius:10px;
-
-margin-bottom:15px;
+border-bottom:1px solid #334155;
 
 }
 
 
+.logo img{
 
-.logo-area h2{
+width:100px;
+
+}
+
+
+.logo h2{
+
+margin-top:10px;
 
 font-size:28px;
 
 }
 
 
-
-.logo-area p{
-
-font-size:14px;
+.logo p{
 
 color:#cbd5e1;
 
-margin-top:5px;
+font-size:14px;
 
 }
-
-
-
-
 
 
 
@@ -132,43 +80,23 @@ margin-top:5px;
 
 list-style:none;
 
-padding-top:20px;
+margin-top:20px;
 
 }
-
-
-
 
 
 .sidebar li{
 
-padding:16px 22px;
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
+padding:18px 25px;
 
 cursor:pointer;
 
-font-size:15px;
-
-transition:.3s;
-
 }
 
 
 
-.sidebar li:hover{
-
-background:#1e293b;
-
-}
-
-
-
-.sidebar li.active{
+.sidebar li:hover,
+.sidebar .active{
 
 background:#2563eb;
 
@@ -176,46 +104,35 @@ background:#2563eb;
 
 
 
-.sidebar i{
-
-width:20px;
-
-}
 
 
+/* MAIN */
 
 
+.main{
 
+flex:1;
 
-
-
-
-/* =====================================================
-   MAIN CONTENT
-===================================================== */
-
-
-.main-content{
-
-margin-left:260px;
-
-width:calc(100% - 260px);
-
-padding:30px;
+padding:25px;
 
 }
 
 
 
 
-
-.topbar h1{
-
-font-size:30px;
+.header h1{
 
 color:#0f172a;
 
-margin-bottom:25px;
+}
+
+
+
+.header p{
+
+color:#64748b;
+
+margin-bottom:20px;
 
 }
 
@@ -223,80 +140,25 @@ margin-bottom:25px;
 
 
 
-
-
-
-
-/* =====================================================
-   CHAT CONTAINER
-===================================================== */
+/* CHAT */
 
 
 .chat-container{
 
-height:75vh;
-
 background:white;
 
-border-radius:18px;
+height:80vh;
 
-box-shadow:0 10px 30px rgba(0,0,0,.12);
+border-radius:15px;
+
+box-shadow:0 5px 20px #ccc;
 
 display:flex;
 
 flex-direction:column;
 
-overflow:hidden;
-
 }
 
-
-
-
-
-
-
-.chat-header{
-
-background:#2563eb;
-
-color:white;
-
-padding:20px;
-
-font-size:22px;
-
-font-weight:600;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-}
-
-
-
-.chat-header span{
-
-font-size:14px;
-
-font-weight:normal;
-
-}
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   CHAT BOX
-===================================================== */
 
 
 .chat-box{
@@ -313,45 +175,25 @@ background:#f8fafc;
 
 
 
-
-
-.bot-message,
-.user-message{
-
-
-max-width:75%;
-
-padding:15px 18px;
-
-margin-bottom:15px;
-
-border-radius:15px;
-
-line-height:1.6;
-
-animation:fade .3s ease;
-
-}
-
-
-
-
-
+.user-message,
 .bot-message{
 
 
-background:white;
+max-width:70%;
 
-border:1px solid #e2e8f0;
+padding:15px;
 
-margin-right:auto;
+border-radius:12px;
+
+margin-bottom:15px;
+
+line-height:1.5;
 
 }
 
 
 
 .user-message{
-
 
 background:#2563eb;
 
@@ -363,79 +205,62 @@ margin-left:auto;
 
 
 
+.bot-message{
+
+background:white;
+
+border:1px solid #ddd;
+
+}
+
 
 
 
 
 .message-header{
 
-
 font-weight:bold;
 
 margin-bottom:8px;
 
-font-size:14px;
-
 }
 
 
 
 
-
-
-
-/* =====================================================
-   CHAT INPUT
-===================================================== */
-
-
-.chat-input{
-
+.input-area{
 
 display:flex;
 
-gap:10px;
+padding:15px;
 
-padding:18px;
-
-border-top:1px solid #e5e7eb;
-
-background:white;
+border-top:1px solid #ddd;
 
 }
 
 
 
-.chat-input input{
-
+.input-area input{
 
 flex:1;
 
-padding:14px;
+padding:15px;
 
-border-radius:10px;
+border-radius:8px;
 
-border:1px solid #cbd5e1;
+border:1px solid #ccc;
 
-font-size:15px;
-
-}
-
-
-
-.chat-input input:focus{
-
-
-outline:none;
-
-border-color:#2563eb;
+font-size:16px;
 
 }
 
 
+.input-area button{
 
-.chat-input button{
 
+width:120px;
+
+margin-left:10px;
 
 background:#2563eb;
 
@@ -443,204 +268,10 @@ color:white;
 
 border:none;
 
-padding:0 25px;
-
-border-radius:10px;
+border-radius:8px;
 
 cursor:pointer;
 
-font-size:15px;
-
-}
-
-
-
-.chat-input button:hover{
-
-
-background:#1d4ed8;
-
-}
-
-
-
-
-
-
-
-
-/* =====================================================
-   SAMA TYPING
-===================================================== */
-
-
-#typing{
-
-
-font-style:italic;
-
-color:#64748b;
-
-}
-
-
-
-
-
-/* =====================================================
-   SUGGESTION BUTTON
-===================================================== */
-
-
-.suggestion{
-
-
-background:#eff6ff;
-
-border:1px solid #2563eb;
-
-color:#2563eb;
-
-padding:8px 15px;
-
-margin:5px;
-
-border-radius:20px;
-
-cursor:pointer;
-
-}
-
-
-
-.suggestion:hover{
-
-
-background:#2563eb;
-
-color:white;
-
-}
-
-
-
-
-
-
-
-
-/* =====================================================
-   SCROLL BAR
-===================================================== */
-
-
-::-webkit-scrollbar{
-
-width:8px;
-
-}
-
-
-
-::-webkit-scrollbar-thumb{
-
-background:#2563eb;
-
-border-radius:10px;
-
-}
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   ANIMATION
-===================================================== */
-
-
-@keyframes fade{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(10px);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   MOBILE RESPONSIVE
-===================================================== */
-
-
-@media(max-width:900px){
-
-
-
-.sidebar{
-
-position:relative;
-
-width:100%;
-
-height:auto;
-
-}
-
-
-
-.dashboard{
-
-flex-direction:column;
-
-}
-
-
-
-.main-content{
-
-
-margin-left:0;
-
-width:100%;
-
-padding:15px;
-
-}
-
-
-
-.chat-container{
-
-height:70vh;
-
-}
-
+font-size:16px;
 
 }
