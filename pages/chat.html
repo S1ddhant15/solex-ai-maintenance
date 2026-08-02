@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Solex AI Chat Assistant</title>
+<title>Solex AI Maintenance Assistant</title>
 
 <link rel="stylesheet" href="../css/style.css">
 
@@ -14,129 +14,134 @@
 
 </head>
 
-
 <body>
 
+<div class="dashboard">
 
-<div class="chat-container">
+<!-- Sidebar -->
 
+<div class="sidebar">
 
-    <!-- Header -->
+<div class="logo-area">
+<h2>🤖 SAMA</h2>
+<p>AI Maintenance</p>
+</div>
 
-    <div class="chat-header">
+<ul>
 
-        <h2>
-            🤖 Solex AI Maintenance Assistant
-        </h2>
+<li onclick="location.href='../dashboard.html'">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</li>
 
-        <p>
-            Smart Troubleshooting Support
-        </p>
+<li onclick="location.href='machines.html'">
+<i class="fa-solid fa-gears"></i>
+Machines
+</li>
 
-    </div>
+<li class="active">
+<i class="fa-solid fa-robot"></i>
+AI Chat
+</li>
 
+<li onclick="location.href='alarms.html'">
+<i class="fa-solid fa-triangle-exclamation"></i>
+Alarm Lookup
+</li>
 
+<li onclick="location.href='pm.html'">
+<i class="fa-solid fa-screwdriver-wrench"></i>
+PM
+</li>
 
-    <!-- Messages -->
+<li onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</li>
 
-    <div class="chat-messages" id="chatMessages">
-
-
-        <div class="message bot">
-
-            Hello 👋
-
-            <br><br>
-
-            I am Solex AI Maintenance Assistant.
-
-            <br><br>
-
-            You can ask me about:
-
-            <br><br>
-
-            🔧 Machine Faults
-            <br>
-            ⚠ PLC Alarms
-            <br>
-            🛠 Maintenance Problems
-            <br>
-            📋 SOP Guidance
-
-        </div>
-
-
-
-    </div>
-
-
-
-    <!-- Suggested Questions -->
-
-
-    <div class="suggestions">
-
-
-        <button onclick="sendSuggestion('Laminator Vacuum Error')">
-            Vacuum Error
-        </button>
-
-
-        <button onclick="sendSuggestion('Servo Alarm')">
-            Servo Alarm
-        </button>
-
-
-        <button onclick="sendSuggestion('Heater Temperature Issue')">
-            Heater Fault
-        </button>
-
-
-        <button onclick="sendSuggestion('EL Camera Fault')">
-            EL Camera
-        </button>
-
-
-    </div>
-
-
-
-    <!-- Input -->
-
-
-    <div class="chat-input">
-
-
-        <input 
-        type="text"
-        id="userInput"
-        placeholder="Ask maintenance question..."
-        onkeypress="checkEnter(event)"
-        >
-
-
-        <button onclick="sendMessage()">
-
-            <i class="fa-solid fa-paper-plane"></i>
-
-        </button>
-
-
-    </div>
-
-
+</ul>
 
 </div>
 
+<!-- Main -->
 
+<div class="main-content">
 
-<script src="../js/app.js"></script>
-<script src="../js/alarmDatabase.js"></script>
+<div class="topbar">
+
+<h1>🤖 Solex AI Maintenance Assistant</h1>
+
+</div>
+
+<div class="chat-container">
+
+<div id="chatBox" class="chat-box">
+
+<div class="bot-message">
+
+👋 Hello! I am <b>SAMA</b>.
+
+Ask me anything about:
+
+<br><br>
+
+✅ Machine Breakdown
+
+<br>
+
+✅ Alarm Codes
+
+<br>
+
+✅ PM Checklist
+
+<br>
+
+✅ Spare Parts
+
+<br>
+
+✅ Troubleshooting
+
+</div>
+
+</div>
+
+<div class="chat-input">
+
+<input
+
+type="text"
+
+id="userInput"
+
+placeholder="Ask about any machine..."
+
+onkeypress="if(event.key==='Enter')sendMessage();">
+
+<button onclick="sendMessage()">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <script src="../js/database.js"></script>
+
 <script src="../js/knowledge.js"></script>
+
+<script src="../js/alarmDatabase.js"></script>
+
 <script src="../js/chat.js"></script>
 
+<script src="../js/app.js"></script>
 
 </body>
 
