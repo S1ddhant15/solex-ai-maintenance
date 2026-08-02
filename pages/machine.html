@@ -409,3 +409,77 @@ window.location.href="chat.html";
 </body>
 
 </html>
+
+<script src="../js/app.js"></script>
+
+<script>
+const machine = localStorage.getItem("selectedMachine") || "No Machine Selected";
+
+// Update page title
+document.getElementById("machineTitle").innerHTML = machine;
+
+// Sample Data
+const machines = {
+
+"Stringer 01":{
+
+status:"Running",
+
+health:"97%",
+
+department:"Stringing",
+
+manufacturer:"Autowell"
+
+},
+
+"Laminator 01":{
+
+status:"Running",
+
+health:"94%",
+
+department:"Lamination",
+
+manufacturer:"Boostsolar"
+
+},
+
+"EL Tester":{
+
+status:"Running",
+
+health:"98%",
+
+department:"Inspection",
+
+manufacturer:"BT Imaging"
+
+},
+
+"Bussing Machine":{
+
+status:"Stopped",
+
+health:"81%",
+
+department:"Bussing",
+
+manufacturer:"Jinchen"
+
+}
+
+};
+
+if(machines[machine]){
+
+document.getElementById("status").innerHTML = machines[machine].status;
+
+document.getElementById("health").innerHTML = machines[machine].health;
+
+document.getElementById("department").innerHTML = machines[machine].department;
+
+document.getElementById("manufacturer").innerHTML = machines[machine].manufacturer;
+
+}
+</script>
