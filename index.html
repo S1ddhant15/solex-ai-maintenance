@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solex AI Maintenance Assistant</title>
 
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="login-container">
+
+    <div class="logo">
+        <img src="images/logo.png" alt="Solex Logo">
+        <h1>Solex AI Maintenance</h1>
+        <p>Smart Machine Maintenance Assistant</p>
+    </div>
+
+    <div class="login-card">
+
+        <h2>Welcome</h2>
+
+        <p>Please login to continue</p>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Employee ID">
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password">
+
+        <select id="department">
+
+            <option value="">Select Department</option>
+
+            <option>Maintenance</option>
+
+            <option>Production</option>
+
+            <option>Quality</option>
+
+            <option>Operation Excellence</option>
+
+            <option>Utility</option>
+
+        </select>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
