@@ -1243,3 +1243,36 @@ height:85vh;
 
 
 }
+
+/* SAMA Suggestion Buttons */
+
+
+.suggestion{
+
+background:#eff6ff;
+
+border:1px solid #2563eb;
+
+color:#2563eb;
+
+padding:8px 14px;
+
+border-radius:20px;
+
+margin:5px;
+
+cursor:pointer;
+
+font-size:14px;
+
+}
+
+
+
+.suggestion:hover{
+
+background:#2563eb;
+
+color:white;
+
+}
