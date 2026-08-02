@@ -1,36 +1,12 @@
 // ==========================================
 // SOLEX AI MAINTENANCE ASSISTANT
-// CHAT ENGINE v2.0
-// Works with knowledge.js
+// CHAT ENGINE
 // ==========================================
 
-// Chat Container
-const chatMessages = document.getElementById("chatMessages");
-
-// Auto-open problem from other pages
-window.onload = function () {
-
-    const selectedProblem = localStorage.getItem("selectedProblem");
-
-    if (selectedProblem) {
-
-        document.getElementById("userInput").value = selectedProblem;
-
-        localStorage.removeItem("selectedProblem");
-
-        sendMessage();
-    }
-
-};
-
-
-// =========================
-// SEND MESSAGE
-// =========================
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("userInput");
 
 function sendMessage() {
-
-    const input = document.getElementById("userInput");
 
     const question = input.value.trim();
 
@@ -40,246 +16,197 @@ function sendMessage() {
 
     input.value = "";
 
-    showTyping();
-
     setTimeout(() => {
 
-        removeTyping();
+        processQuestion(question);
 
-        generateAIResponse(question);
-
-    }, 1200);
+    }, 600);
 
 }
-
-
-
-// =========================
-// ENTER KEY
-// =========================
-
-function checkEnter(event) {
-
-    if (event.key === "Enter") {
-
-        sendMessage();
-
-    }
-
-}
-
-
-
-// =========================
-// SUGGESTION BUTTONS
-// =========================
-
-function sendSuggestion(text) {
-
-    document.getElementById("userInput").value = text;
-
-    sendMessage();
-
-}
-
-
-
-// =========================
-// ADD MESSAGE
-// =========================
 
 function addMessage(message, sender) {
 
     const div = document.createElement("div");
 
-    div.className = "message " + sender;
+    div.className = sender === "user"
+        ? "user-message"
+        : "bot-message";
 
     div.innerHTML = message;
 
-    chatMessages.appendChild(div);
+    chatBox.appendChild(div);
 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-}
-
-
-
-// =========================
-// TYPING ANIMATION
-// =========================
-
-function showTyping() {
-
-    const div = document.createElement("div");
-
-    div.className = "message bot";
-
-    div.id = "typing";
-
-    div.innerHTML = "🤖 AI is analysing the problem...";
-
-    chatMessages.appendChild(div);
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
 
 }
 
+function processQuestion(question) {
 
+    let q = question.toLowerCase();
 
-function removeTyping() {
+    // Machine Knowledge
+    let machine = searchKnowledge(q);
 
-    const typing = document.getElementById("typing");
+    if (machine) {
 
-    if (typing) {
+        let answer = `
 
-        typing.remove();
+<b>🏭 Machine</b>
 
-    }
-
-}
-
-
-
-// =========================
-// AI RESPONSE
-// =========================
-
-function generateAIResponse(question) {
-
-    const alarm = searchAlarm(question);
-
-if(alarm){
-
-    let answer = `
-
-<b>Alarm Code</b><br>
-${alarm.code}
+${machine.machine}
 
 <br><br>
 
-<b>Machine</b><br>
-${alarm.machine}
+<b>⚠ Issue</b>
+
+${machine.title}
 
 <br><br>
 
-<b>Alarm</b><br>
-${alarm.alarm}
+<b>🔍 Possible Causes</b>
+
+<br>
+
+${machine.causes.map(c=>"• "+c).join("<br>")}
 
 <br><br>
 
-<b>Cause</b><br>
-${alarm.cause}
+<b>✅ Recommended Checks</b>
+
+<br>
+
+${machine.checks.map(c=>"✓ "+c).join("<br>")}
 
 <br><br>
 
-<b>Corrective Actions</b><br>
-${alarm.action.map(a=>"✓ "+a).join("<br>")}
+<b>🛠 Estimated Repair</b>
+
+${machine.repair}
+
+<br><br>
+
+<b>🦺 Safety</b>
+
+${machine.safety}
 
 `;
 
-    addMessage(answer,"bot");
-
-    return;
-
-}
-    const result = searchKnowledge(question);
-
-    if (result) {
-
-        const answer = `
-
-<b>🔧 Machine</b><br>
-${result.machine}
-
-<br><br>
-
-<b>⚠ Issue</b><br>
-${result.title}
-
-<br><br>
-
-<b>Possible Causes</b><br>
-${result.causes.map(c => "• " + c).join("<br>")}
-
-<br><br>
-
-<b>Recommended Checks</b><br>
-${result.checks.map(c => "✓ " + c).join("<br>")}
-
-<br><br>
-
-<b>Estimated Repair Time</b><br>
-${result.repair}
-
-<br><br>
-
-<b>Safety Instruction</b><br>
-${result.safety}
-
-        `;
-
-        addMessage(answer, "bot");
+        addMessage(answer,"bot");
 
         return;
 
     }
 
+    // Alarm Database
 
+    let alarm = searchAlarm(question);
 
-    // Default Response
+    if(alarm){
 
-    const answer = `
+        let answer = `
 
-<b>🤖 Solex AI Assistant</b>
+<b>🚨 Alarm Code</b>
 
-<br><br>
-
-I couldn't find an exact solution.
-
-Please provide:
+${alarm.code}
 
 <br><br>
 
-• Machine Name
+<b>Description</b>
 
-<br>
-
-• Alarm Code
-
-<br>
-
-• Error Message
-
-<br>
-
-• Machine Status
+${alarm.description}
 
 <br><br>
 
-<b>Example Questions</b>
+<b>Possible Causes</b>
+
+<br>
+
+${alarm.causes.map(c=>"• "+c).join("<br>")}
 
 <br><br>
 
-• Laminator Vacuum Error
+<b>Corrective Action</b>
 
 <br>
 
-• Servo Alarm
-
-<br>
-
-• Heater Temperature Low
-
-<br>
-
-• EL Camera Fault
-
-<br>
-
-• Conveyor Motor Not Running
+${alarm.solution.map(c=>"✓ "+c).join("<br>")}
 
 `;
 
-    addMessage(answer, "bot");
+        addMessage(answer,"bot");
+
+        return;
+
+    }
+
+    // Greetings
+
+    if(q.includes("hello") || q.includes("hi")){
+
+        addMessage("👋 Hello! How can I help you today?", "bot");
+
+        return;
+
+    }
+
+    // Machine List
+
+    if(q.includes("machine")){
+
+        addMessage(`
+
+<b>Available Machines</b>
+
+<br><br>
+
+⚙️ Stringer 01
+
+<br>
+
+🔥 Laminator 01
+
+<br>
+
+📷 EL Tester
+
+<br>
+
+🔧 Bussing Machine
+
+`, "bot");
+
+        return;
+
+    }
+
+    // Default
+
+    addMessage(`
+
+Sorry, I couldn't find that information.
+
+Try asking:
+
+• Servo Alarm E205
+
+• Laminator Vacuum
+
+• Stringer Conveyor
+
+• PM Checklist
+
+• EL Tester
+
+`, "bot");
 
 }
+
+input.addEventListener("keypress", function(e){
+
+    if(e.key==="Enter"){
+
+        sendMessage();
+
+    }
+
+});
