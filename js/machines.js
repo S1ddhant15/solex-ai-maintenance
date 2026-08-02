@@ -17,11 +17,19 @@ async function loadMachines() {
 
     }
 
-    catch (error) {
+ catch (error) {
 
-        console.error(error);
+    console.error("Unable to load machines:", error);
 
-    }
+    document.getElementById("machineContainer").innerHTML = `
+        <div class="card">
+            <h3>⚠ Error</h3>
+            <p>Unable to load machine database.</p>
+            <p>Please check data/machines.json</p>
+        </div>
+    `;
+
+}
 
 }
 
