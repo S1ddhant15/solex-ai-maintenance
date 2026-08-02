@@ -1,6 +1,12 @@
 // ==========================================
 // SOLEX AI MAINTENANCE ASSISTANT
-// MACHINE LIBRARY
+// MACHINES.JS
+// ==========================================
+
+let machineList = [];
+
+// ==========================================
+// Load Machines
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", loadMachines);
@@ -13,25 +19,26 @@ async function loadMachines() {
 
         const data = await response.json();
 
-        displayMachines(data.machines);
+        machineList = data.machines;
+
+        displayMachines(machineList);
 
     }
 
- catch (error) {
+    catch (error) {
 
-    console.error("Unable to load machines:", error);
+        console.error("Machine data could not be loaded.", error);
 
-    document.getElementById("machineContainer").innerHTML = `
-        <div class="card">
-            <h3>⚠ Error</h3>
-            <p>Unable to load machine database.</p>
-            <p>Please check data/machines.json</p>
-        </div>
-    `;
+        document.getElementById("machineContainer").innerHTML =
+        "<h3>❌ Unable to load machine database.</h3>";
+
+    }
 
 }
 
-}
+// ==========================================
+// Display Machine Cards
+// ==========================================
 
 function displayMachines(machines) {
 
@@ -41,22 +48,43 @@ function displayMachines(machines) {
 
     machines.forEach(machine => {
 
+        let healthClass = getHealthClass(machine.health);
+
+        let statusBadge = getStatusBadge(machine.status);
+
         container.innerHTML += `
 
         <div class="card machine-card"
-        onclick="openMachine('${machine.name}')">
+        onclick="openMachine(${machine.id})">
 
             <h3>${getIcon(machine.name)} ${machine.name}</h3>
 
-            <p><b>Status :</b> ${machine.status}</p>
-
-            <p><b>Health :</b> ${machine.health}%</p>
-
             <p><b>Department :</b> ${machine.department}</p>
+
+            <p><b>Status :</b> ${statusBadge}</p>
+
+            <p>
+                <b>Health :</b>
+
+                <span class="${healthClass}">
+
+                ${machine.health}%
+
+                </span>
+
+            </p>
+
+            <p><b>Running Hours :</b> ${machine.runningHours}</p>
+
+            <p><b>Next PM :</b> ${machine.nextPM}</p>
+
+            <p><b>Alarm :</b> ${machine.alarm}</p>
+
+            <p><b>AI Score :</b> ⭐ ${machine.aiScore}</p>
 
             <button class="btn btn-primary">
 
-            View Details
+                View Details
 
             </button>
 
@@ -68,51 +96,118 @@ function displayMachines(machines) {
 
 }
 
+// ==========================================
+// Health Color
+// ==========================================
+
+function getHealthClass(value){
+
+    if(value>=95)
+        return "health-good";
+
+    if(value>=85)
+        return "health-warning";
+
+    return "health-danger";
+
+}
+
+// ==========================================
+// Status Badge
+// ==========================================
+
+function getStatusBadge(status){
+
+    switch(status){
+
+        case "Running":
+
+            return '<span class="badge badge-running">🟢 Running</span>';
+
+        case "Stopped":
+
+            return '<span class="badge badge-stopped">🔴 Stopped</span>';
+
+        default:
+
+            return '<span class="badge badge-warning">🟡 Attention</span>';
+
+    }
+
+}
+
+// ==========================================
+// Icons
+// ==========================================
+
 function getIcon(name){
 
-    if(name.toLowerCase().includes("string"))
+    let machine = name.toLowerCase();
+
+    if(machine.includes("string"))
         return "⚙️";
 
-    if(name.toLowerCase().includes("laminator"))
+    if(machine.includes("laminator"))
         return "🔥";
 
-    if(name.toLowerCase().includes("el"))
+    if(machine.includes("el"))
         return "📷";
 
-    if(name.toLowerCase().includes("bussing"))
+    if(machine.includes("bussing"))
         return "🔧";
 
+    if(machine.includes("flash"))
+        return "💡";
+
+    if(machine.includes("frame"))
+        return "🪟";
+
+    if(machine.includes("junction"))
+        return "📦";
+
+    if(machine.includes("tape"))
+        return "🏷️";
+
+    if(machine.includes("packing"))
+        return "📦";
+
     return "🏭";
-}
-
-function openMachine(machine){
-
-    localStorage.setItem("selectedMachine",machine);
-
-    window.location.href="./machine.html";
 
 }
+
+// ==========================================
+// Search
+// ==========================================
 
 function searchMachines(){
 
-    let input=document.getElementById("machineSearch").value.toLowerCase();
+    let keyword = document
+        .getElementById("machineSearch")
+        .value
+        .toLowerCase();
 
-    let cards=document.querySelectorAll(".machine-card");
+    let filtered = machineList.filter(machine =>
 
-    cards.forEach(card=>{
+        machine.name.toLowerCase().includes(keyword) ||
 
-        if(card.innerText.toLowerCase().includes(input)){
+        machine.department.toLowerCase().includes(keyword) ||
 
-            card.style.display="block";
+        machine.status.toLowerCase().includes(keyword)
 
-        }
+    );
 
-        else{
+    displayMachines(filtered);
 
-            card.style.display="none";
+}
 
-        }
+// ==========================================
+// Open Machine
+// ==========================================
 
-    });
+function openMachine(id){
+
+    localStorage.setItem("selectedMachineId", id);
+
+    window.location.href = "machine.html";
 
 }
