@@ -747,3 +747,40 @@ table{
 }
 
 }
+
+/* ==================================
+   ALARM LOOKUP
+================================== */
+
+
+.alarm-card{
+
+border-left:5px solid #ef4444;
+
+}
+
+
+.search-box{
+
+margin-bottom:25px;
+
+}
+
+
+.search-box input{
+
+width:100%;
+
+padding:16px;
+
+background:#1e293b;
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+font-size:16px;
+
+}
