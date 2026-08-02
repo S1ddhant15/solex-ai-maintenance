@@ -7,7 +7,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Solex AI Maintenance Assistant</title>
+
+<title>SAMA - Solex AI Maintenance Assistant</title>
 
 
 <link rel="stylesheet" href="../css/style.css">
@@ -29,44 +30,40 @@ rel="stylesheet">
 
 
 <!-- =========================
-SIDEBAR
+     SIDEBAR
 ========================= -->
 
 
 <div class="sidebar">
 
 
+
 <div class="logo-area">
 
-<h2>🤖 SAMA</h2>
 
-<p>AI Maintenance</p>
+<img 
+src="../assets/solex-logo.png"
+class="solex-logo"
+alt="Solex Logo">
+
+
+<h2>
+🤖 SAMA
+</h2>
+
+
+<p>
+AI Maintenance Assistant
+</p>
+
 
 </div>
 
 
 
+
+
 <ul>
-
-
-<li onclick="location.href='../dashboard.html'">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</li>
-
-
-
-<li onclick="location.href='machines.html'">
-
-<i class="fa-solid fa-gears"></i>
-
-Machines
-
-</li>
-
 
 
 <li class="active">
@@ -79,36 +76,70 @@ AI Chat
 
 
 
-<li onclick="location.href='alarms.html'">
+
+
+<li onclick="alert('Machine Status Coming Soon')">
+
+<i class="fa-solid fa-gears"></i>
+
+Machine Status
+
+</li>
+
+
+
+
+
+<li onclick="alert('Alarm History Coming Soon')">
 
 <i class="fa-solid fa-triangle-exclamation"></i>
 
-Alarm Lookup
+Alarm History
 
 </li>
 
 
 
-<li onclick="location.href='pm.html'">
 
-<i class="fa-solid fa-screwdriver-wrench"></i>
 
-PM
+<li onclick="alert('PM Schedule Coming Soon')">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+PM Schedule
+
+</li>
+
+
+
+
+
+<li onclick="alert('Spare Inventory Coming Soon')">
+
+<i class="fa-solid fa-box"></i>
+
+Spare Inventory
 
 </li>
 
 
 
-<li onclick="logout()">
 
-<i class="fa-solid fa-right-from-bracket"></i>
 
-Logout
+<li onclick="alert('Breakdown History Coming Soon')">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+Breakdown History
 
 </li>
+
+
+
 
 
 </ul>
+
 
 
 </div>
@@ -117,8 +148,10 @@ Logout
 
 
 
+
+
 <!-- =========================
-MAIN CONTENT
+     MAIN CONTENT
 ========================= -->
 
 
@@ -126,11 +159,15 @@ MAIN CONTENT
 
 
 
+
+
 <div class="topbar">
 
 
 <h1>
+
 🤖 Solex AI Maintenance Assistant
+
 </h1>
 
 
@@ -140,20 +177,56 @@ MAIN CONTENT
 
 
 
-<!-- =========================
-CHAT AREA
-========================= -->
+
+
+
+<!-- CHAT AREA -->
 
 
 <div class="chat-container">
 
 
 
-<div 
-id="chatBox" 
-class="chat-box">
+
+
+
+<div class="chat-header">
+
+
+🤖 SAMA
+
+
+<span>
+
+Online
+
+🟢
+
+</span>
+
 
 </div>
+
+
+
+
+
+
+
+
+<div id="chatBox" class="chat-box">
+
+
+
+<!-- Messages will appear here -->
+
+
+
+</div>
+
+
+
+
 
 
 
@@ -163,7 +236,7 @@ class="chat-box">
 
 
 
-<input
+<input 
 
 
 type="text"
@@ -172,10 +245,11 @@ type="text"
 id="userInput"
 
 
-placeholder="Ask about machine, alarm, PM..."
+placeholder="Ask SAMA about machine, alarm, PM, spare..."
 
 
 onkeypress="if(event.key==='Enter') sendMessage();"
+
 
 
 >
@@ -188,13 +262,13 @@ onkeypress="if(event.key==='Enter') sendMessage();"
 <i class="fa-solid fa-paper-plane"></i>
 
 
+Send
+
+
 </button>
 
 
 
-</div>
-
-
 
 </div>
 
@@ -202,40 +276,54 @@ onkeypress="if(event.key==='Enter') sendMessage();"
 
 
 
+
+</div>
+
+
+
+
+
+
+
 </div>
 
 
 </div>
+
+
+
 
 
 
 
 
 <!-- =========================
-SAMA ENGINE FILES
-ORDER IS IMPORTANT
+     JAVASCRIPT LOAD ORDER
 ========================= -->
 
 
 <script src="../js/database.js"></script>
 
+
 <script src="../js/knowledge.js"></script>
+
 
 <script src="../js/alarmDatabase.js"></script>
 
-<script src="../js/pmDatabase.js"></script>
 
 <script src="../js/spareDatabase.js"></script>
 
+
 <script src="../js/breakdownHistory.js"></script>
 
+
 <script src="../js/aiEngine.js"></script>
+
 
 <script src="../js/chat.js"></script>
 
 
 
 </body>
-
 
 </html>
