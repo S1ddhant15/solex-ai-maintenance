@@ -1,324 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Solex AI Maintenance Dashboard</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-<div class="dashboard">
-
-<!-- Sidebar -->
-
-<div class="sidebar">
-
-<div class="logo-area">
-
-<h2>🤖 SAMA</h2>
-
-<p>AI Maintenance</p>
-
-</div>
-
 <ul>
 
 <li onclick="location.href='home.html'">
 <i class="fa-solid fa-house"></i>
-Home
+<span>Home</span>
 </li>
 
-<li onclick="location.href='dashboard.html'" class="active">
+<li class="active" onclick="location.href='dashboard.html'">
 <i class="fa-solid fa-chart-line"></i>
-Dashboard
+<span>Dashboard</span>
 </li>
 
 <li onclick="location.href='pages/chat.html'">
 <i class="fa-solid fa-comments"></i>
-AI Chat
+<span>AI Chat</span>
 </li>
 
 <li onclick="location.href='pages/machines.html'">
 <i class="fa-solid fa-gears"></i>
-Machines
+<span>Machines</span>
+</li>
+
+<li onclick="location.href='pages/machine.html'">
+<i class="fa-solid fa-microchip"></i>
+<span>Machine Monitor</span>
 </li>
 
 <li onclick="location.href='pages/alarms.html'">
 <i class="fa-solid fa-triangle-exclamation"></i>
-Alarm Lookup
+<span>Alarm Lookup</span>
 </li>
 
 <li onclick="location.href='pages/pm.html'">
 <i class="fa-solid fa-screwdriver-wrench"></i>
-PM
+<span>Preventive Maintenance</span>
+</li>
+
+<li onclick="location.href='pages/workorder.html'">
+<i class="fa-solid fa-clipboard-list"></i>
+<span>Work Orders</span>
+</li>
+
+<li onclick="location.href='pages/analytics.html'">
+<i class="fa-solid fa-chart-column"></i>
+<span>Analytics</span>
+</li>
+
+<li onclick="location.href='pages/notifications.html'">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
 </li>
 
 <li onclick="location.href='pages/settings.html'">
 <i class="fa-solid fa-gear"></i>
-Settings
+<span>Settings</span>
 </li>
 
 <li onclick="logout()">
 <i class="fa-solid fa-right-from-bracket"></i>
-Logout
+<span>Logout</span>
 </li>
 
 </ul>
-
-</div>
-
-<!-- Main -->
-
-<div class="main-content">
-
-<div class="topbar">
-
-<div>
-
-<h1>Maintenance Dashboard</h1>
-
-<p>Real-time Machine Overview</p>
-
-</div>
-
-</div>
-
-<!-- KPI Cards -->
-
-<div class="cards">
-
-<div class="card">
-
-<h3>🟢 Machine Health</h3>
-
-<h1>96%</h1>
-
-<p>Overall Equipment Condition</p>
-
-</div>
-
-<div class="card">
-
-<h3>⏱ MTTR</h3>
-
-<h1>18 min</h1>
-
-<p>Average Repair Time</p>
-
-</div>
-
-<div class="card">
-
-<h3>📈 MTBF</h3>
-
-<h1>320 hrs</h1>
-
-<p>Mean Time Between Failures</p>
-
-</div>
-
-<div class="card">
-
-<h3>⚠ Active Alarms</h3>
-
-<h1>4</h1>
-
-<p>Machines Requiring Attention</p>
-
-</div>
-
-<div class="card">
-
-<h3>🛠 PM Compliance</h3>
-
-<h1>92%</h1>
-
-<p>Preventive Maintenance Completion</p>
-
-</div>
-
-<div class="card">
-
-<h3>📉 Downtime Today</h3>
-
-<h1>34 min</h1>
-
-<p>Total Production Downtime</p>
-
-</div>
-
-</div>
-
-<!-- Machine Status -->
-
-<div class="recent">
-
-<h2>Machine Status</h2>
-
-<table>
-
-<tr>
-
-<th>Machine</th>
-<th>Status</th>
-<th>Health</th>
-<th>Last Alarm</th>
-
-</tr>
-
-<tr>
-
-<td>Laminator</td>
-
-<td class="status-success">Running</td>
-
-<td>98%</td>
-
-<td>E101</td>
-
-</tr>
-
-<tr>
-
-<td>Stringer</td>
-
-<td class="status-warning">Attention</td>
-
-<td>88%</td>
-
-<td>E205</td>
-
-</tr>
-
-<tr>
-
-<td>EL Tester</td>
-
-<td class="status-success">Running</td>
-
-<td>97%</td>
-
-<td>None</td>
-
-</tr>
-
-<tr>
-
-<td>Bussing Machine</td>
-
-<td class="status-danger">Stopped</td>
-
-<td>72%</td>
-
-<td>S101</td>
-
-</tr>
-
-</table>
-
-</div>
-
-<!-- AI Recommendation -->
-
-<div class="recent">
-
-<h2>🤖 AI Maintenance Recommendations</h2>
-
-<div class="card">
-
-<p>✔ Stringer Servo temperature has increased for three consecutive shifts.</p>
-
-<p>✔ Schedule preventive inspection within the next 24 hours.</p>
-
-<p>✔ Laminator Vacuum Pump runtime exceeds 800 hours.</p>
-
-<p>✔ Replace vacuum filter during next maintenance window.</p>
-
-<p>✔ EL Camera communication failures increased by 12% this week.</p>
-
-</div>
-
-</div>
-
-<!-- Quick Access -->
-
-<div class="recent">
-
-<h2>🚀 Quick Access</h2>
-
-<div class="cards">
-
-<div class="card" onclick="location.href='pages/chat.html'" style="cursor:pointer;">
-
-<h3>🤖 AI Chat</h3>
-
-<p>Ask AI about machine breakdowns and troubleshooting.</p>
-
-</div>
-
-<div class="card" onclick="location.href='pages/machines.html'" style="cursor:pointer;">
-
-<h3>⚙ Machine Library</h3>
-
-<p>View all production machines and health status.</p>
-
-</div>
-
-<div class="card" onclick="location.href='pages/alarms.html'" style="cursor:pointer;">
-
-<h3>🚨 Alarm Lookup</h3>
-
-<p>Search PLC, Servo and Machine alarm codes.</p>
-
-</div>
-
-<div class="card" onclick="location.href='pages/pm.html'" style="cursor:pointer;">
-
-<h3>🛠 Preventive Maintenance</h3>
-
-<p>Daily, Weekly and Monthly PM checklists.</p>
-
-</div>
-
-<div class="card" onclick="location.href='pages/workorder.html'" style="cursor:pointer;">
-
-<h3>📋 Work Orders</h3>
-
-<p>Create AI-generated maintenance work orders.</p>
-
-</div>
-
-<div class="card" onclick="location.href='pages/analytics.html'" style="cursor:pointer;">
-
-<h3>📊 Analytics</h3>
-
-<p>Machine Health, MTTR, MTBF and Downtime KPIs.</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script src="js/app.js"></script>
-<script src="js/alarmDatabase.js"></script>
-<script src="js/database.js"></script>
-<script src="js/knowledge.js"></script>
-<script src="js/chat.js"></script>
-
-</body>
-
-</html>
