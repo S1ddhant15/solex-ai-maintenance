@@ -1,208 +1,246 @@
+// ==========================================
+// SOLEX AI MAINTENANCE ASSISTANT
+// KNOWLEDGE BASE
+// ==========================================
+
 const knowledgeBase = [
 
 {
-    machine:"Stringer 01",
-
-    title:"String Stops Frequently",
-
-    keywords:["stringer","stop","conveyor","cell jam"],
-
-    causes:[
-        "Dirty conveyor sensor",
-        "Servo overload",
-        "Cell jam",
-        "Encoder cable loose"
-    ],
-
-    checks:[
-        "Clean photo sensor",
-        "Inspect conveyor",
-        "Check encoder cable",
-        "Reset servo drive"
-    ],
-
-    repair:"15-30 Minutes",
-
-    safety:"Lockout power before maintenance.",
-
-    tools:[
-        "Allen Key Set",
-        "Multimeter",
-        "Air Gun"
-    ],
-
-    spareParts:[
-        "Photo Sensor",
-        "Encoder",
-        "Servo Coupling"
-    ],
-
-    technician:"Mechanical + Electrical",
-
-    priority:"High"
+machine:"Stringer",
+title:"Servo Overload",
+keywords:["servo","overload","stringer","e101"],
+causes:[
+"Servo motor overloaded",
+"Mechanical obstruction",
+"Guide rail jam",
+"Wrong acceleration parameter"
+],
+checks:[
+"Reset Servo Alarm",
+"Inspect mechanical movement",
+"Check guide rails",
+"Verify servo parameter"
+],
+repair:"20-30 Minutes",
+safety:"Switch OFF Main Power before maintenance."
 },
 
 {
-    machine:"Laminator 01",
-
-    title:"Low Vacuum Alarm",
-
-    keywords:["laminator","vacuum","low vacuum"],
-
-    causes:[
-        "Vacuum leakage",
-        "Pump failure",
-        "Door gasket damage"
-    ],
-
-    checks:[
-        "Inspect pump",
-        "Check vacuum pipe",
-        "Replace gasket"
-    ],
-
-    repair:"30-45 Minutes",
-
-    safety:"Release chamber pressure before opening.",
-
-    tools:[
-        "Vacuum Gauge",
-        "Spanner Set"
-    ],
-
-    spareParts:[
-        "Vacuum Pump",
-        "Vacuum Valve",
-        "Door Gasket"
-    ],
-
-    technician:"Mechanical",
-
-    priority:"Critical"
+machine:"Stringer",
+title:"Ribbon Break",
+keywords:["ribbon","break"],
+causes:[
+"Low ribbon tension",
+"Damaged ribbon spool",
+"Guide pulley worn"
+],
+checks:[
+"Adjust ribbon tension",
+"Replace ribbon spool",
+"Inspect guide pulley"
+],
+repair:"15 Minutes",
+safety:"Wear safety gloves."
 },
 
 {
-    machine:"EL Tester",
-
-    title:"Camera Communication Failure",
-
-    keywords:["camera","el","image"],
-
-    causes:[
-        "LAN disconnected",
-        "Camera offline",
-        "Lens dirty"
-    ],
-
-    checks:[
-        "Restart camera",
-        "Clean lens",
-        "Check Ethernet cable"
-    ],
-
-    repair:"20 Minutes",
-
-    safety:"Switch OFF power.",
-
-    tools:[
-        "LAN Tester",
-        "Cleaning Cloth"
-    ],
-
-    spareParts:[
-        "Industrial Camera",
-        "Ethernet Cable"
-    ],
-
-    technician:"Electrical",
-
-    priority:"Medium"
+machine:"Laminator",
+title:"Vacuum Low",
+keywords:["vacuum","pump","laminator","low vacuum"],
+causes:[
+"Vacuum leakage",
+"Vacuum pump failure",
+"Door gasket damaged",
+"Vacuum filter clogged"
+],
+checks:[
+"Inspect vacuum line",
+"Replace filter",
+"Check gasket",
+"Verify pump"
+],
+repair:"30-45 Minutes",
+safety:"Machine must be cooled before maintenance."
 },
 
 {
-    machine:"Bussing Machine",
-
-    title:"Ribbon Feeding Error",
-
-    keywords:["bussing","ribbon","jam"],
-
-    causes:[
-        "Ribbon misalignment",
-        "Sensor dirty"
-    ],
-
-    checks:[
-        "Realign ribbon",
-        "Clean sensor"
-    ],
-
-    repair:"25 Minutes",
-
-    safety:"Stop machine before servicing.",
-
-    tools:[
-        "Allen Key",
-        "Brush"
-    ],
-
-    spareParts:[
-        "Ribbon Roller",
-        "Photo Sensor"
-    ],
-
-    technician:"Mechanical",
-
-    priority:"High"
+machine:"Laminator",
+title:"High Heater Temperature",
+keywords:["heater","temperature","high temperature"],
+causes:[
+"SSR failure",
+"Thermocouple fault",
+"PID parameter issue"
+],
+checks:[
+"Measure heater resistance",
+"Replace SSR",
+"Check thermocouple"
+],
+repair:"40 Minutes",
+safety:"Switch OFF heater supply."
 },
 
 {
-    machine:"Flash Tester",
+machine:"EL Tester",
+title:"Camera Offline",
+keywords:["camera","offline","el"],
+causes:[
+"LAN disconnected",
+"Power failure",
+"Camera software stopped"
+],
+checks:[
+"Restart camera",
+"Reconnect LAN",
+"Restart software"
+],
+repair:"15 Minutes",
+safety:"Power OFF camera."
+},
 
-    title:"Calibration Failure",
+{
+machine:"EL Tester",
+title:"Image Not Captured",
+keywords:["image","capture"],
+causes:[
+"Camera trigger failed",
+"PLC communication issue",
+"Poor lighting"
+],
+checks:[
+"Check trigger sensor",
+"Verify PLC",
+"Inspect LED lighting"
+],
+repair:"20 Minutes",
+safety:"Disconnect camera power."
+},
 
-    keywords:["flash","calibration"],
+{
+machine:"Bussing Machine",
+title:"Ribbon Misalignment",
+keywords:["bussing","alignment"],
+causes:[
+"Guide worn",
+"Improper calibration"
+],
+checks:[
+"Calibrate guide",
+"Replace worn guide"
+],
+repair:"20 Minutes",
+safety:"Stop conveyor before repair."
+},
 
-    causes:[
-        "Lamp ageing",
-        "Calibration expired"
-    ],
+{
+machine:"Flash Tester",
+title:"Light Intensity Low",
+keywords:["flash","light"],
+causes:[
+"Lamp ageing",
+"Power supply issue"
+],
+checks:[
+"Check lamp hours",
+"Inspect power supply"
+],
+repair:"25 Minutes",
+safety:"Wait for lamp cooling."
+},
 
-    checks:[
-        "Run calibration",
-        "Replace flash lamp"
-    ],
+{
+machine:"Framing Machine",
+title:"Frame Jam",
+keywords:["frame","jam"],
+causes:[
+"Pneumatic pressure low",
+"Improper frame alignment"
+],
+checks:[
+"Check air pressure",
+"Adjust frame guide"
+],
+repair:"15 Minutes",
+safety:"Release air pressure before maintenance."
+},
 
-    repair:"40 Minutes",
+{
+machine:"Junction Box",
+title:"Glue Dispensing Failure",
+keywords:["glue","dispensing","jb"],
+causes:[
+"Nozzle clogged",
+"Glue level low",
+"Pressure issue"
+],
+checks:[
+"Clean nozzle",
+"Refill glue",
+"Check dispensing pressure"
+],
+repair:"20 Minutes",
+safety:"Wear safety goggles."
+},
 
-    safety:"High Voltage.",
+{
+machine:"Auto Tape",
+title:"Tape Roll Empty",
+keywords:["tape","roll"],
+causes:[
+"Tape finished",
+"Improper loading"
+],
+checks:[
+"Load new tape roll",
+"Verify alignment"
+],
+repair:"10 Minutes",
+safety:"Keep hands away from rollers."
+},
 
-    tools:[
-        "Calibration Kit"
-    ],
-
-    spareParts:[
-        "Flash Lamp",
-        "Irradiance Sensor"
-    ],
-
-    technician:"Electrical",
-
-    priority:"Medium"
+{
+machine:"Packing",
+title:"Barcode Scanner Failure",
+keywords:["barcode","scanner"],
+causes:[
+"Scanner dirty",
+"Cable loose",
+"Scanner faulty"
+],
+checks:[
+"Clean scanner lens",
+"Reconnect cable",
+"Replace scanner"
+],
+repair:"15 Minutes",
+safety:"Power OFF scanner."
 }
 
 ];
 
+// ==========================================
+// SEARCH FUNCTION
+// ==========================================
+
 function searchKnowledge(question){
 
-    question=question.toLowerCase();
+question = question.toLowerCase();
 
-    for(let item of knowledgeBase){
+for(let item of knowledgeBase){
 
-        if(item.keywords.some(k=>question.includes(k.toLowerCase())))
-            return item;
+for(let keyword of item.keywords){
 
-    }
+if(question.includes(keyword.toLowerCase())){
 
-    return null;
+return item;
+
+}
+
+}
+
+}
+
+return null;
 
 }
