@@ -6,327 +6,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Solex AI - Settings</title>
+<title>Settings</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
 </head>
 
-
 <body>
 
-
 <div class="dashboard">
-
-
-<!-- Sidebar -->
 
 <div class="sidebar">
 
 <div class="logo-area">
-
 <h2>🤖 SAMA</h2>
-
 <p>AI Maintenance</p>
-
 </div>
-
 
 <ul>
 
-<li onclick="location.href='home.html'">
-
-<i class="fa-solid fa-house"></i>
-Home
-
+<li onclick="location.href='../dashboard.html'">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
 </li>
-
 
 <li onclick="location.href='chat.html'">
-
 <i class="fa-solid fa-comments"></i>
 AI Chat
-
 </li>
-
 
 <li onclick="location.href='machines.html'">
-
 <i class="fa-solid fa-gears"></i>
 Machines
-
 </li>
 
-
-<li onclick="location.href='alarms.html'">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-Alarms
-
+<li onclick="location.href='analytics.html'">
+<i class="fa-solid fa-chart-column"></i>
+Analytics
 </li>
-
-
-<li onclick="location.href='pm.html'">
-
-<i class="fa-solid fa-screwdriver-wrench"></i>
-PM
-
-</li>
-
 
 <li class="active">
-
 <i class="fa-solid fa-gear"></i>
 Settings
-
 </li>
-
 
 <li onclick="logout()">
-
 <i class="fa-solid fa-right-from-bracket"></i>
 Logout
-
 </li>
-
 
 </ul>
 
 </div>
 
-
-
-
-
-<!-- Main -->
-
 <div class="main-content">
 
-
-<div class="topbar">
-
-<div>
-
-<h1>
-Settings
-</h1>
-
-<p>
-Application and user preferences
-</p>
-
-</div>
-
-</div>
-
-
-
-
+<h1>⚙ Settings</h1>
 
 <div class="cards">
 
+<div class="card">
 
+<h3>Application</h3>
 
-<!-- Profile -->
+<label>Theme</label>
+
+<select>
+
+<option>Dark</option>
+
+<option>Light</option>
+
+</select>
+
+</div>
 
 <div class="card">
 
+<h3>Notifications</h3>
 
-<h3>
-👤 User Profile
-</h3>
+<label>
 
+<input type="checkbox" checked>
 
-<p>
+ Enable AI Notifications
 
-Employee ID:
-
-</p>
-
-
-<h2 id="employee">
-Operator
-
-</h2>
-
-
-
-<p>
-
-Department:
-
-</p>
-
-
-<h3 id="department">
-Maintenance
-
-</h3>
-
+</label>
 
 </div>
-
-
-
-
-
-<!-- Application -->
 
 <div class="card">
 
+<h3>Language</h3>
 
-<h3>
-🤖 Application
-</h3>
+<select>
 
+<option>English</option>
 
-<p>
-Name:
+<option>Hindi</option>
 
-</p>
-
-
-<h3>
-Solex AI Maintenance Assistant
-</h3>
-
-
-<p>
-
-Version:
-
-1.0
-
-</p>
-
-
-<p>
-
-AI Engine:
-
-Local Knowledge Base
-
-</p>
-
+</select>
 
 </div>
-
-
-
-
-
-<!-- Theme -->
 
 <div class="card">
 
+<h3>About</h3>
 
-<h3>
-🌙 Theme
-</h3>
+<p>SAMA Version 1.0</p>
 
-
-<p>
-
-Dark Industrial Theme Enabled
-
-</p>
-
-
-<button class="btn btn-primary"
-onclick="changeTheme()">
-
-Change Theme
-
-</button>
-
+<p>Solex AI Maintenance Assistant</p>
 
 </div>
 
-
-
-
-
-<!-- Logout -->
-
-
-<div class="card">
-
-
-<h3>
-🚪 Account
-
-</h3>
-
-
-<p>
-
-Logout from current session
-
-</p>
-
-
-<button class="btn btn-danger"
-onclick="logout()">
-
-Logout
-
-</button>
-
+</div>
 
 </div>
 
-
-
 </div>
 
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<script src="js/app.js"></script>
-
-
-<script>
-
-
-document.getElementById("employee").innerHTML =
-
-localStorage.getItem("employee") || "Operator";
-
-
-
-document.getElementById("department").innerHTML =
-
-localStorage.getItem("department") || "Maintenance";
-
-
-
-
-
-function changeTheme(){
-
-
-alert(
-
-"Theme customization module will be added in next version"
-
-);
-
-
-}
-
-
-</script>
-
+<script src="../js/app.js"></script>
 
 </body>
 
