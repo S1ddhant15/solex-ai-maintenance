@@ -1,188 +1,66 @@
 // ==========================================
 // SOLEX AI MAINTENANCE ASSISTANT
-// CHAT ENGINE
+// CHAT ENGINE v2.0
+// Works with knowledge.js
 // ==========================================
 
-
+// Chat Container
 const chatMessages = document.getElementById("chatMessages");
 
+// Auto-open problem from other pages
+window.onload = function () {
 
-// Dummy Maintenance Knowledge Base
+    const selectedProblem = localStorage.getItem("selectedProblem");
 
-const knowledge = {
+    if (selectedProblem) {
 
-    "vacuum error": {
+        document.getElementById("userInput").value = selectedProblem;
 
-        title:"Laminator Vacuum Error",
+        localStorage.removeItem("selectedProblem");
 
-        response:`
-
-<b>Possible Causes:</b><br><br>
-
-1. Vacuum pump not running<br>
-2. Vacuum leakage in pipe line<br>
-3. Solenoid valve failure<br>
-4. Vacuum sensor malfunction<br>
-5. Filter blockage<br><br>
-
-
-<b>Recommended Checks:</b><br><br>
-
-✓ Check vacuum pump status<br>
-✓ Inspect vacuum hose leakage<br>
-✓ Verify solenoid valve operation<br>
-✓ Check sensor feedback in PLC<br>
-✓ Clean vacuum filter<br><br>
-
-
-<b>Estimated Repair Time:</b><br>
-
-20-30 minutes
-
-`
-
-    },
-
-
-    "servo alarm": {
-
-
-        title:"Servo Alarm",
-
-        response:`
-
-<b>Possible Causes:</b><br><br>
-
-1. Servo overload<br>
-2. Encoder cable loose<br>
-3. Motor temperature high<br>
-4. Servo drive fault<br>
-5. Mechanical obstruction<br><br>
-
-
-<b>Recommended Checks:</b><br><br>
-
-✓ Check servo drive alarm code<br>
-✓ Inspect motor movement<br>
-✓ Verify encoder connection<br>
-✓ Check mechanical alignment<br><br>
-
-
-<b>Estimated Repair Time:</b><br>
-
-15-30 minutes
-
-`
-
-    },
-
-
-    "heater": {
-
-
-        title:"Heater Temperature Issue",
-
-        response:`
-
-<b>Possible Causes:</b><br><br>
-
-1. Heater failure<br>
-2. SSR damaged<br>
-3. Thermocouple issue<br>
-4. PID controller error<br><br>
-
-
-<b>Recommended Checks:</b><br><br>
-
-✓ Measure heater current<br>
-✓ Check SSR output<br>
-✓ Verify thermocouple reading<br>
-✓ Check PID parameters<br><br>
-
-
-<b>Estimated Repair Time:</b><br>
-
-30 minutes
-
-`
-
-    },
-
-
-    "camera": {
-
-
-        title:"EL Camera Fault",
-
-        response:`
-
-<b>Possible Causes:</b><br><br>
-
-1. Camera communication error<br>
-2. Lighting issue<br>
-3. Lens contamination<br>
-4. Software trigger problem<br><br>
-
-
-<b>Recommended Checks:</b><br><br>
-
-✓ Restart camera software<br>
-✓ Clean lens<br>
-✓ Check Ethernet connection<br>
-✓ Verify trigger signal<br><br>
-
-
-<b>Estimated Repair Time:</b><br>
-
-15 minutes
-
-`
-
+        sendMessage();
     }
-
 
 };
 
 
+// =========================
+// SEND MESSAGE
+// =========================
 
-// Send Message
+function sendMessage() {
 
+    const input = document.getElementById("userInput");
 
-function sendMessage(){
+    const question = input.value.trim();
 
+    if (question === "") return;
 
-    let input=document.getElementById("userInput");
+    addMessage(question, "user");
 
-    let message=input.value.trim();
+    input.value = "";
 
+    showTyping();
 
-    if(message===""){
-        return;
-    }
+    setTimeout(() => {
 
+        removeTyping();
 
-    addMessage(message,"user");
+        generateAIResponse(question);
 
-
-    input.value="";
-
-
-    setTimeout(()=>{
-
-        generateAIResponse(message);
-
-    },800);
-
+    }, 1200);
 
 }
 
 
 
-// Enter Button
+// =========================
+// ENTER KEY
+// =========================
 
-function checkEnter(event){
+function checkEnter(event) {
 
-    if(event.key==="Enter"){
+    if (event.key === "Enter") {
 
         sendMessage();
 
@@ -192,12 +70,13 @@ function checkEnter(event){
 
 
 
+// =========================
+// SUGGESTION BUTTONS
+// =========================
 
-// Suggested Buttons
+function sendSuggestion(text) {
 
-function sendSuggestion(text){
-
-    document.getElementById("userInput").value=text;
+    document.getElementById("userInput").value = text;
 
     sendMessage();
 
@@ -205,153 +84,166 @@ function sendSuggestion(text){
 
 
 
+// =========================
+// ADD MESSAGE
+// =========================
 
+function addMessage(message, sender) {
 
-// Add Message
+    const div = document.createElement("div");
 
+    div.className = "message " + sender;
 
-function addMessage(message,type){
-
-
-    let div=document.createElement("div");
-
-    div.className="message "+type;
-
-
-    div.innerHTML=message;
-
+    div.innerHTML = message;
 
     chatMessages.appendChild(div);
 
-
-    chatMessages.scrollTop=
-    chatMessages.scrollHeight;
-
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
 }
 
 
 
+// =========================
+// TYPING ANIMATION
+// =========================
 
-// AI Response
+function showTyping() {
 
+    const div = document.createElement("div");
 
-function generateAIResponse(question){
+    div.className = "message bot";
 
+    div.id = "typing";
 
-    let answer=
+    div.innerHTML = "🤖 AI is analysing the problem...";
 
-    `I am analyzing your problem... 🔍`;
+    chatMessages.appendChild(div);
 
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    let found=false;
-
-
-    for(let key in knowledge){
-
-
-        if(question.toLowerCase().includes(key)){
-
-
-            answer=
-
-            "<b>"+knowledge[key].title+
-            "</b><br><br>"+
-            knowledge[key].response;
+}
 
 
-            found=true;
 
-            break;
+function removeTyping() {
 
-        }
+    const typing = document.getElementById("typing");
+
+    if (typing) {
+
+        typing.remove();
+
+    }
+
+}
+
+
+
+// =========================
+// AI RESPONSE
+// =========================
+
+function generateAIResponse(question) {
+
+    const result = searchKnowledge(question);
+
+    if (result) {
+
+        const answer = `
+
+<b>🔧 Machine</b><br>
+${result.machine}
+
+<br><br>
+
+<b>⚠ Issue</b><br>
+${result.title}
+
+<br><br>
+
+<b>Possible Causes</b><br>
+${result.causes.map(c => "• " + c).join("<br>")}
+
+<br><br>
+
+<b>Recommended Checks</b><br>
+${result.checks.map(c => "✓ " + c).join("<br>")}
+
+<br><br>
+
+<b>Estimated Repair Time</b><br>
+${result.repair}
+
+<br><br>
+
+<b>Safety Instruction</b><br>
+${result.safety}
+
+        `;
+
+        addMessage(answer, "bot");
+
+        return;
 
     }
 
 
 
-    if(!found){
+    // Default Response
 
+    const answer = `
 
-        answer=`
+<b>🤖 Solex AI Assistant</b>
 
-I could not find an exact match.
+<br><br>
+
+I couldn't find an exact solution.
 
 Please provide:
 
 <br><br>
 
-• Machine Name<br>
-• Alarm Code<br>
-• Error Message<br>
-• Current Condition
+• Machine Name
 
 <br>
 
-Example:
+• Alarm Code
 
 <br>
 
-"Laminator vacuum error"
+• Error Message
+
+<br>
+
+• Machine Status
+
+<br><br>
+
+<b>Example Questions</b>
+
+<br><br>
+
+• Laminator Vacuum Error
+
+<br>
+
+• Servo Alarm
+
+<br>
+
+• Heater Temperature Low
+
+<br>
+
+• EL Camera Fault
+
+<br>
+
+• Conveyor Motor Not Running
 
 `;
 
-    }
-
-
-
-    showTyping();
-
-
-    setTimeout(()=>{
-
-        removeTyping();
-
-        addMessage(answer,"bot");
-
-
-    },1500);
-
-
-
-}
-
-
-
-
-// Typing Animation
-
-
-function showTyping(){
-
-
-    let typing=document.createElement("div");
-
-    typing.id="typing";
-
-    typing.className="message bot";
-
-    typing.innerHTML="🤖 AI is thinking...";
-
-
-    chatMessages.appendChild(typing);
-
-
-}
-
-
-
-
-function removeTyping(){
-
-
-    let typing=document.getElementById("typing");
-
-
-    if(typing){
-
-        typing.remove();
-
-    }
+    addMessage(answer, "bot");
 
 }
