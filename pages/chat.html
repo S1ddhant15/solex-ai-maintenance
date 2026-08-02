@@ -1,46 +1,95 @@
 // ==========================================
 // SAMA - AI Maintenance Assistant
-// Chat Engine
+// Advanced Chat Controller
 // ==========================================
+
+
+let conversationHistory = [];
+
 
 
 const chatBox = document.getElementById("chatBox");
 
 
+
+
+
+// ==========================================
 // Send Message
+// ==========================================
+
 
 function sendMessage(){
 
 
-let input = document.getElementById("userInput");
+let input =
+document.getElementById("userInput");
 
-let message = input.value.trim();
+
+let message =
+input.value.trim();
+
 
 
 if(message==="")
+
 return;
 
 
 
-// User Message
 
 addUserMessage(message);
+
 
 
 input.value="";
 
 
 
-// AI Thinking
+conversationHistory.push({
+
+role:"user",
+
+message:message
+
+});
+
+
+
+
+
+showTyping();
+
+
+
 
 setTimeout(()=>{
 
-let reply = getSAMAResponse(message);
+
+removeTyping();
+
+
+
+let reply =
+processSAMAQuery(message);
+
+
 
 addBotMessage(reply);
 
 
-},700);
+
+conversationHistory.push({
+
+role:"assistant",
+
+message:reply
+
+});
+
+
+
+},800);
 
 
 
@@ -49,24 +98,119 @@ addBotMessage(reply);
 
 
 
-// Add User Message
+
+
+
+// ==========================================
+// AI ENGINE CONNECTION
+// ==========================================
+
+
+function processSAMAQuery(query){
+
+
+
+try{
+
+
+
+if(typeof generateAIResponse === "function"){
+
+
+return generateAIResponse(query);
+
+
+}
+
+
+
+return fallbackResponse(query);
+
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+
+return `
+
+⚠️ SAMA AI connection error.
+
+Please check:
+
+<br>
+
+✓ aiEngine.js
+
+<br>
+
+✓ knowledge.js
+
+<br>
+
+✓ alarmDatabase.js
+
+`;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+// ==========================================
+// User Message
+// ==========================================
+
 
 function addUserMessage(message){
 
 
-let div = document.createElement("div");
+
+let div =
+document.createElement("div");
+
 
 
 div.className="user-message";
 
 
-div.innerHTML = message;
+
+div.innerHTML=`
+
+<div class="message-header">
+
+👨‍🔧 Operator
+
+</div>
+
+
+${message}
+
+`;
+
 
 
 chatBox.appendChild(div);
 
 
-chatBox.scrollTop = chatBox.scrollHeight;
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
 
 
 }
@@ -74,88 +218,91 @@ chatBox.scrollTop = chatBox.scrollHeight;
 
 
 
-// Add Bot Message
+
+
+
+
+// ==========================================
+// Bot Message
+// ==========================================
+
 
 function addBotMessage(message){
 
 
-let div = document.createElement("div");
+
+let div =
+document.createElement("div");
+
 
 
 div.className="bot-message";
 
 
-div.innerHTML = message;
+
+div.innerHTML=`
+
+<div class="message-header">
+
+🤖 SAMA
+
+</div>
+
+
+${message}
+
+`;
+
 
 
 chatBox.appendChild(div);
 
 
-chatBox.scrollTop = chatBox.scrollHeight;
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
 
 
 }
+
+
+
+
 
 
 
 
 // ==========================================
-// SAMA Knowledge Engine
+// Typing Animation
 // ==========================================
 
 
-function getSAMAResponse(query){
-
-
-let text = query.toLowerCase();
+function showTyping(){
 
 
 
-// Breakdown Questions
+let div =
+document.createElement("div");
 
-if(
-text.includes("breakdown") ||
-text.includes("stopped") ||
-text.includes("not running")
-)
 
-{
 
-return `
+div.id="typing";
 
-<b>🔧 Breakdown Analysis</b>
+div.className="bot-message";
 
-<br><br>
 
-Possible causes:
+div.innerHTML=
 
-<br>
+"🤖 SAMA is analyzing...";
 
-1️⃣ Check machine alarm history
 
-<br>
 
-2️⃣ Verify sensor status
+chatBox.appendChild(div);
 
-<br>
 
-3️⃣ Check servo drive condition
+chatBox.scrollTop =
+chatBox.scrollHeight;
 
-<br>
-
-4️⃣ Verify air pressure
-
-<br>
-
-5️⃣ Check communication fault
-
-<br><br>
-
-<b>Recommended Action:</b>
-
-Inspect PLC alarm screen and IO status.
-
-`;
 
 }
 
@@ -163,44 +310,20 @@ Inspect PLC alarm screen and IO status.
 
 
 
-// Servo Related
 
-if(
-text.includes("servo") ||
-text.includes("motor")
-)
 
-{
+function removeTyping(){
 
-return `
 
-<b>⚙ Servo Troubleshooting</b>
+let typing =
+document.getElementById("typing");
 
-<br><br>
 
-Check:
 
-<br>
+if(typing)
 
-✅ Servo alarm code
+typing.remove();
 
-<br>
-
-✅ Motor temperature
-
-<br>
-
-✅ Encoder feedback
-
-<br>
-
-✅ Drive communication
-
-<br>
-
-✅ Mechanical jam
-
-`;
 
 }
 
@@ -208,107 +331,29 @@ Check:
 
 
 
-// Alarm
 
-if(
-text.includes("alarm") ||
-text.includes("error") ||
-text.includes("fault")
-)
 
-{
+// ==========================================
+// Fallback
+// ==========================================
+
+
+function fallbackResponse(query){
+
+
 
 return `
 
-<b>⚠ Alarm Investigation</b>
+
+🤖 SAMA received:
+
+<b>${query}</b>
+
 
 <br><br>
+
 
 Please provide:
-
-<br>
-
-• Machine name
-
-<br>
-
-• Alarm code
-
-<br>
-
-• Time of occurrence
-
-<br><br>
-
-I will provide troubleshooting steps.
-
-`;
-
-}
-
-
-
-
-
-// PM
-
-if(
-text.includes("pm") ||
-text.includes("maintenance")
-)
-
-{
-
-return `
-
-<b>🛠 Preventive Maintenance</b>
-
-<br><br>
-
-Recommended checks:
-
-<br>
-
-✅ Lubrication
-
-<br>
-
-✅ Sensor cleaning
-
-<br>
-
-✅ Servo inspection
-
-<br>
-
-✅ Pneumatic leakage
-
-<br>
-
-✅ Electrical tightening
-
-`;
-
-}
-
-
-
-
-// Spare
-
-if(
-text.includes("spare")
-)
-
-{
-
-return `
-
-<b>📦 Spare Recommendation</b>
-
-<br><br>
-
-Please share:
 
 <br>
 
@@ -316,49 +361,12 @@ Machine name
 
 <br>
 
-Part name
+Alarm code
 
 <br>
 
-Failure symptom
+Problem symptom
 
-<br><br>
-
-SAMA will suggest required spare.
-
-`;
-
-}
-
-
-
-
-// Default Response
-
-
-return `
-
-🤖 I am still learning this area.
-
-<br><br>
-
-Try asking:
-
-<br>
-
-"Stringer machine stopped"
-
-<br>
-
-"Servo alarm"
-
-<br>
-
-"PM checklist"
-
-<br>
-
-"Spare required"
 
 `;
 
