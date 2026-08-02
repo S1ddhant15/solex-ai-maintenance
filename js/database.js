@@ -1,222 +1,460 @@
-// =============================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// CENTRAL DATABASE MANAGER
-// Version 1.0
-// =============================================
-
-const DB = {
-
-    machines: [],
-    knowledge: [],
-    workOrders: [],
-    alarms: [],
-    pmRecords: [],
-
-    async init() {
-
-        await this.loadMachines();
-        await this.loadKnowledge();
-
-        this.loadAlarmDatabase();
-        this.loadLocalWorkOrders();
-        this.loadPM();
-
-        console.log("Database Loaded Successfully");
-
-    },
+// =====================================================
+// SAMA - AI Maintenance Assistant
+// Machine Database
+// =====================================================
 
 
-
-    // ===========================
-    // MACHINES
-    // ===========================
-
-    async loadMachines() {
-
-        try {
-
-            const response = await fetch("data/machines.json");
-
-            const data = await response.json();
-
-            this.machines = data.machines;
-
-        }
-
-        catch (error) {
-
-            console.error("Machine Database Error", error);
-
-        }
-
-    },
+// =====================================================
+// Machine Master Database
+// =====================================================
 
 
+const machineDatabase = {
 
-    // ===========================
-    // KNOWLEDGE
-    // ===========================
 
-    async loadKnowledge() {
+    "Stringer-01":{
 
-        try {
 
-            const response = await fetch("data/knowledge.json");
+        id:"STR-001",
 
-            const data = await response.json();
+        department:"Stringing",
 
-            this.knowledge = data.machines;
+        type:"Stringer Machine",
 
-        }
+        manufacturer:"Meyer Burger",
 
-        catch (error) {
+        status:"Running",
 
-            console.error("Knowledge Database Error", error);
+        health:96,
 
-        }
 
-    },
+        parameters:{
+
+
+            temperature:"42°C",
+
+            vacuum:"-82 kPa",
+
+            pressure:"5.8 Bar",
+
+            speed:"18 CPM",
+
+            vibration:"Normal"
+
+
+        },
+
+
+        runtime:12450,
+
+
+        lastMaintenance:
+        "28-Jul-2026",
+
+
+        nextPM:
+        "28-Aug-2026",
 
 
 
-    // ===========================
-    // ALARMS
-    // ===========================
+        breakdownHistory:[
 
-    loadAlarmDatabase() {
 
-        if (typeof alarmDatabase !== "undefined") {
+            {
 
-            this.alarms = alarmDatabase;
+            date:"25-Jul-2026",
 
-        }
+            issue:"Servo Alarm E37",
+
+            downtime:"35 min"
+
+            },
+
+
+            {
+
+            date:"15-Jul-2026",
+
+            issue:"Vacuum Low",
+
+            downtime:"20 min"
+
+            }
+
+
+        ]
 
     },
 
 
 
-    // ===========================
-    // WORK ORDERS
-    // ===========================
-
-    loadLocalWorkOrders() {
-
-        const data = localStorage.getItem("workOrders");
-
-        if (data) {
-
-            this.workOrders = JSON.parse(data);
-
-        }
-
-    },
 
 
 
-    saveWorkOrders() {
-
-        localStorage.setItem(
-
-            "workOrders",
-
-            JSON.stringify(this.workOrders)
-
-        );
-
-    },
 
 
 
-    addWorkOrder(workOrder) {
-
-        this.workOrders.push(workOrder);
-
-        this.saveWorkOrders();
-
-    },
+    "Laminator-01":{
 
 
+        id:"LAM-001",
 
-    // ===========================
-    // PM
-    // ===========================
+        department:"Lamination",
 
-    loadPM() {
+        type:"Solar Module Laminator",
 
-        const data = localStorage.getItem("pmRecords");
+        manufacturer:"Teamtechnik",
 
-        if (data) {
 
-            this.pmRecords = JSON.parse(data);
+        status:"Running",
 
-        }
-
-    },
+        health:91,
 
 
 
-    savePM() {
-
-        localStorage.setItem(
-
-            "pmRecords",
-
-            JSON.stringify(this.pmRecords)
-
-        );
-
-    },
+        parameters:{
 
 
+            temperature:"145°C",
 
-    addPM(record) {
+            vacuum:"-95 kPa",
 
-        this.pmRecords.push(record);
+            pressure:"8 Bar",
 
-        this.savePM();
+            cycleTime:"12 min",
 
-    },
+            vibration:"Normal"
+
+
+        },
 
 
 
-    // ===========================
-    // SEARCH
-    // ===========================
+        runtime:18500,
 
-    findMachine(name) {
 
-        return this.machines.find(machine =>
+        lastMaintenance:
+        "20-Jul-2026",
 
-            machine.name.toLowerCase()
 
-            .includes(name.toLowerCase())
+        nextPM:
+        "20-Aug-2026",
 
-        );
+
+
+        breakdownHistory:[
+
+
+            {
+
+            date:"30-Jul-2026",
+
+            issue:"Temperature Deviation",
+
+            downtime:"45 min"
+
+            },
+
+
+            {
+
+            date:"12-Jul-2026",
+
+            issue:"Vacuum Pump Alarm",
+
+            downtime:"30 min"
+
+            }
+
+
+        ]
 
     },
 
 
 
-    findAlarm(code) {
 
-        return this.alarms.find(alarm =>
 
-            alarm.code.toLowerCase()
 
-            === code.toLowerCase()
 
-        );
+
+
+    "EL-Tester-01":{
+
+
+        id:"EL-001",
+
+        department:"Quality",
+
+        type:"EL Inspection System",
+
+        manufacturer:"VisiTech",
+
+
+        status:"Running",
+
+
+        health:94,
+
+
+        parameters:{
+
+
+            imageQuality:"Good",
+
+            cameraStatus:"Normal",
+
+            lighting:"Stable"
+
+
+        },
+
+
+
+        runtime:8600,
+
+
+        lastMaintenance:
+        "22-Jul-2026",
+
+
+        nextPM:
+        "22-Aug-2026"
+
+
+    },
+
+
+
+
+
+
+
+
+
+    "AOI-01":{
+
+
+        id:"AOI-001",
+
+        department:"Quality",
+
+        type:"AOI Inspection",
+
+        manufacturer:"Omron",
+
+
+        status:"Running",
+
+
+        health:89,
+
+
+        parameters:{
+
+
+            camera:"OK",
+
+            inspectionRate:"98.5%",
+
+
+            falseReject:"1.2%"
+
+
+        },
+
+
+
+        runtime:9200,
+
+
+        lastMaintenance:
+        "18-Jul-2026",
+
+
+        nextPM:
+        "18-Aug-2026"
+
 
     }
+
+
 
 };
 
 
 
-// Initialize Database
 
-window.addEventListener("load", async () => {
 
-    await DB.init();
 
-});
+
+
+
+// =====================================================
+// Get Machine Details
+// =====================================================
+
+
+function getMachineDetails(machineName){
+
+
+
+return machineDatabase[machineName] || null;
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Get All Machines
+// =====================================================
+
+
+function getAllMachines(){
+
+
+return Object.keys(machineDatabase);
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Machine Health Analysis
+// =====================================================
+
+
+function getMachineHealth(machineName){
+
+
+
+let machine =
+machineDatabase[machineName];
+
+
+
+if(!machine)
+
+return null;
+
+
+
+let score =
+machine.health;
+
+
+
+let status;
+
+
+
+if(score >= 90)
+
+status="Healthy 🟢";
+
+
+else if(score >=70)
+
+status="Warning 🟡";
+
+
+else
+
+status="Critical 🔴";
+
+
+
+
+
+return {
+
+
+score:score,
+
+status:status
+
+
+};
+
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Breakdown History
+// =====================================================
+
+
+function getBreakdownHistory(machineName){
+
+
+
+let machine =
+machineDatabase[machineName];
+
+
+
+if(machine &&
+machine.breakdownHistory)
+
+return machine.breakdownHistory;
+
+
+
+return [];
+
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Update Machine Status
+// =====================================================
+
+
+function updateMachineStatus(
+machineName,
+newStatus
+){
+
+
+
+if(machineDatabase[machineName])
+
+{
+
+
+machineDatabase[machineName].status =
+newStatus;
+
+
+}
+
+
+}
