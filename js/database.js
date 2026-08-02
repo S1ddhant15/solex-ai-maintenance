@@ -298,8 +298,30 @@ const machineDatabase = {
 function getMachineDetails(machineName){
 
 
+machineName =
+machineName.toLowerCase();
 
-return machineDatabase[machineName] || null;
+
+
+for(let machine in machineDatabase){
+
+
+if(machine.toLowerCase().includes(machineName))
+
+{
+
+
+return machineDatabase[machine];
+
+
+}
+
+
+}
+
+
+
+return null;
 
 
 }
