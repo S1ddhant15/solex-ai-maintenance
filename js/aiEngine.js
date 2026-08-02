@@ -1,78 +1,145 @@
 // =====================================================
 // SAMA - AI Maintenance Assistant
-// AI Decision Engine
+// Advanced AI Decision Engine
 // =====================================================
 
 
+
 // =====================================================
-// Main AI Response Generator
+// MAIN AI RESPONSE GENERATOR
 // =====================================================
 
 
 function generateAIResponse(query){
 
 
-    let input = query.toLowerCase();
+let input = query.toLowerCase();
 
 
 
-    let machine =
-    detectMachine(input);
+let machine =
+detectMachine(input);
 
 
 
-    let intent =
-    detectIntent(input);
+let intent =
+detectIntent(input);
 
 
 
-    let alarm =
-    detectAlarm(input);
+let alarm =
+detectAlarm(input);
 
 
 
-    let response = "";
-
-
-
-    // ==========================================
-    // Alarm Diagnosis
-    // ==========================================
-
-
-    if(intent === "alarm")
-    {
-
-
-        response =
-        analyzeAlarm(alarm, machine);
-
-
-    }
-
-
-
-    // ==========================================
-    // Breakdown Analysis
-    // ==========================================
-
-
-    else if(intent === "breakdown")
-    {
-
-
-        response =
-        analyzeBreakdown(machine);
-
-
-    }
+let response = "";
 
 
 
 
-// ==========================================
+
+// =====================================================
+// Alarm Diagnosis
+// =====================================================
+
+
+if(intent === "alarm")
+{
+
+
+response =
+analyzeAlarm(alarm,machine);
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// Breakdown History
+// =====================================================
+
+
+else if(
+
+input.includes("history") ||
+
+input.includes("previous") ||
+
+input.includes("last breakdown") ||
+
+input.includes("breakdown history")
+
+)
+
+{
+
+
+if(typeof generateBreakdownReport === "function")
+{
+
+
+response =
+generateBreakdownReport(machine);
+
+
+}
+
+else
+
+{
+
+
+response =
+
+`
+<b>📋 Breakdown History</b>
+
+<br><br>
+
+History database not connected.
+
+`;
+
+}
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// Breakdown Analysis
+// =====================================================
+
+
+else if(intent === "breakdown")
+{
+
+
+response =
+analyzeBreakdown(machine);
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
 // PM Recommendation
-// ==========================================
+// =====================================================
 
 
 else if(intent === "pm")
@@ -82,8 +149,10 @@ else if(intent === "pm")
 if(typeof generatePMReport === "function")
 {
 
+
 response =
 generatePMReport(machine);
+
 
 }
 
@@ -91,9 +160,51 @@ else
 
 {
 
+
 response =
 generatePM(machine);
 
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================================
+// Spare Recommendation
+// =====================================================
+
+
+else if(intent === "spare")
+{
+
+
+if(typeof generateSpareReport === "function")
+{
+
+
+response =
+generateSpareReport(machine);
+
+
+}
+
+else
+
+{
+
+
+response =
+recommendSpare(machine,input);
+
+
 }
 
 
@@ -103,58 +214,20 @@ generatePM(machine);
 
 
 
-    // ==========================================
-    // Spare Recommendation
-    // ==========================================
-
-
-    else if(intent === "spare")
-    {
-
-
-        response =
-        recommendSpare(machine,input);
-
-
-    }
 
 
 
+// =====================================================
+// Machine Health
+// =====================================================
 
 
-    // ==========================================
-    // Machine Health
-    // ==========================================
+else if(intent === "health")
+{
 
 
-    else if(intent === "health")
-    {
-
-
-        response =
-        machineHealth(machine);
-
-
-    }
-
-
-
-
-
-    else
-    {
-
-
-        response =
-        generalMaintenanceResponse(machine);
-
-
-    }
-
-
-
-
-    return response;
+response =
+machineHealth(machine);
 
 
 }
@@ -166,7 +239,64 @@ generatePM(machine);
 
 
 // =====================================================
-// Intent Detection
+// Knowledge Troubleshooting
+// =====================================================
+
+
+else
+{
+
+
+let knowledgeResult =
+analyzeKnowledge(query);
+
+
+
+if(knowledgeResult)
+
+{
+
+
+response =
+knowledgeResult;
+
+
+}
+
+else
+
+{
+
+
+response =
+generalMaintenanceResponse(machine);
+
+
+}
+
+
+}
+
+
+
+
+
+
+return response;
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// INTENT DETECTION
 // =====================================================
 
 
@@ -175,54 +305,92 @@ function detectIntent(text){
 
 
 if(
+
 text.includes("alarm") ||
+
 text.includes("error") ||
+
 text.includes("fault") ||
+
 text.includes("code")
+
 )
 
 return "alarm";
 
 
 
+
+
 if(
+
 text.includes("stop") ||
+
 text.includes("breakdown") ||
+
 text.includes("not running") ||
+
 text.includes("failure")
+
 )
 
 return "breakdown";
 
 
 
+
+
+
 if(
+
 text.includes("pm") ||
+
 text.includes("maintenance") ||
+
 text.includes("service")
+
 )
 
 return "pm";
 
 
 
+
+
+
+
 if(
+
 text.includes("spare") ||
+
 text.includes("part") ||
+
 text.includes("replace")
+
 )
 
 return "spare";
 
 
 
+
+
+
+
 if(
+
 text.includes("health") ||
+
 text.includes("condition") ||
+
 text.includes("status")
+
 )
 
 return "health";
+
+
+
 
 
 
@@ -237,8 +405,10 @@ return "general";
 
 
 
+
+
 // =====================================================
-// Machine Detection
+// MACHINE DETECTION
 // =====================================================
 
 
@@ -246,46 +416,47 @@ function detectMachine(text){
 
 
 
-let machines = [
+if(text.includes("stringer"))
 
-"stringer",
-
-"laminator",
-
-"el tester",
-
-"aoi",
-
-"jbox",
-
-"framing",
-
-"flash tester",
-
-"tabber"
-
-];
+return "Stringer-01";
 
 
 
-for(let m of machines)
-{
+if(text.includes("laminator"))
+
+return "Laminator-01";
 
 
-if(text.includes(m))
 
-return m;
+if(text.includes("el tester") || text.includes("el"))
 
+return "EL-Tester-01";
+
+
+
+if(text.includes("aoi"))
+
+return "AOI-01";
+
+
+
+if(text.includes("jbox"))
+
+return "JBOX";
+
+
+
+if(text.includes("framing"))
+
+return "Framing";
+
+
+
+return "Unknown Machine";
 
 
 }
 
-
-
-return "unknown";
-
-
-}
 
 
 
@@ -295,12 +466,11 @@ return "unknown";
 
 
 // =====================================================
-// Alarm Detection
+// ALARM DETECTION
 // =====================================================
 
 
 function detectAlarm(text){
-
 
 
 let match =
@@ -326,8 +496,9 @@ return null;
 
 
 
+
 // =====================================================
-// Alarm Analysis
+// ALARM ANALYSIS
 // =====================================================
 
 
@@ -335,7 +506,16 @@ function analyzeAlarm(alarm,machine){
 
 
 
-if(typeof getAlarmDetails === "function" && alarm)
+if(
+
+typeof getAlarmDetails === "function"
+
+&&
+
+alarm
+
+)
+
 {
 
 
@@ -345,6 +525,7 @@ getAlarmDetails(alarm);
 
 
 if(data)
+
 {
 
 
@@ -373,7 +554,18 @@ Alarm Code:
 <br><br>
 
 
-Cause:
+Description:
+
+${data.description}
+
+
+<br><br>
+
+
+<b>Possible Cause:</b>
+
+
+<br>
 
 ${data.cause}
 
@@ -381,7 +573,8 @@ ${data.cause}
 <br><br>
 
 
-Recommended Checks:
+<b>Recommended Action:</b>
+
 
 <br>
 
@@ -399,11 +592,12 @@ Confidence:
 `;
 
 
-
 }
 
 
+
 }
+
 
 
 
@@ -425,13 +619,13 @@ ${machine}
 <br><br>
 
 
-Alarm code not found in database.
+Alarm not available in database.
 
 
 <br><br>
 
 
-Please check:
+Check:
 
 <br>
 
@@ -463,13 +657,13 @@ Please check:
 
 
 
+
 // =====================================================
-// Breakdown Analysis
+// BREAKDOWN ANALYSIS
 // =====================================================
 
 
 function analyzeBreakdown(machine){
-
 
 
 return `
@@ -489,46 +683,43 @@ Machine:
 <br><br>
 
 
-Immediate troubleshooting:
+Immediate Checks:
 
 
 <br>
 
-
-1️⃣ Check active alarms
-
-
-<br>
-
-
-2️⃣ Verify power & air supply
+1️⃣ Check active alarm
 
 
 <br>
 
-
-3️⃣ Check sensors
-
-
-<br>
-
-
-4️⃣ Check servo status
+2️⃣ Verify power supply
 
 
 <br>
 
+3️⃣ Check air pressure
 
-5️⃣ Review last breakdown history
+
+<br>
+
+4️⃣ Check sensors
+
+
+<br>
+
+5️⃣ Check servo status
 
 
 <br><br>
 
 
-SAMA Recommendation:
+<b>SAMA Recommendation:</b>
 
 
-Inspect machine condition before reset.
+<br>
+
+Do not reset before finding root cause.
 
 
 <br><br>
@@ -552,13 +743,13 @@ Confidence:
 
 
 
+
 // =====================================================
-// PM Generator
+// PM FALLBACK
 // =====================================================
 
 
 function generatePM(machine){
-
 
 
 return `
@@ -578,7 +769,7 @@ ${machine}
 <br><br>
 
 
-Recommended checklist:
+Checklist:
 
 
 <br>
@@ -611,14 +802,6 @@ Recommended checklist:
 ✓ Safety check
 
 
-<br><br>
-
-
-Next:
-
-Check PM history database.
-
-
 `;
 
 
@@ -632,13 +815,13 @@ Check PM history database.
 
 
 
+
 // =====================================================
-// Spare Recommendation
+// SPARE FALLBACK
 // =====================================================
 
 
 function recommendSpare(machine,text){
-
 
 
 return `
@@ -658,38 +841,32 @@ ${machine}
 <br><br>
 
 
-Suggested critical spares:
+Critical Spares:
 
 
 <br>
 
-• Servo drive
+• Servo Drive
 
 
 <br>
 
-• Proximity sensor
+• Encoder Cable
 
 
 <br>
 
-• Encoder cable
+• Sensor
 
 
 <br>
 
-• Pneumatic valve
+• Pneumatic Valve
 
 
 <br>
 
 • Relay
-
-
-<br><br>
-
-
-Provide exact failure symptom for accurate spare.
 
 
 `;
@@ -705,13 +882,28 @@ Provide exact failure symptom for accurate spare.
 
 
 
+
 // =====================================================
-// Machine Health
+// MACHINE HEALTH
 // =====================================================
 
 
 function machineHealth(machine){
 
+
+if(typeof getMachineHealth==="function")
+
+{
+
+
+let data =
+getMachineHealth(machine);
+
+
+
+if(data)
+
+{
 
 
 return `
@@ -725,7 +917,7 @@ return `
 
 Machine:
 
-${machine}
+<b>${machine}</b>
 
 
 <br><br>
@@ -733,7 +925,7 @@ ${machine}
 
 Health Score:
 
-92%
+${data.score}%
 
 
 <br><br>
@@ -741,33 +933,15 @@ Health Score:
 
 Status:
 
-🟢 Healthy
+${data.status}
 
 
 <br><br>
 
 
-Parameters:
+SAMA Prediction:
 
-
-<br>
-
-Temperature: Normal
-
-
-<br>
-
-Vibration: Normal
-
-
-<br>
-
-Runtime: Stable
-
-
-<br>
-
-Maintenance: On Schedule
+Machine condition is stable.
 
 
 `;
@@ -777,31 +951,21 @@ Maintenance: On Schedule
 }
 
 
+}
 
-
-
-
-
-
-// =====================================================
-// General Response
-// =====================================================
-
-
-function generalMaintenanceResponse(machine){
 
 
 
 return `
 
 
-🤖 SAMA is ready.
+<b>📊 Machine Health</b>
 
 
 <br><br>
 
 
-Detected Machine:
+Machine:
 
 ${machine}
 
@@ -809,27 +973,7 @@ ${machine}
 <br><br>
 
 
-Try:
-
-
-<br>
-
-"Stringer breakdown"
-
-
-<br>
-
-"Laminator PM checklist"
-
-
-<br>
-
-"Servo alarm E37"
-
-
-<br>
-
-"Spare required for AOI"
+Health data unavailable.
 
 
 `;
@@ -838,12 +982,21 @@ Try:
 
 }
 
+
+
+
+
+
+
+
+
 // =====================================================
-// Knowledge Base Integration
+// KNOWLEDGE DATABASE CONNECTION
 // =====================================================
 
 
 function analyzeKnowledge(query){
+
 
 
 if(typeof searchKnowledge !== "function")
@@ -886,7 +1039,7 @@ return `
 
 Machine:
 
-<b>${machine}</b>
+${machine}
 
 
 <br><br>
@@ -908,19 +1061,16 @@ ${result.symptom}
 ${
 
 result.possibleCause
-
 .map(x=>"• "+x)
-
 .join("<br>")
 
 }
 
 
-
 <br><br>
 
 
-<b>Recommended Checks:</b>
+<b>Checks:</b>
 
 
 <br>
@@ -928,19 +1078,16 @@ result.possibleCause
 ${
 
 result.checks
-
 .map(x=>"✓ "+x)
-
 .join("<br>")
 
 }
 
 
-
 <br><br>
 
 
-<b>SAMA Action:</b>
+<b>Action:</b>
 
 
 <br>
@@ -948,15 +1095,12 @@ result.checks
 ${result.action}
 
 
-
 <br><br>
 
 
-<span class="confidence">
+Confidence:
 
-Confidence: 88%
-
-</span>
+88%
 
 
 `;
@@ -968,6 +1112,73 @@ Confidence: 88%
 
 
 return null;
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// GENERAL RESPONSE
+// =====================================================
+
+
+function generalMaintenanceResponse(machine){
+
+
+return `
+
+
+🤖 SAMA is ready.
+
+
+<br><br>
+
+
+Detected Machine:
+
+<b>${machine}</b>
+
+
+<br><br>
+
+
+Try:
+
+
+<br>
+
+"Stringer breakdown"
+
+
+<br>
+
+"Servo alarm E37"
+
+
+<br>
+
+"Laminator PM"
+
+
+<br>
+
+"Stringer previous breakdown"
+
+
+<br>
+
+"AOI spare"
+
+
+`;
+
 
 
 }
