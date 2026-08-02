@@ -1,6 +1,7 @@
 // =====================================================
-// SAMA - Solex AI Maintenance Assistant
-// Industrial Troubleshooting Knowledge Base
+// SAMA - AI Maintenance Assistant
+// Industrial Maintenance Knowledge Base
+// File: knowledge.js
 // =====================================================
 
 
@@ -9,160 +10,160 @@ const maintenanceKnowledge = {
 
 
 
-/* =====================================================
-   STRINGER MACHINE
-===================================================== */
+    // =====================================================
+    // STRINGER MACHINE
+    // =====================================================
 
 
-"stringer":{
+    "stringer":{
 
 
-machine:"Stringer",
+        machine:"Stringer",
 
 
-issues:{
+        issues:{
 
 
+            "cell breakage":{
 
-"cell breakage":{
 
+                symptom:
+                "High cell breakage during stringing process",
 
-symptom:
-"High cell breakage during stringing process",
 
+                possibleCause:[
 
-possibleCause:[
+                    "Excessive vacuum pickup force",
 
-"Excessive pickup vacuum pressure",
+                    "Cell alignment error",
 
-"Cell alignment issue",
+                    "High conveyor pressure",
 
-"Incorrect stringer parameters",
+                    "Incorrect stringer parameters",
 
-"Mechanical vibration",
+                    "Mechanical vibration"
 
-"Damaged conveyor support"
+                ],
 
-],
 
+                checks:[
 
-checks:[
+                    "Check vacuum pressure",
 
-"Check vacuum pickup pressure",
+                    "Verify cell pickup position",
 
-"Verify camera alignment",
+                    "Check camera alignment",
 
-"Check cell handling movement",
+                    "Review stringer recipe",
 
-"Review stringer recipe parameters",
+                    "Check servo movement"
 
-"Inspect mechanical guides"
+                ],
 
-],
 
+                action:
 
-action:
-"Optimize handling parameters and verify alignment accuracy"
+                "Optimize handling parameters and verify mechanical alignment"
 
 
-},
+            },
 
 
 
 
 
+            "ribbon":{
 
-"vacuum":{
 
+                symptom:
+                "Ribbon shifting or soldering defect",
 
-symptom:
-"Vacuum pickup failure or cell dropping",
 
+                possibleCause:[
 
-possibleCause:[
+                    "Ribbon tension variation",
 
-"Vacuum pressure low",
+                    "Solder temperature instability",
 
-"Vacuum cup damage",
+                    "Flux issue",
 
-"Air leakage",
+                    "Ribbon alignment problem"
 
-"Vacuum sensor failure"
+                ],
 
-],
 
+                checks:[
 
-checks:[
+                    "Check ribbon feeder",
 
-"Check vacuum gauge",
+                    "Verify solder temperature",
 
-"Inspect vacuum cup",
+                    "Inspect flux supply",
 
-"Check pneumatic leakage",
+                    "Check wire alignment"
 
-"Verify sensor feedback"
+                ],
 
-],
 
+                action:
 
-action:
-"Restore stable vacuum pressure before production restart"
+                "Stabilize ribbon feeding and soldering parameters"
 
 
-},
+            },
 
 
 
 
 
 
+            "not running":{
 
-"ribbon":{
 
+                symptom:
+                "Stringer machine stopped",
 
-symptom:
-"Ribbon shifting or soldering defect",
 
+                possibleCause:[
 
-possibleCause:[
+                    "Servo alarm",
 
-"Ribbon tension variation",
+                    "PLC communication fault",
 
-"Solder temperature fluctuation",
+                    "Vacuum pressure low",
 
-"Ribbon alignment issue",
+                    "Sensor failure"
 
-"Flux problem"
+                ],
 
-],
 
+                checks:[
 
-checks:[
+                    "Check PLC alarm history",
 
-"Check ribbon feeder",
+                    "Check servo drive",
 
-"Verify solder temperature",
+                    "Verify sensors",
 
-"Inspect flux supply",
+                    "Check air pressure"
 
-"Check ribbon position"
+                ],
 
-],
 
+                action:
 
-action:
-"Stabilize soldering parameters and ribbon alignment"
+                "Identify root cause before machine reset"
 
 
-}
+            }
 
 
 
-}
+        }
 
 
-},
 
+    },
 
 
 
@@ -171,241 +172,251 @@ action:
 
 
 
-/* =====================================================
-   LAMINATOR
-===================================================== */
 
+    // =====================================================
+    // LAMINATOR
+    // =====================================================
 
-"laminator":{
 
+    "laminator":{
 
-machine:"Laminator",
 
+        machine:"Laminator",
 
-issues:{
 
+        issues:{
 
 
-"bubble":{
+            "bubble":{
 
 
-symptom:
-"Bubble formation after lamination",
+                symptom:
 
+                "Bubble formation after lamination",
 
-possibleCause:[
 
-"Vacuum level insufficient",
+                possibleCause:[
 
-"Moisture in EVA/POE",
+                    "Low vacuum level",
 
-"Incorrect lamination recipe",
+                    "Moisture trapped in material",
 
-"Heating profile variation"
+                    "Incorrect lamination recipe",
 
-],
+                    "Temperature profile variation"
 
+                ],
 
-checks:[
 
-"Check vacuum pump condition",
+                checks:[
 
-"Verify vacuum pressure",
+                    "Check vacuum pump",
 
-"Check material moisture",
+                    "Verify vacuum pressure",
 
-"Review lamination temperature profile"
+                    "Check heating zones",
 
-],
+                    "Review recipe parameters"
 
+                ],
 
-action:
-"Stabilize vacuum and lamination recipe"
 
+                action:
 
-},
+                "Stabilize vacuum and lamination profile"
 
 
+            },
 
 
 
-"temperature":{
 
 
-symptom:
-"Temperature deviation during lamination",
 
+            "temperature":{
 
-possibleCause:[
 
-"Heater failure",
+                symptom:
 
-"SSR failure",
+                "Temperature deviation in laminator",
 
-"Thermocouple issue",
 
-"PID parameter problem"
+                possibleCause:[
 
-],
+                    "Heater failure",
 
+                    "SSR failure",
 
-checks:[
+                    "Thermocouple problem"
 
-"Measure heater current",
+                ],
 
-"Check SSR output",
 
-"Verify thermocouple feedback",
+                checks:[
 
-"Review temperature controller"
+                    "Measure heater current",
 
-],
+                    "Check SSR output",
 
+                    "Verify temperature sensor"
 
-action:
-"Repair heating control loop"
+                ],
 
 
-}
+                action:
 
+                "Repair heating control system"
 
 
-}
+            }
 
 
-},
 
 
+        }
 
 
+    },
 
 
 
-/* =====================================================
-   EL INSPECTION
-===================================================== */
 
 
-"el tester":{
 
 
-machine:"EL Tester",
 
 
-issues:{
+    // =====================================================
+    // EL INSPECTION
+    // =====================================================
 
 
+    "el tester":{
 
-"dark":{
 
+        machine:"EL Tester",
 
-symptom:
-"Dark area detected in EL image",
 
+        issues:{
 
-possibleCause:[
 
-"Cell crack",
+            "dark":{
 
-"Poor solder joint",
 
-"Ribbon damage",
+                symptom:
 
-"Contact issue"
+                "Dark area visible in EL image",
 
-],
 
+                possibleCause:[
 
-checks:[
+                    "Cell crack",
 
-"Review EL image",
+                    "Poor soldering",
 
-"Check soldering quality",
+                    "Ribbon damage",
 
-"Verify string output"
+                    "Contact issue"
 
-],
+                ],
 
 
-action:
-"Perform root cause analysis from stringing process"
+                checks:[
 
+                    "Review EL image",
 
-}
+                    "Check string quality",
 
+                    "Verify solder joint"
 
+                ],
 
-}
 
+                action:
 
-},
+                "Perform EL defect root cause analysis"
 
 
+            }
 
 
+        }
 
 
 
+    },
 
 
-/* =====================================================
-   AOI
-===================================================== */
 
 
-"aoi":{
 
 
-machine:"AOI",
 
 
-issues:{
 
 
 
-"false":{
+    // =====================================================
+    // AOI
+    // =====================================================
 
 
-symptom:
-"High false rejection from AOI",
+    "aoi":{
 
 
-possibleCause:[
+        machine:"AOI",
 
-"Camera focus issue",
 
-"Lighting variation",
+        issues:{
 
-"Incorrect threshold setting",
 
-"Calibration error"
 
-],
+            "false":{
 
 
-checks:[
+                symptom:
 
-"Check camera calibration",
+                "High false NG rejection in AOI",
 
-"Verify lighting",
 
-"Review inspection parameters"
+                possibleCause:[
 
-],
+                    "Camera focus issue",
 
+                    "Incorrect inspection threshold",
 
-action:
-"Optimize AOI recipe and inspection parameters"
+                    "Lighting variation"
 
+                ],
 
-}
 
+                checks:[
 
+                    "Check camera calibration",
 
-}
+                    "Adjust inspection parameters",
 
+                    "Verify lighting condition"
 
-}
+                ],
+
+
+                action:
+
+                "Optimize AOI inspection settings"
+
+
+            }
+
+
+
+
+        }
+
+
+
+    }
+
 
 
 
@@ -418,9 +429,8 @@ action:
 
 
 
-
 // =====================================================
-// SEARCH KNOWLEDGE
+// Knowledge Search
 // =====================================================
 
 
@@ -428,61 +438,57 @@ function searchKnowledge(machine,issue){
 
 
 
-machine =
-machine.toLowerCase();
+    machine =
+    machine.toLowerCase();
 
 
 
-issue =
-issue.toLowerCase();
+    issue =
+    issue.toLowerCase();
 
 
 
 
-if(
-maintenanceKnowledge[machine]
-)
+    if(
+    maintenanceKnowledge[machine]
+    )
 
-{
-
-
-let data =
-maintenanceKnowledge[machine];
+    {
 
 
-
-for(
-let key in data.issues
-)
-
-{
+        let data =
+        maintenanceKnowledge[machine];
 
 
-if(issue.includes(key))
 
-{
+        for(let key in data.issues)
+
+        {
 
 
-return data.issues[key];
+            if(issue.includes(key))
+
+            {
+
+
+                return data.issues[key];
+
+
+            }
+
+
+        }
+
+
+    }
+
+
+
+
+    return null;
 
 
 }
-
-
-}
-
-
-}
-
-
-
-return null;
-
-
-}
-
-
-
 
 
 
@@ -490,21 +496,18 @@ return null;
 
 
 // =====================================================
-// LIST AVAILABLE KNOWLEDGE
+// List Knowledge
 // =====================================================
 
 
 function getKnowledgeList(){
 
 
-
 let result=[];
 
 
 
-for(
-let machine in maintenanceKnowledge
-)
+for(let machine in maintenanceKnowledge)
 
 {
 
