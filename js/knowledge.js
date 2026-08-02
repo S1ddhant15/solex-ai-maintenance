@@ -1,151 +1,179 @@
-// ===========================================
-// SOLEX AI MAINTENANCE ASSISTANT
-// KNOWLEDGE ENGINE
-// Version 1.0
-// ===========================================
+// =============================================
+// SOLEX AI MAINTENANCE KNOWLEDGE BASE
+// =============================================
 
-const machineKnowledge = [
+const knowledgeBase = [
 
 {
+    machine:"Stringer 01",
+
+    title:"String Stops Frequently",
+
     keywords:[
-        "vacuum",
-        "vacuum error",
-        "low vacuum",
-        "laminator"
+        "stringer",
+        "stop",
+        "conveyor",
+        "string",
+        "stoppage"
     ],
-
-    machine:"Laminator",
-
-    title:"Vacuum Error",
 
     causes:[
-        "Vacuum pump OFF",
-        "Vacuum leakage",
-        "Vacuum sensor failure",
-        "Solenoid valve failure",
-        "Filter blockage"
-    ],
-
-    checks:[
-        "Check vacuum pump",
-        "Inspect vacuum hose",
-        "Check PLC input",
-        "Verify vacuum sensor",
-        "Clean filter"
-    ],
-
-    repair:"20-30 Minutes",
-
-    safety:"Switch OFF machine before opening vacuum line."
-},
-
-{
-    keywords:[
-        "servo",
-        "servo alarm",
-        "motor",
-        "encoder"
-    ],
-
-    machine:"Stringer",
-
-    title:"Servo Alarm",
-
-    causes:[
+        "Conveyor sensor dirty",
         "Servo overload",
-        "Encoder cable loose",
-        "Drive fault",
-        "Mechanical obstruction"
+        "Low air pressure",
+        "Cell jam",
+        "Loose encoder cable"
     ],
 
     checks:[
-        "Check encoder",
-        "Reset drive",
-        "Inspect motor",
-        "Check coupling"
+        "Clean photo sensor",
+        "Check servo drive alarm",
+        "Verify air pressure above 6 bar",
+        "Inspect conveyor",
+        "Check encoder connection"
     ],
 
-    repair:"15 Minutes",
+    repair:"15-30 Minutes",
 
-    safety:"Lock machine before checking motor."
+    safety:"Lockout power before opening safety guard."
 },
 
 {
+    machine:"Laminator 01",
+
+    title:"Low Vacuum Alarm",
+
     keywords:[
-        "heater",
-        "temperature",
-        "ssr",
-        "thermocouple"
+        "laminator",
+        "vacuum",
+        "low vacuum",
+        "lamination"
     ],
-
-    machine:"Laminator",
-
-    title:"Temperature Issue",
 
     causes:[
-        "Heater failure",
-        "SSR damaged",
-        "Thermocouple faulty",
-        "PID setting incorrect"
+        "Vacuum pump failure",
+        "Vacuum leakage",
+        "Door seal damaged",
+        "Vacuum valve faulty"
     ],
 
     checks:[
-        "Measure heater current",
-        "Check SSR LED",
-        "Verify thermocouple",
-        "Review PID settings"
+        "Inspect vacuum pump",
+        "Check vacuum hose",
+        "Replace door gasket",
+        "Verify vacuum valve operation"
     ],
 
-    repair:"30 Minutes",
+    repair:"30-45 Minutes",
 
-    safety:"Allow heater to cool before maintenance."
+    safety:"Wait until chamber pressure reaches atmospheric pressure."
 },
 
 {
-    keywords:[
-        "camera",
-        "vision",
-        "el"
-    ],
-
     machine:"EL Tester",
 
-    title:"Camera Communication Fault",
+    title:"Image Capture Failure",
+
+    keywords:[
+        "el",
+        "camera",
+        "image",
+        "capture",
+        "tester"
+    ],
 
     causes:[
-        "Ethernet cable disconnected",
-        "Camera software stopped",
-        "Lighting failure",
-        "Trigger signal missing"
+        "Camera offline",
+        "Lens dirty",
+        "Lighting issue",
+        "Network disconnected"
     ],
 
     checks:[
         "Restart camera",
-        "Inspect Ethernet cable",
-        "Verify trigger signal",
-        "Check lighting"
+        "Clean camera lens",
+        "Check LAN cable",
+        "Verify lighting"
     ],
 
-    repair:"15 Minutes",
+    repair:"20 Minutes",
 
-    safety:"Power OFF camera before reconnecting cables."
+    safety:"Switch off camera before maintenance."
+},
+
+{
+    machine:"Bussing Machine",
+
+    title:"Ribbon Feeding Error",
+
+    keywords:[
+        "bussing",
+        "ribbon",
+        "feeding",
+        "jam"
+    ],
+
+    causes:[
+        "Ribbon misalignment",
+        "Roller worn",
+        "Sensor blocked",
+        "Motor overload"
+    ],
+
+    checks:[
+        "Realign ribbon",
+        "Inspect roller",
+        "Clean sensor",
+        "Reset motor drive"
+    ],
+
+    repair:"25 Minutes",
+
+    safety:"Disconnect machine before replacing ribbon."
+},
+
+{
+    machine:"Flash Tester",
+
+    title:"Flash Test Failure",
+
+    keywords:[
+        "flash",
+        "tester",
+        "irradiance",
+        "calibration"
+    ],
+
+    causes:[
+        "Lamp aging",
+        "Calibration expired",
+        "Sensor failure"
+    ],
+
+    checks:[
+        "Run calibration",
+        "Check irradiance sensor",
+        "Replace flash lamp if required"
+    ],
+
+    repair:"40 Minutes",
+
+    safety:"High voltage present inside flash chamber."
 }
 
 ];
 
-
-
-// Search Function
+// =============================================
 
 function searchKnowledge(question){
 
     question = question.toLowerCase();
 
-    for(const item of machineKnowledge){
+    for(let item of knowledgeBase){
 
-        for(const keyword of item.keywords){
+        for(let keyword of item.keywords){
 
-            if(question.includes(keyword)){
+            if(question.includes(keyword.toLowerCase())){
 
                 return item;
 
