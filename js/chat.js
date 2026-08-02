@@ -1,225 +1,223 @@
 // =====================================================
-// SAMA - AI Maintenance Assistant
-// Advanced Chat Controller
+// SAMA - Solex AI Maintenance Assistant
+// CHAT CONTROLLER
 // =====================================================
 
 
-// Global Chat Memory
-
 let conversationHistory = [];
 
+let chatBox;
 
-// Initialize Chat
 
-document.addEventListener("DOMContentLoaded", () => {
+
+// =====================================================
+// INITIALIZATION
+// =====================================================
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+    chatBox = document.getElementById("chatBox");
+
+
+    if(!chatBox){
+
+        console.error(
+        "SAMA ERROR: chatBox not found"
+        );
+
+        return;
+
+    }
+
 
     initializeSAMA();
+
 
 });
 
 
 
+
+
 // =====================================================
-// AI Engine Connection With Memory
+// START MESSAGE
 // =====================================================
 
 
-function processSAMAQuery(query){
+function initializeSAMA(){
 
 
-    try{
 
+addBotMessage(`
 
-        // Store current conversation context
 
-        conversationHistory.push({
+👋 Welcome to <b>SAMA</b>
 
 
-            role:"context",
+<br><br>
 
 
-            message:query
+I am <b>Solex AI Maintenance Assistant</b>
 
 
-        });
+<br><br>
 
 
+I can help you with:
 
 
+<br><br>
 
-        // Limit memory size
-        // Keep latest 20 conversations only
 
+⚙ Machine Breakdown Analysis
 
-        if(conversationHistory.length > 20){
 
+<br>
 
-            conversationHistory.shift();
+🚨 Alarm Troubleshooting
 
 
-        }
+<br>
 
+🛠 Preventive Maintenance
 
 
+<br>
 
+📦 Spare Recommendation
 
-        // Connect with AI Engine
 
+<br>
 
-        if(typeof generateAIResponse === "function"){
+📊 Machine Health
 
 
+<br><br>
 
-            let response =
 
-            generateAIResponse(query);
+Try asking:
 
 
+<br><br>
 
-            return response;
 
+<b>"Stringer breakdown"</b>
 
 
-        }
+<br>
 
 
+<b>"Servo alarm E37"</b>
 
 
+<br>
 
-        return fallbackResponse(query);
 
+<b>"Laminator PM checklist"</b>
 
 
-    }
+<br>
 
 
-    catch(error){
+<b>"AOI false rejection"</b>
 
 
 
-        console.error(
-            "SAMA AI Error:",
-            error
-        );
+`);
 
 
-
-        return `
-
-
-        ⚠️ SAMA encountered an error.
-
-
-        <br><br>
-
-
-        Please check:
-
-
-        <br>
-
-
-        ✓ aiEngine.js loaded
-
-
-        <br>
-
-
-        ✓ knowledge.js connected
-
-
-        <br>
-
-
-        ✓ alarmDatabase.js connected
-
-
-
-        `;
-
-
-    }
-
-
-
-}
 }
 
 
 
 
 
+
 // =====================================================
-// Send User Message
+// SEND MESSAGE
 // =====================================================
 
 
 function sendMessage(){
 
 
-    let input =
-    document.getElementById("userInput");
 
-
-    let query =
-    input.value.trim();
+let input =
+document.getElementById("userInput");
 
 
 
-    if(query==="")
-    return;
+let query =
+input.value.trim();
 
 
 
-    addUserMessage(query);
+if(query==="")
+
+return;
 
 
 
-    input.value="";
+
+addUserMessage(query);
 
 
 
-    conversationHistory.push({
-
-        role:"user",
-
-        message:query
-
-    });
+input.value="";
 
 
 
-    showTyping();
+
+conversationHistory.push({
+
+role:"user",
+
+message:query
+
+});
 
 
 
-    setTimeout(()=>{
 
 
-        removeTyping();
-
-
-
-        let response =
-        processSAMAQuery(query);
+showTyping();
 
 
 
-        addBotMessage(response);
+
+
+setTimeout(()=>{
 
 
 
-        conversationHistory.push({
-
-            role:"assistant",
-
-            message:response
-
-        });
+removeTyping();
 
 
 
-    },800);
+let response =
+processSAMAQuery(query);
+
+
+
+addBotMessage(response);
+
+
+
+conversationHistory.push({
+
+role:"assistant",
+
+message:response
+
+});
+
+
+
+},800);
 
 
 
@@ -229,8 +227,10 @@ function sendMessage(){
 
 
 
+
+
 // =====================================================
-// AI Engine Connection
+// AI ENGINE CONNECTION
 // =====================================================
 
 
@@ -238,46 +238,74 @@ function processSAMAQuery(query){
 
 
 
-    try{
-
-
-        // Connect with AI Engine
-
-
-        if(typeof generateAIResponse === "function"){
-
-
-            return generateAIResponse(query);
-
-
-        }
+try{
 
 
 
-
-        return fallbackResponse(query);
-
-
-
-    }
+if(
+typeof generateAIResponse === "function"
+){
 
 
-    catch(error){
+
+return generateAIResponse(query);
 
 
-        console.error(error);
+}
 
 
-        return `
 
-        ⚠️ SAMA encountered an error.
-
-        Please check AI Engine connection.
-
-        `;
+return fallbackResponse(query);
 
 
-    }
+
+}
+
+
+catch(error){
+
+
+
+console.error(
+"SAMA ERROR:",
+error
+);
+
+
+
+return `
+
+
+⚠️ SAMA AI Error
+
+
+<br><br>
+
+
+Please check:
+
+
+<br>
+
+✓ aiEngine.js
+
+
+<br>
+
+✓ knowledge.js
+
+
+<br>
+
+✓ alarmDatabase.js
+
+
+
+`;
+
+
+
+}
 
 
 
@@ -289,8 +317,9 @@ function processSAMAQuery(query){
 
 
 
+
 // =====================================================
-// Chat UI Functions
+// USER MESSAGE
 // =====================================================
 
 
@@ -302,10 +331,14 @@ let div =
 document.createElement("div");
 
 
-div.className="user-message";
+
+div.className =
+"user-message";
 
 
-div.innerHTML=`
+
+div.innerHTML = `
+
 
 <div class="message-header">
 
@@ -313,23 +346,32 @@ div.innerHTML=`
 
 </div>
 
+
 ${message}
+
 
 `;
 
 
 
-document.getElementById("chatBox")
-.appendChild(div);
-
+chatBox.appendChild(div);
 
 
 scrollChat();
 
 
+
 }
 
 
+
+
+
+
+
+// =====================================================
+// BOT MESSAGE
+// =====================================================
 
 
 function addBotMessage(message){
@@ -340,10 +382,14 @@ let div =
 document.createElement("div");
 
 
-div.className="bot-message";
+
+div.className =
+"bot-message";
 
 
-div.innerHTML=`
+
+div.innerHTML = `
+
 
 <div class="message-header">
 
@@ -354,16 +400,16 @@ div.innerHTML=`
 
 ${message}
 
+
 `;
 
 
 
-document.getElementById("chatBox")
-.appendChild(div);
-
+chatBox.appendChild(div);
 
 
 scrollChat();
+
 
 
 }
@@ -372,27 +418,33 @@ scrollChat();
 
 
 
+
+
 // =====================================================
-// Typing Animation
+// TYPING EFFECT
 // =====================================================
 
 
 function showTyping(){
 
 
+
 let div =
 document.createElement("div");
 
 
-div.id="typing";
+
+div.id =
+"typing";
 
 
-div.className="bot-message";
+
+div.className =
+"bot-message";
 
 
-div.innerHTML=
 
-`
+div.innerHTML = `
 
 🤖 SAMA is analyzing...
 
@@ -400,12 +452,12 @@ div.innerHTML=
 
 
 
-document.getElementById("chatBox")
-.appendChild(div);
+chatBox.appendChild(div);
 
 
 
 scrollChat();
+
 
 
 }
@@ -416,8 +468,10 @@ scrollChat();
 function removeTyping(){
 
 
+
 let typing =
 document.getElementById("typing");
+
 
 
 if(typing)
@@ -425,152 +479,213 @@ if(typing)
 typing.remove();
 
 
-}
-
-
-
-
-
-function scrollChat(){
-
-
-let box =
-document.getElementById("chatBox");
-
-
-box.scrollTop =
-box.scrollHeight;
-
 
 }
+
+
 
 
 
 
 
 // =====================================================
-// Offline Fallback Intelligence
+// AUTO SCROLL
+// =====================================================
+
+
+function scrollChat(){
+
+
+
+if(chatBox)
+
+{
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+}
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// FALLBACK AI
 // =====================================================
 
 
 function fallbackResponse(query){
 
 
-let q =
+
+let text =
 query.toLowerCase();
 
 
 
-if(q.includes("stringer"))
+
+if(text.includes("stringer"))
 
 {
 
 
 return `
 
+
 <b>Machine Detected:</b> Stringer
+
 
 <br><br>
 
-I need more details:
+
+Please provide:
+
 
 <br>
 
-1. Alarm code
+1. Alarm Code
+
 
 <br>
 
 2. Current condition
 
+
 <br>
 
 3. Production status
 
+
 <br><br>
 
-Meanwhile check:
+
+Check:
+
 
 <br>
 
 ✓ Servo drive
 
+
 <br>
 
 ✓ Vacuum pressure
 
+
 <br>
 
 ✓ Cell loading sensor
+
 
 <br>
 
 ✓ PLC alarm history
 
 
+
 `;
 
 }
 
 
 
-
-if(q.includes("alarm"))
+if(text.includes("alarm"))
 
 {
 
 
 return `
 
-<b>Alarm Analysis Required</b>
+
+<b>🚨 Alarm Investigation</b>
+
 
 <br><br>
+
 
 Please provide:
 
+
 <br>
 
-Machine Name + Alarm Code
+Machine Name
+
+
+<br>
+
+Alarm Code
+
+
+<br>
+
+Problem Symptom
+
+
 
 <br><br>
 
+
 Example:
+
 
 <br>
 
-"Stringer 02 Alarm E37"
+
+Stringer Alarm E37
+
+
 
 `;
 
 }
+
 
 
 
 
 return `
 
-I understand your query:
 
-<b>${query}</b>
+🤖 I received:
+
 
 <br><br>
 
-Please provide machine name or alarm code for detailed troubleshooting.
+
+<b>${query}</b>
+
+
+<br><br>
+
+
+Please provide machine name or alarm code.
+
 
 `;
 
+
+
 }
 
+
+
+
+
+
+
+
 // =====================================================
-// SAMA Suggested Questions
+// QUICK QUESTIONS
 // =====================================================
 
 
 function addSuggestionButtons(){
-
-
-let box =
-
-document.getElementById("chatBox");
 
 
 
@@ -579,55 +694,46 @@ document.createElement("div");
 
 
 
-div.className="bot-message";
+div.className =
+"bot-message";
 
 
 
-div.innerHTML=`
-
-<div class="message-header">
-🤖 Try asking:
-</div>
+div.innerHTML = `
 
 
-<button class="suggestion"
-onclick="sendSuggestion('Stringer breakdown')">
+<b>Try:</b>
+
+
+<br><br>
+
+
+<button onclick="sendSuggestion('Stringer breakdown')">
 
 Stringer Breakdown
 
 </button>
 
 
-<button class="suggestion"
-onclick="sendSuggestion('Servo alarm E37')">
+<button onclick="sendSuggestion('Servo alarm E37')">
 
 Servo Alarm E37
 
 </button>
 
 
-<button class="suggestion"
-onclick="sendSuggestion('Laminator bubble defect')">
+<button onclick="sendSuggestion('Laminator PM')">
 
-Laminator Bubble
-
-</button>
-
-
-<button class="suggestion"
-onclick="sendSuggestion('AOI false rejection')">
-
-AOI False NG
+Laminator PM
 
 </button>
-
 
 
 `;
 
 
 
-box.appendChild(div);
+chatBox.appendChild(div);
 
 
 }
@@ -637,6 +743,7 @@ box.appendChild(div);
 
 
 function sendSuggestion(text){
+
 
 
 document.getElementById("userInput").value=text;
