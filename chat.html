@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solex AI Chat Assistant</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<div class="chat-container">
+
+
+    <!-- Header -->
+
+    <div class="chat-header">
+
+        <h2>
+            🤖 Solex AI Maintenance Assistant
+        </h2>
+
+        <p>
+            Smart Troubleshooting Support
+        </p>
+
+    </div>
+
+
+
+    <!-- Messages -->
+
+    <div class="chat-messages" id="chatMessages">
+
+
+        <div class="message bot">
+
+            Hello 👋
+
+            <br><br>
+
+            I am Solex AI Maintenance Assistant.
+
+            <br><br>
+
+            You can ask me about:
+
+            <br><br>
+
+            🔧 Machine Faults
+            <br>
+            ⚠ PLC Alarms
+            <br>
+            🛠 Maintenance Problems
+            <br>
+            📋 SOP Guidance
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <!-- Suggested Questions -->
+
+
+    <div class="suggestions">
+
+
+        <button onclick="sendSuggestion('Laminator Vacuum Error')">
+            Vacuum Error
+        </button>
+
+
+        <button onclick="sendSuggestion('Servo Alarm')">
+            Servo Alarm
+        </button>
+
+
+        <button onclick="sendSuggestion('Heater Temperature Issue')">
+            Heater Fault
+        </button>
+
+
+        <button onclick="sendSuggestion('EL Camera Fault')">
+            EL Camera
+        </button>
+
+
+    </div>
+
+
+
+    <!-- Input -->
+
+
+    <div class="chat-input">
+
+
+        <input 
+        type="text"
+        id="userInput"
+        placeholder="Ask maintenance question..."
+        onkeypress="checkEnter(event)"
+        >
+
+
+        <button onclick="sendMessage()">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+        </button>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<script src="js/chat.js"></script>
+
+
+</body>
+
+</html>
