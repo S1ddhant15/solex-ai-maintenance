@@ -146,6 +146,42 @@ function removeTyping() {
 
 function generateAIResponse(question) {
 
+    const alarm = searchAlarm(question);
+
+if(alarm){
+
+    let answer = `
+
+<b>Alarm Code</b><br>
+${alarm.code}
+
+<br><br>
+
+<b>Machine</b><br>
+${alarm.machine}
+
+<br><br>
+
+<b>Alarm</b><br>
+${alarm.alarm}
+
+<br><br>
+
+<b>Cause</b><br>
+${alarm.cause}
+
+<br><br>
+
+<b>Corrective Actions</b><br>
+${alarm.action.map(a=>"✓ "+a).join("<br>")}
+
+`;
+
+    addMessage(answer,"bot");
+
+    return;
+
+}
     const result = searchKnowledge(question);
 
     if (result) {
