@@ -1,177 +1,167 @@
 // =====================================================
-// SAMA - AI Maintenance Assistant
-// Industrial Maintenance Knowledge Base
+// SAMA - Solex AI Maintenance Assistant
+// Industrial Troubleshooting Knowledge Base
 // =====================================================
 
-
-// =====================================================
-// Machine Troubleshooting Knowledge
-// =====================================================
 
 
 const maintenanceKnowledge = {
 
 
 
-    // ==================================
-    // STRINGER MACHINE
-    // ==================================
+/* =====================================================
+   STRINGER MACHINE
+===================================================== */
 
 
-    "stringer":{
+"stringer":{
 
 
-        machine:"Stringer",
+machine:"Stringer",
 
 
-        issues:{
+issues:{
 
 
 
-            "not running":{
+"cell breakage":{
 
 
-                symptom:
-                "Stringer machine stopped suddenly",
+symptom:
+"High cell breakage during stringing process",
 
 
-                possibleCause:
+possibleCause:[
 
-                [
+"Excessive pickup vacuum pressure",
 
-                "Servo drive fault",
+"Cell alignment issue",
 
-                "Cell loading sensor failure",
+"Incorrect stringer parameters",
 
-                "Vacuum pressure low",
+"Mechanical vibration",
 
-                "PLC communication error",
+"Damaged conveyor support"
 
-                "Mechanical obstruction"
+],
 
-                ],
 
+checks:[
 
-                checks:
+"Check vacuum pickup pressure",
 
-                [
+"Verify camera alignment",
 
-                "Check active PLC alarms",
+"Check cell handling movement",
 
-                "Check servo drive status",
+"Review stringer recipe parameters",
 
-                "Verify vacuum pressure",
+"Inspect mechanical guides"
 
-                "Check sensor input",
+],
 
-                "Inspect mechanical movement"
 
-                ],
+action:
+"Optimize handling parameters and verify alignment accuracy"
 
 
-                action:
+},
 
-                "Identify alarm source before machine reset"
 
-            },
 
 
 
 
-            "cell breakage":{
+"vacuum":{
 
 
-                symptom:
-                "High cell breakage during stringing",
+symptom:
+"Vacuum pickup failure or cell dropping",
 
 
-                possibleCause:
+possibleCause:[
 
-                [
+"Vacuum pressure low",
 
-                "Excessive conveyor pressure",
+"Vacuum cup damage",
 
-                "Incorrect stringer parameter",
+"Air leakage",
 
-                "Vacuum pickup issue",
+"Vacuum sensor failure"
 
-                "Cell positioning error"
+],
 
-                ],
 
+checks:[
 
-                checks:
+"Check vacuum gauge",
 
-                [
+"Inspect vacuum cup",
 
-                "Check pickup vacuum",
+"Check pneumatic leakage",
 
-                "Verify alignment camera",
+"Verify sensor feedback"
 
-                "Check soldering temperature",
+],
 
-                "Review process parameters"
 
-                ],
+action:
+"Restore stable vacuum pressure before production restart"
 
 
-                action:
+},
 
-                "Optimize handling parameters and alignment"
 
-            },
 
 
 
 
-            "ribbon issue":{
 
+"ribbon":{
 
-                symptom:
-                "Ribbon shifting or soldering defect",
 
+symptom:
+"Ribbon shifting or soldering defect",
 
-                possibleCause:
 
-                [
+possibleCause:[
 
-                "Ribbon tension variation",
+"Ribbon tension variation",
 
-                "Solder temperature unstable",
+"Solder temperature fluctuation",
 
-                "Flux issue",
+"Ribbon alignment issue",
 
-                "Alignment problem"
+"Flux problem"
 
-                ],
+],
 
 
-                checks:
+checks:[
 
-                [
+"Check ribbon feeder",
 
-                "Check ribbon feeder",
+"Verify solder temperature",
 
-                "Verify solder temperature",
+"Inspect flux supply",
 
-                "Inspect flux supply",
+"Check ribbon position"
 
-                "Check wire alignment"
+],
 
-                ],
 
+action:
+"Stabilize soldering parameters and ribbon alignment"
 
-                action:
 
-                "Verify soldering process stability"
+}
 
-            }
 
 
-        }
+}
 
 
-    },
+},
 
 
 
@@ -180,112 +170,110 @@ const maintenanceKnowledge = {
 
 
 
-    // ==================================
-    // LAMINATOR
-    // ==================================
 
+/* =====================================================
+   LAMINATOR
+===================================================== */
 
-    "laminator":{
 
+"laminator":{
 
-        machine:"Laminator",
 
+machine:"Laminator",
 
-        issues:{
 
+issues:{
 
 
-            "bubble defect":{
 
+"bubble":{
 
-                symptom:
-                "Bubble formation after lamination",
 
+symptom:
+"Bubble formation after lamination",
 
-                possibleCause:
 
-                [
+possibleCause:[
 
-                "Low vacuum level",
+"Vacuum level insufficient",
 
-                "Incorrect lamination recipe",
+"Moisture in EVA/POE",
 
-                "Moisture in material",
+"Incorrect lamination recipe",
 
-                "Heating profile variation"
+"Heating profile variation"
 
-                ],
+],
 
 
-                checks:
+checks:[
 
-                [
+"Check vacuum pump condition",
 
-                "Check vacuum pump",
+"Verify vacuum pressure",
 
-                "Verify vacuum pressure",
+"Check material moisture",
 
-                "Check temperature zones",
+"Review lamination temperature profile"
 
-                "Review recipe parameters"
+],
 
-                ],
 
+action:
+"Stabilize vacuum and lamination recipe"
 
-                action:
 
-                "Stabilize vacuum and lamination profile"
+},
 
-            },
 
 
 
 
+"temperature":{
 
-            "temperature":{
 
+symptom:
+"Temperature deviation during lamination",
 
-                symptom:
-                "Temperature deviation",
 
+possibleCause:[
 
-                possibleCause:
+"Heater failure",
 
-                [
+"SSR failure",
 
-                "Heater failure",
+"Thermocouple issue",
 
-                "SSR failure",
+"PID parameter problem"
 
-                "Thermocouple error"
+],
 
-                ],
 
+checks:[
 
-                checks:
+"Measure heater current",
 
-                [
+"Check SSR output",
 
-                "Measure heater current",
+"Verify thermocouple feedback",
 
-                "Check SSR output",
+"Review temperature controller"
 
-                "Verify temperature sensor"
+],
 
-                ],
 
+action:
+"Repair heating control loop"
 
-                action:
 
-                "Repair heating control system"
+}
 
-            }
 
 
-        }
+}
 
 
-    },
+},
 
 
 
@@ -293,137 +281,131 @@ const maintenanceKnowledge = {
 
 
 
+/* =====================================================
+   EL INSPECTION
+===================================================== */
 
 
-    // ==================================
-    // EL INSPECTION
-    // ==================================
+"el tester":{
 
 
-    "el":{
+machine:"EL Tester",
 
 
-        machine:"EL Tester",
+issues:{
 
 
-        issues:{
 
+"dark":{
 
 
-            "dark cell":{
+symptom:
+"Dark area detected in EL image",
 
 
-                symptom:
-                "Dark area in EL image",
+possibleCause:[
 
+"Cell crack",
 
-                possibleCause:
+"Poor solder joint",
 
-                [
+"Ribbon damage",
 
-                "Cell crack",
+"Contact issue"
 
-                "Poor soldering",
+],
 
-                "Ribbon damage",
 
-                "Contact issue"
+checks:[
 
-                ],
+"Review EL image",
 
+"Check soldering quality",
 
-                checks:
+"Verify string output"
 
-                [
+],
 
-                "Review EL image",
 
-                "Check solder joint",
+action:
+"Perform root cause analysis from stringing process"
 
-                "Verify string quality"
 
-                ],
+}
 
 
-                action:
 
-                "Perform defect root cause analysis"
+}
 
-            }
 
+},
 
 
-        }
 
 
-    },
 
 
 
 
 
+/* =====================================================
+   AOI
+===================================================== */
 
 
+"aoi":{
 
 
-    // ==================================
-    // AOI INSPECTION
-    // ==================================
+machine:"AOI",
 
 
-    "aoi":{
+issues:{
 
 
-        machine:"AOI",
 
+"false":{
 
-        issues:{
 
+symptom:
+"High false rejection from AOI",
 
-            "false rejection":{
 
+possibleCause:[
 
-                symptom:
-                "High false NG detection",
+"Camera focus issue",
 
+"Lighting variation",
 
-                possibleCause:
+"Incorrect threshold setting",
 
-                [
+"Calibration error"
 
-                "Camera focus issue",
+],
 
-                "Incorrect threshold",
 
-                "Lighting variation"
+checks:[
 
-                ],
+"Check camera calibration",
 
+"Verify lighting",
 
-                checks:
+"Review inspection parameters"
 
-                [
+],
 
-                "Check camera calibration",
 
-                "Adjust inspection parameters",
+action:
+"Optimize AOI recipe and inspection parameters"
 
-                "Verify lighting"
 
-                ],
+}
 
 
-                action:
 
-                "Optimize AOI inspection settings"
+}
 
-            }
 
-
-        }
-
-
-    }
+}
 
 
 
@@ -438,7 +420,7 @@ const maintenanceKnowledge = {
 
 
 // =====================================================
-// Knowledge Search Engine
+// SEARCH KNOWLEDGE
 // =====================================================
 
 
@@ -469,7 +451,9 @@ maintenanceKnowledge[machine];
 
 
 
-for(let key in data.issues)
+for(
+let key in data.issues
+)
 
 {
 
@@ -485,20 +469,16 @@ return data.issues[key];
 }
 
 
-
 }
 
 
-
 }
-
 
 
 
 return null;
 
 
-
 }
 
 
@@ -510,30 +490,36 @@ return null;
 
 
 // =====================================================
-// General Keyword Search
+// LIST AVAILABLE KNOWLEDGE
 // =====================================================
 
 
-function findKnowledge(keyword){
+function getKnowledgeList(){
+
 
 
 let result=[];
 
 
 
-for(let machine in maintenanceKnowledge){
+for(
+let machine in maintenanceKnowledge
+)
 
-
-let data =
-maintenanceKnowledge[machine];
-
+{
 
 
 result.push({
 
-machine:data.machine,
+machine:
+maintenanceKnowledge[machine].machine,
 
-availableIssues:Object.keys(data.issues)
+
+issues:
+Object.keys(
+maintenanceKnowledge[machine].issues
+)
+
 
 });
 
@@ -543,239 +529,6 @@ availableIssues:Object.keys(data.issues)
 
 
 return result;
-
-
-}
-
-// =====================================================
-// Advanced SAMA Knowledge Search
-// =====================================================
-
-
-function searchAdvancedKnowledge(query){
-
-
-query = query.toLowerCase();
-
-
-
-let matches = [];
-
-
-
-for(let machine in maintenanceKnowledge){
-
-
-
-let machineData =
-maintenanceKnowledge[machine];
-
-
-
-for(let issue in machineData.issues){
-
-
-
-let issueData =
-machineData.issues[issue];
-
-
-
-let searchableText = (
-
-machineData.machine +
-
-" " +
-
-issue +
-
-" " +
-
-issueData.symptom +
-
-" " +
-
-issueData.possibleCause.join(" ") +
-
-" " +
-
-issueData.checks.join(" ")
-
-).toLowerCase();
-
-
-
-
-
-if(searchableText.includes(query)){
-
-
-matches.push({
-
-
-machine:
-machineData.machine,
-
-
-issue:
-issue,
-
-
-symptom:
-issueData.symptom,
-
-
-cause:
-issueData.possibleCause,
-
-
-checks:
-issueData.checks,
-
-
-action:
-issueData.action
-
-
-
-});
-
-
-}
-
-
-
-
-}
-
-
-
-}
-
-
-
-return matches;
-
-
-}
-
-
-
-
-
-
-
-// =====================================================
-// Format Knowledge Response For SAMA
-// =====================================================
-
-
-function formatKnowledgeResponse(data){
-
-
-
-if(!data || data.length===0)
-
-return null;
-
-
-
-
-let item = data[0];
-
-
-
-return `
-
-
-<b>🔧 SAMA Troubleshooting Analysis</b>
-
-
-<br><br>
-
-
-<b>Machine:</b>
-
-${item.machine}
-
-
-<br><br>
-
-
-<b>Issue:</b>
-
-${item.issue}
-
-
-<br><br>
-
-
-
-<b>Possible Causes:</b>
-
-<br>
-
-${
-
-item.cause
-
-.map((x,i)=>
-
-`${i+1}. ${x}`
-
-)
-
-.join("<br>")
-
-}
-
-
-
-<br><br>
-
-
-<b>Recommended Checks:</b>
-
-<br>
-
-${
-
-item.checks
-
-.map((x)=>
-
-"✓ "+x
-
-)
-
-.join("<br>")
-
-}
-
-
-
-<br><br>
-
-
-<b>SAMA Recommendation:</b>
-
-<br>
-
-${item.action}
-
-
-<br><br>
-
-
-<span class="confidence">
-
-Confidence: 88%
-
-</span>
-
-
-`;
-
 
 
 }
