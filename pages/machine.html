@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Machine Monitor</title>
+<title>Machine Details</title>
 
 <link rel="stylesheet" href="../css/style.css">
 
@@ -18,13 +18,15 @@
 
 <div class="dashboard">
 
+<!-- Sidebar -->
+
 <div class="sidebar">
 
 <div class="logo-area">
 
 <h2>🤖 SAMA</h2>
 
-<p>AI Maintenance</p>
+<p>AI Maintenance Assistant</p>
 
 </div>
 
@@ -35,7 +37,7 @@
 Dashboard
 </li>
 
-<li onclick="location.href='machines.html'" class="active">
+<li onclick="location.href='machines.html'">
 <i class="fa-solid fa-gears"></i>
 Machines
 </li>
@@ -45,64 +47,157 @@ Machines
 AI Chat
 </li>
 
-<li onclick="location.href='alarms.html'">
-<i class="fa-solid fa-triangle-exclamation"></i>
-Alarm Lookup
+<li onclick="location.href='analytics.html'">
+<i class="fa-solid fa-chart-column"></i>
+Analytics
+</li>
+
+<li onclick="location.href='workorder.html'">
+<i class="fa-solid fa-clipboard-list"></i>
+Work Orders
+</li>
+
+<li class="active">
+<i class="fa-solid fa-microchip"></i>
+Machine Details
+</li>
+
+<li onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
 </li>
 
 </ul>
 
 </div>
 
+<!-- Main -->
+
 <div class="main-content">
 
-<h1 id="machineTitle">Machine Details</h1>
+<div class="topbar">
+
+<div>
+
+<h1 id="machineName">Machine Details</h1>
+
+<p>Real-Time AI Machine Monitoring</p>
+
+</div>
+
+</div>
+
+<!-- KPI Cards -->
 
 <div class="cards">
 
 <div class="card">
-<h3>Status</h3>
-<h1 id="status">Running</h1>
+
+<h3>🟢 Machine Health</h3>
+
+<h1 id="health">--%</h1>
+
 </div>
 
 <div class="card">
-<h3>Health</h3>
-<h1 id="health">97%</h1>
+
+<h3>🌡 Temperature</h3>
+
+<h1 id="temperature">--°C</h1>
+
 </div>
 
 <div class="card">
-<h3>Temperature</h3>
-<h1 id="temperature">42°C</h1>
+
+<h3>⚙ Pressure</h3>
+
+<h1 id="pressure">--</h1>
+
 </div>
 
 <div class="card">
-<h3>Air Pressure</h3>
-<h1 id="pressure">6.2 Bar</h1>
-</div>
 
-<div class="card">
-<h3>Running Hours</h3>
-<h1 id="hours">1245</h1>
-</div>
+<h3>⏱ Running Hours</h3>
 
-<div class="card">
-<h3>Next PM</h3>
-<h1 id="pm">12 Aug</h1>
+<h1 id="hours">--</h1>
+
 </div>
 
 </div>
+
+<!-- Information -->
 
 <div class="recent">
 
-<h2>🤖 AI Health Assessment</h2>
+<h2>Machine Information</h2>
 
-<div class="card">
+<table>
 
-<p id="aiRecommendation">
+<tr>
 
-Machine operating normally.
+<th>Parameter</th>
 
-No abnormal trend detected.
+<th>Value</th>
+
+</tr>
+
+<tr>
+
+<td>Department</td>
+
+<td id="department"></td>
+
+</tr>
+
+<tr>
+
+<td>Status</td>
+
+<td id="status"></td>
+
+</tr>
+
+<tr>
+
+<td>Next PM</td>
+
+<td id="pm"></td>
+
+</tr>
+
+<tr>
+
+<td>Current Alarm</td>
+
+<td id="alarm"></td>
+
+</tr>
+
+<tr>
+
+<td>AI Score</td>
+
+<td id="score"></td>
+
+</tr>
+
+</table>
+
+</div>
+
+<!-- AI Recommendation -->
+
+<div class="recent">
+
+<h2>🤖 AI Recommendation</h2>
+
+<div class="ai-box">
+
+<h3>Recommended Action</h3>
+
+<p id="recommendation">
+
+Loading AI Recommendation...
 
 </p>
 
@@ -110,50 +205,93 @@ No abnormal trend detected.
 
 </div>
 
+<!-- Maintenance History -->
+
 <div class="recent">
 
-<h2>Current Parameters</h2>
+<h2>Maintenance History</h2>
 
 <table>
 
 <tr>
-<th>Parameter</th>
-<th>Value</th>
-<th>Status</th>
+
+<th>Date</th>
+
+<th>Activity</th>
+
+<th>Engineer</th>
+
 </tr>
 
 <tr>
-<td>Servo Load</td>
-<td>63%</td>
-<td class="status-success">Normal</td>
+
+<td>28 Jul 2026</td>
+
+<td>Preventive Maintenance Completed</td>
+
+<td>Maintenance Team</td>
+
 </tr>
 
 <tr>
-<td>Vacuum</td>
-<td>-92 kPa</td>
-<td class="status-success">Normal</td>
+
+<td>15 Jul 2026</td>
+
+<td>Servo Alignment</td>
+
+<td>Rahul</td>
+
 </tr>
 
 <tr>
-<td>Conveyor Speed</td>
-<td>28 m/min</td>
-<td class="status-success">Normal</td>
-</tr>
 
-<tr>
-<td>Heater Temperature</td>
-<td>148°C</td>
-<td class="status-warning">Monitor</td>
+<td>03 Jul 2026</td>
+
+<td>Sensor Replacement</td>
+
+<td>Amit</td>
+
 </tr>
 
 </table>
 
 </div>
 
+<!-- Buttons -->
+
+<div style="margin-top:25px; display:flex; gap:15px; flex-wrap:wrap;">
+
+<button class="btn btn-primary"
+
+onclick="location.href='workorder.html'">
+
+📋 Generate Work Order
+
+</button>
+
+<button class="btn btn-primary"
+
+onclick="location.href='chat.html'">
+
+🤖 Ask AI
+
+</button>
+
+<button class="btn btn-primary"
+
+onclick="location.href='machines.html'">
+
+⬅ Back to Machines
+
+</button>
+
+</div>
+
 </div>
 
 </div>
 
+<script src="../js/app.js"></script>
 <script src="../js/machineMonitor.js"></script>
 
 </body>
