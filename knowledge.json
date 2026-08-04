@@ -1,0 +1,160 @@
+{
+    "machines": [
+
+        {
+            "name": "Laminator",
+            "category": "Process Equipment",
+            "issues": [
+                {
+                    "problem": "Vacuum Error",
+                    "causes": [
+                        "Vacuum pump not running",
+                        "Vacuum leakage in pipeline",
+                        "Solenoid valve failure",
+                        "Vacuum sensor malfunction",
+                        "Filter blockage"
+                    ],
+                    "checks": [
+                        "Check vacuum pump status",
+                        "Inspect vacuum hose leakage",
+                        "Verify solenoid valve operation",
+                        "Check PLC sensor feedback",
+                        "Clean vacuum filter"
+                    ],
+                    "repair_time": "20-30 minutes"
+                },
+
+                {
+                    "problem": "Temperature Not Reaching Set Point",
+                    "causes": [
+                        "Heater failure",
+                        "SSR failure",
+                        "Thermocouple damaged",
+                        "PID controller issue"
+                    ],
+                    "checks": [
+                        "Measure heater current",
+                        "Check SSR output",
+                        "Verify thermocouple reading",
+                        "Check PID parameters"
+                    ],
+                    "repair_time": "30 minutes"
+                }
+            ]
+        },
+
+
+        {
+            "name": "Stringer",
+            "category": "Cell Interconnection",
+
+            "issues": [
+
+                {
+                    "problem": "Servo Alarm",
+
+                    "causes": [
+                        "Servo overload",
+                        "Encoder cable loose",
+                        "Motor temperature high",
+                        "Servo drive fault",
+                        "Mechanical obstruction"
+                    ],
+
+                    "checks": [
+                        "Check servo drive alarm code",
+                        "Inspect motor movement",
+                        "Verify encoder connection",
+                        "Check mechanical alignment"
+                    ],
+
+                    "repair_time":"15-30 minutes"
+                },
+
+
+                {
+                    "problem":"Wire Break",
+
+                    "causes":[
+                        "Wire tension high",
+                        "Wire guide misalignment",
+                        "Solder temperature variation"
+                    ],
+
+                    "checks":[
+                        "Check wire tension setting",
+                        "Inspect wire path",
+                        "Verify solder temperature"
+                    ],
+
+                    "repair_time":"20 minutes"
+                }
+
+            ]
+
+        },
+
+
+        {
+            "name":"EL Tester",
+
+            "category":"Quality Inspection",
+
+            "issues":[
+
+                {
+                    "problem":"Camera Fault",
+
+                    "causes":[
+                        "Camera communication error",
+                        "Lens contamination",
+                        "Lighting issue",
+                        "Trigger signal problem"
+                    ],
+
+                    "checks":[
+                        "Restart camera software",
+                        "Clean camera lens",
+                        "Check Ethernet communication",
+                        "Verify trigger signal"
+                    ],
+
+                    "repair_time":"15 minutes"
+                }
+
+            ]
+
+        },
+
+
+        {
+            "name":"Bussing Machine",
+
+            "category":"Module Assembly",
+
+            "issues":[
+
+                {
+                    "problem":"Soldering Issue",
+
+                    "causes":[
+                        "Temperature variation",
+                        "Flux problem",
+                        "Ribbon positioning error"
+                    ],
+
+                    "checks":[
+                        "Check solder temperature",
+                        "Inspect flux supply",
+                        "Verify ribbon alignment"
+                    ],
+
+                    "repair_time":"30 minutes"
+                }
+
+            ]
+
+        }
+
+    ]
+}
