@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>SAMA - Solex AI Maintenance Assistant</title>
+
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+
+<div class="logo">
+
+<img src="assets/solex-logo.png">
+
+<h2>SAMA</h2>
+
+<p>AI Maintenance Assistant</p>
+
+</div>
+
+
+
+<ul>
+
+<li class="active">
+🤖 AI Chat
+</li>
+
+
+<li>
+⚙ Machine Status
+</li>
+
+
+<li>
+🚨 Alarm History
+</li>
+
+
+<li>
+🛠 Preventive Maintenance
+</li>
+
+
+<li>
+📦 Spare Parts
+</li>
+
+
+<li>
+📊 Reports
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+<!-- MAIN CHAT AREA -->
+
+
+<div class="main">
+
+
+<div class="header">
+
+
+<h1>
+Solex AI Maintenance Assistant
+</h1>
+
+
+<p>
+Industrial Troubleshooting Support
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="chat-container">
+
+
+<div id="chatBox" class="chat-box">
+
+
+</div>
+
+
+
+
+
+<div class="input-area">
+
+
+<input 
+id="userInput"
+placeholder="Ask SAMA... Example: Stringer alarm E37">
+
+
+<button onclick="sendMessage()">
+
+Send
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script src="js/machineDatabase.js"></script>
+
+<script src="js/alarmDatabase.js"></script>
+
+<script src="js/knowledge.js"></script>
+
+<script src="js/aiEngine.js"></script>
+
+<script src="js/chat.js"></script>
+
+
+</body>
+
+
+</html>

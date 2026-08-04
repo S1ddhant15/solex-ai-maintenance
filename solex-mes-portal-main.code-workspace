@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "../../solex-mes-portal-main/solex-mes-portal-main"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "solex-ai-maintenance-main"
+	}
+}

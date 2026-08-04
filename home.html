@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solex AI Maintenance Assistant</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo-area">
+
+            <h2>🤖 SAMA</h2>
+
+            <p>AI Maintenance</p>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </li>
+
+            <li onclick="location.href='chat.html'">
+                <i class="fa-solid fa-comments"></i>
+                AI Chat
+            </li>
+
+            <li>
+                <i class="fa-solid fa-gears"></i>
+                Machines
+            </li>
+
+            <li>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Alarm Lookup
+            </li>
+
+            <li>
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                Preventive Maintenance
+            </li>
+
+            <li>
+                <i class="fa-solid fa-chart-column"></i>
+                Analytics
+            </li>
+
+            <li onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- Main -->
+
+    <div class="main-content">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    Welcome,
+                    <span id="employeeName"></span>
+                </h1>
+
+                <p id="departmentName"></p>
+
+            </div>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>🤖 AI Chat</h3>
+
+                <p>Ask maintenance questions</p>
+
+                <button onclick="location.href='chat.html'">
+                    Open
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h3>⚙ Machines</h3>
+
+                <p>Machine Library</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>⚠ Alarm Lookup</h3>
+
+                <p>Search PLC Alarms</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>🛠 PM Checklist</h3>
+
+                <p>Preventive Maintenance</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>📊 Dashboard</h3>
+
+                <p>Machine Health</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>📁 SOP Library</h3>
+
+                <p>Machine Manuals</p>
+
+            </div>
+
+        </div>
+
+        <div class="recent">
+
+            <h2>Recent Activities</h2>
+
+            <table>
+
+                <tr>
+                    <th>Time</th>
+                    <th>Machine</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr>
+                    <td>09:15</td>
+                    <td>Laminator 2</td>
+                    <td>Vacuum Error</td>
+                    <td style="color:#10b981;">Resolved</td>
+                </tr>
+
+                <tr>
+                    <td>10:10</td>
+                    <td>Stringer 1</td>
+                    <td>Servo Alarm</td>
+                    <td style="color:#f59e0b;">Running</td>
+                </tr>
+
+                <tr>
+                    <td>11:30</td>
+                    <td>EL Tester</td>
+                    <td>Camera Fault</td>
+                    <td style="color:#ef4444;">Pending</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("employeeName").innerHTML =
+localStorage.getItem("employee") || "Operator";
+
+document.getElementById("departmentName").innerHTML =
+localStorage.getItem("department") || "";
+
+</script>
+
+<script src="js/app.js"></script>
+<script src="js/alarmDatabase.js"></script>
+<script src="js/database.js"></script>
+<script src="js/knowledge.js"></script>
+<script src="js/chat.js"></script>
+
+</body>
+</html>
