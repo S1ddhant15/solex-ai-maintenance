@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SAMA - Maintenance Analytics</title>
+
+
+<link rel="stylesheet" href="../css/style.css">
+
+
+<!-- Chart JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     Header
+================================ -->
+
+
+<header class="top-header">
+
+    <div class="logo-area">
+
+        <img src="../assets/logo.png">
+
+        <h2>SAMA</h2>
+
+    </div>
+
+
+    <div class="user-area">
+
+        <span>
+            AI Maintenance Assistant
+        </span>
+
+    </div>
+
+
+</header>
+
+
+
+
+<!-- ==============================
+     Sidebar
+================================ -->
+
+
+<aside class="sidebar">
+
+
+<ul>
+
+
+<li onclick="location.href='../dashboard.html'">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</li>
+
+
+
+<li onclick="location.href='chat.html'">
+
+<i class="fa-solid fa-robot"></i>
+
+AI Chat
+
+</li>
+
+
+
+<li onclick="location.href='machines.html'">
+
+<i class="fa-solid fa-gears"></i>
+
+Machines
+
+</li>
+
+
+
+<li onclick="location.href='breakdown.html'">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+Breakdown
+
+</li>
+
+
+
+<li onclick="location.href='spare.html'">
+
+<i class="fa-solid fa-box"></i>
+
+Spare Parts
+
+</li>
+
+
+
+<li class="active">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Analytics
+
+</li>
+
+
+</ul>
+
+
+</aside>
+
+
+
+
+
+<!-- ==============================
+     Main Content
+================================ -->
+
+
+<main class="content">
+
+
+<h1>
+Maintenance Analytics
+</h1>
+
+
+
+<!-- KPI CARDS -->
+
+<div class="card-container">
+
+
+
+<div class="card">
+
+<h3>Total Machines</h3>
+
+<p id="totalMachines">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Running Machines</h3>
+
+<p id="runningMachines">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Breakdowns</h3>
+
+<p id="breakdowns">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Downtime</h3>
+
+<p id="downtime">
+0
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="card-container">
+
+
+
+<div class="card">
+
+<h3>MTBF</h3>
+
+<p id="mtbf">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>MTTR</h3>
+
+<p id="mttr">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>PM Pending</h3>
+
+<p id="pmPending">
+0
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Critical Alerts</h3>
+
+<p id="criticalAlerts">
+0
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ==============================
+ Charts
+================================ -->
+
+
+<div class="chart-container">
+
+
+<div class="chart-box">
+
+<h3>
+Breakdown Trend
+</h3>
+
+
+<canvas id="breakdownChart"></canvas>
+
+
+</div>
+
+
+
+
+<div class="chart-box">
+
+
+<h3>
+Machine Health Status
+</h3>
+
+
+<canvas id="machineHealthChart"></canvas>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ==============================
+ AI Recommendation
+================================ -->
+
+
+<div class="ai-box">
+
+
+<h2>
+SAMA AI Recommendation
+</h2>
+
+
+<p id="aiSuggestion">
+
+Click generate recommendation
+
+</p>
+
+
+
+<button onclick="generateMaintenanceSuggestion()">
+
+Generate Suggestion
+
+</button>
+
+
+</div>
+
+
+
+
+</main>
+
+
+
+
+<script src="../js/analytics.js"></script>
+
+
+</body>
+
+</html>
