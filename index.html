@@ -9,22 +9,16 @@
 
     <title>SAMA - Solex AI Maintenance Assistant</title>
 
-
     <!-- MAIN CSS -->
-
     <link rel="stylesheet" href="css/style.css">
 
-
     <!-- FONT AWESOME -->
-
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
 
-
     <!-- FAVICON -->
-
     <link
         rel="icon"
         type="image/png"
@@ -51,23 +45,19 @@
 
         <div class="logo-area">
 
-
             <img
                 src="assets/solex-logo.png"
                 class="solex-logo"
                 alt="Solex Logo"
             >
 
-
             <h2>
                 🤖 SAMA
             </h2>
 
-
-            <p>
+            <p data-i18n="subtitle">
                 AI Maintenance Assistant
             </p>
-
 
         </div>
 
@@ -80,13 +70,11 @@
         <ul>
 
 
-            <!-- AI CHAT -->
-
             <li class="active">
 
                 <i class="fa-solid fa-robot"></i>
 
-                <span>
+                <span data-i18n="aiChat">
                     AI Chat
                 </span>
 
@@ -94,13 +82,11 @@
 
 
 
-            <!-- MACHINE STATUS -->
-
-            <li onclick="showComingSoon('Machine Status')">
+            <li onclick="showComingSoon(t('machineStatus'))">
 
                 <i class="fa-solid fa-gears"></i>
 
-                <span>
+                <span data-i18n="machineStatus">
                     Machine Status
                 </span>
 
@@ -108,13 +94,11 @@
 
 
 
-            <!-- ALARM HISTORY -->
-
-            <li onclick="showComingSoon('Alarm History')">
+            <li onclick="showComingSoon(t('alarmHistory'))">
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
 
-                <span>
+                <span data-i18n="alarmHistory">
                     Alarm History
                 </span>
 
@@ -122,13 +106,11 @@
 
 
 
-            <!-- PREVENTIVE MAINTENANCE -->
-
-            <li onclick="showComingSoon('Preventive Maintenance')">
+            <li onclick="showComingSoon(t('preventiveMaintenance'))">
 
                 <i class="fa-solid fa-calendar-check"></i>
 
-                <span>
+                <span data-i18n="preventiveMaintenance">
                     Preventive Maintenance
                 </span>
 
@@ -136,13 +118,11 @@
 
 
 
-            <!-- SPARE INVENTORY -->
-
-            <li onclick="showComingSoon('Spare Inventory')">
+            <li onclick="showComingSoon(t('spareInventory'))">
 
                 <i class="fa-solid fa-box"></i>
 
-                <span>
+                <span data-i18n="spareInventory">
                     Spare Inventory
                 </span>
 
@@ -150,13 +130,11 @@
 
 
 
-            <!-- BREAKDOWN HISTORY -->
-
-            <li onclick="showComingSoon('Breakdown History')">
+            <li onclick="showComingSoon(t('breakdownHistory'))">
 
                 <i class="fa-solid fa-clock-rotate-left"></i>
 
-                <span>
+                <span data-i18n="breakdownHistory">
                     Breakdown History
                 </span>
 
@@ -164,13 +142,11 @@
 
 
 
-            <!-- WHY SAMA -->
-
             <li onclick="window.location.href='pages/whySAMA.html'">
 
                 <i class="fa-solid fa-lightbulb"></i>
 
-                <span>
+                <span data-i18n="whySAMA">
                     Why SAMA
                 </span>
 
@@ -185,16 +161,13 @@
 
         <div class="sidebar-footer">
 
-
             <p>
                 SAMA v1.0
             </p>
 
-
             <small>
                 Solex Digital Transformation
             </small>
-
 
         </div>
 
@@ -210,35 +183,70 @@
     <div class="main-content">
 
 
-        <!-- TOP BAR -->
+        <!-- ==========================================
+             TOP BAR
+        ========================================== -->
 
         <div class="topbar">
 
 
             <div class="topbar-title">
 
-
-                <h1>
-                    🤖 Solex AI Maintenance Assistant
+                <h1 data-i18n="appName">
+                    Solex AI Maintenance Assistant
                 </h1>
-
 
                 <p>
                     Industrial Troubleshooting & Maintenance Support
                 </p>
 
-
             </div>
 
 
 
-            <div class="system-status">
+            <div class="topbar-actions">
 
 
-                <span class="status-dot"></span>
+                <!-- LANGUAGE -->
+
+                <div class="language-control">
+
+                    <i class="fa-solid fa-globe"></i>
+
+                    <select
+                        id="languageSelector"
+                        class="language-selector"
+                    >
+
+                        <option value="en">
+                            English
+                        </option>
+
+                        <option value="hi">
+                            हिन्दी
+                        </option>
+
+                        <option value="gu">
+                            ગુજરાતી
+                        </option>
+
+                    </select>
+
+                </div>
 
 
-                SAMA Online
+
+                <!-- ONLINE STATUS -->
+
+                <div class="system-status">
+
+                    <span class="status-dot"></span>
+
+                    <span data-i18n="online">
+                        Online
+                    </span>
+
+                </div>
 
 
             </div>
@@ -255,7 +263,6 @@
         <div class="chat-container">
 
 
-
             <!-- CHAT HEADER -->
 
             <div class="chat-header">
@@ -263,14 +270,11 @@
 
                 <div class="chat-header-left">
 
-
                     <i class="fa-solid fa-robot"></i>
 
-
-                    <span>
+                    <span data-i18n="assistantName">
                         SAMA
                     </span>
-
 
                 </div>
 
@@ -278,12 +282,11 @@
 
                 <div class="chat-header-status">
 
-
-                    Online
-
+                    <span data-i18n="online">
+                        Online
+                    </span>
 
                     <span class="online-dot"></span>
-
 
                 </div>
 
@@ -301,19 +304,14 @@
                 class="chat-box"
             >
 
-
-                <!--
-                    Messages generated by chat.js
-                    will appear here
-                -->
-
+                <!-- chat.js inserts messages here -->
 
             </div>
 
 
 
             <!-- ==========================================
-                 QUICK QUESTIONS
+                 QUICK ACTIONS
             ========================================== -->
 
             <div class="quick-actions">
@@ -323,42 +321,31 @@
                     type="button"
                     onclick="askQuickQuestion('Servo alarm E37')"
                 >
-
                     🚨 Servo Alarm E37
-
                 </button>
-
 
 
                 <button
                     type="button"
                     onclick="askQuickQuestion('Stringer cell breakage')"
                 >
-
                     ⚙ Stringer Breakdown
-
                 </button>
-
 
 
                 <button
                     type="button"
                     onclick="askQuickQuestion('Laminator PM checklist')"
                 >
-
                     🛠 Laminator PM
-
                 </button>
-
 
 
                 <button
                     type="button"
                     onclick="askQuickQuestion('Stringer health')"
                 >
-
                     📊 Machine Health
-
                 </button>
 
 
@@ -367,7 +354,7 @@
 
 
             <!-- ==========================================
-                 INPUT AREA
+                 CHAT INPUT
             ========================================== -->
 
             <div class="chat-input">
@@ -376,10 +363,10 @@
                 <input
                     type="text"
                     id="userInput"
+                    data-i18n-placeholder="placeholder"
                     placeholder="Ask SAMA about machine, alarm, PM, spare..."
                     autocomplete="off"
                 >
-
 
 
                 <button
@@ -387,12 +374,11 @@
                     onclick="sendMessage()"
                 >
 
-
                     <i class="fa-solid fa-paper-plane"></i>
 
-
-                    Send
-
+                    <span data-i18n="send">
+                        Send
+                    </span>
 
                 </button>
 
@@ -411,34 +397,32 @@
 
 
 <!-- ==========================================
-     JAVASCRIPT DATABASES
-
-     IMPORTANT:
-     machines.js
-     NOT machineDatabase.js
+     DATABASES
 ========================================== -->
-
 
 <script src="js/machines.js"></script>
 
-
 <script src="js/knowledge.js"></script>
-
 
 <script src="js/alarmDatabase.js"></script>
 
-
 <script src="js/spareDatabase.js"></script>
-
 
 <script src="js/breakdownHistory.js"></script>
 
 
 
 <!-- ==========================================
-     AI ENGINE
+     LANGUAGE ENGINE
 ========================================== -->
 
+<script src="js/language.js"></script>
+
+
+
+<!-- ==========================================
+     AI ENGINE
+========================================== -->
 
 <script src="js/aiEngine.js"></script>
 
@@ -448,7 +432,6 @@
      CHAT CONTROLLER
 ========================================== -->
 
-
 <script src="js/chat.js"></script>
 
 
@@ -457,13 +440,8 @@
      PAGE FUNCTIONS
 ========================================== -->
 
-
 <script>
 
-
-/* ==========================================
-   ENTER KEY
-========================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -471,7 +449,9 @@ document.addEventListener(
     {
 
         const input =
-            document.getElementById("userInput");
+            document.getElementById(
+                "userInput"
+            );
 
 
         if(input)
@@ -482,7 +462,9 @@ document.addEventListener(
                 function(event)
                 {
 
-                    if(event.key === "Enter")
+                    if(
+                        event.key === "Enter"
+                    )
                     {
 
                         event.preventDefault();
@@ -501,15 +483,13 @@ document.addEventListener(
 
 
 
-/* ==========================================
-   QUICK QUESTIONS
-========================================== */
-
 function askQuickQuestion(question)
 {
 
     const input =
-        document.getElementById("userInput");
+        document.getElementById(
+            "userInput"
+        );
 
 
     if(!input)
@@ -530,17 +510,49 @@ function askQuickQuestion(question)
 
 
 
-/* ==========================================
-   COMING SOON
-========================================== */
-
 function showComingSoon(feature)
 {
 
-    alert(
+    const language =
+        typeof getSAMALanguage === "function"
+        ?
+        getSAMALanguage()
+        :
+        "en";
+
+
+    let message;
+
+
+    if(language === "hi")
+    {
+
+        message =
         feature +
-        " module is currently under development."
-    );
+        " मॉड्यूल अभी विकासाधीन है।";
+
+    }
+
+    else if(language === "gu")
+    {
+
+        message =
+        feature +
+        " મોડ્યુલ હાલમાં વિકાસ હેઠળ છે.";
+
+    }
+
+    else
+    {
+
+        message =
+        feature +
+        " module is currently under development.";
+
+    }
+
+
+    alert(message);
 
 }
 
