@@ -1,6 +1,6 @@
 // =====================================================
-// SAMA - AI Maintenance Assistant
-// Multi-Language Chat Controller
+// SAMA - Solex AI Maintenance Assistant
+// Advanced Chat Controller
 // File: chat.js
 // =====================================================
 
@@ -11,7 +11,9 @@
 
 let conversationHistory = [];
 
-let chatBox;
+let chatBox = null;
+
+let samaBusy = false;
 
 
 // =====================================================
@@ -20,268 +22,132 @@ let chatBox;
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function(){
 
         chatBox =
-            document.getElementById("chatBox");
-
-
-        if(!chatBox){
-
-            console.error(
-                "SAMA Error: chatBox not found"
+            document.getElementById(
+                "chatBox"
             );
 
-            return;
-        }
-
-
         initializeSAMA();
+
+        initializeChatInput();
 
     }
 );
 
 
 // =====================================================
-// INITIAL WELCOME MESSAGE
+// INITIAL WELCOME
 // =====================================================
 
 function initializeSAMA(){
 
-    addBotMessage(
-        getWelcomeMessage()
-    );
-
-}
-
-
-// =====================================================
-// REFRESH WELCOME AFTER LANGUAGE CHANGE
-// =====================================================
-
-function refreshSAMAWelcome(){
-
     if(!chatBox){
+        return;
+    }
+
+
+    // Use multilingual welcome if language.js exists
+
+    if(
+        typeof getSAMAWelcomeMessage ===
+        "function"
+    ){
+
+        addBotMessage(
+            getSAMAWelcomeMessage(),
+            false
+        );
 
         return;
     }
 
 
-    chatBox.innerHTML = "";
+    // Fallback welcome
 
+    addBotMessage(`
 
-    initializeSAMA();
+        👋 Welcome to <b>SAMA</b>
+
+        <br><br>
+
+        <b>S</b>olex
+        <b>A</b>I
+        <b>M</b>aintenance
+        <b>A</b>ssistant
+
+        <br><br>
+
+        Industrial Troubleshooting &
+        Maintenance Support
+
+        <br><br>
+
+        ⚙ Machine Breakdown
+
+        <br>
+
+        🚨 Alarm Troubleshooting
+
+        <br>
+
+        🛠 Preventive Maintenance
+
+        <br>
+
+        📦 Spare Parts
+
+        <br>
+
+        📊 Machine Health
+
+        <br>
+
+        📚 Breakdown History
+
+    `, false);
 
 }
 
 
 // =====================================================
-// GET WELCOME MESSAGE
+// INITIALIZE INPUT
 // =====================================================
 
-function getWelcomeMessage(){
+function initializeChatInput(){
 
-    const language =
-        typeof getSAMALanguage === "function"
-            ? getSAMALanguage()
-            : "en";
+    const input =
+        document.getElementById(
+            "userInput"
+        );
 
 
-    // =================================================
-    // HINDI
-    // =================================================
-
-    if(language === "hi"){
-
-        return `
-
-        👋 <b>SAMA में आपका स्वागत है</b>
-
-        <br><br>
-
-        मैं <b>Solex AI Maintenance Assistant</b> हूँ।
-
-        <br><br>
-
-        मैं आपकी सहायता कर सकता हूँ:
-
-        <br><br>
-
-        ⚙ मशीन ब्रेकडाउन विश्लेषण
-
-        <br>
-
-        🚨 अलार्म ट्रबलशूटिंग
-
-        <br>
-
-        🛠 प्रिवेंटिव मेंटेनेंस
-
-        <br>
-
-        📦 स्पेयर पार्ट सुझाव
-
-        <br>
-
-        📊 मशीन हेल्थ
-
-        <br>
-
-        📚 ब्रेकडाउन हिस्ट्री
-
-        <br><br>
-
-        <b>उदाहरण:</b>
-
-        <br>
-
-        "Servo alarm E37"
-
-        <br>
-
-        "Stringer cell breakage"
-
-        <br>
-
-        "Laminator bubble defect"
-
-        <br>
-
-        "Stringer health"
-
-        `;
-
+    if(!input){
+        return;
     }
 
 
-    // =================================================
-    // GUJARATI
-    // =================================================
+    input.addEventListener(
+        "keydown",
+        function(event){
 
-    if(language === "gu"){
+            if(
+                event.key ===
+                "Enter"
+            ){
 
-        return `
+                event.preventDefault();
 
-        👋 <b>SAMA માં આપનું સ્વાગત છે</b>
+                sendMessage();
 
-        <br><br>
+            }
 
-        હું <b>Solex AI Maintenance Assistant</b> છું.
-
-        <br><br>
-
-        હું નીચેના વિષયોમાં મદદ કરી શકું છું:
-
-        <br><br>
-
-        ⚙ મશીન બ્રેકડાઉન વિશ્લેષણ
-
-        <br>
-
-        🚨 અલાર્મ ટ્રબલશૂટિંગ
-
-        <br>
-
-        🛠 પ્રિવેન્ટિવ મેન્ટેનન્સ
-
-        <br>
-
-        📦 સ્પેર પાર્ટ ભલામણ
-
-        <br>
-
-        📊 મશીન હેલ્થ
-
-        <br>
-
-        📚 બ્રેકડાઉન હિસ્ટ્રી
-
-        <br><br>
-
-        <b>ઉદાહરણ:</b>
-
-        <br>
-
-        "Servo alarm E37"
-
-        <br>
-
-        "Stringer cell breakage"
-
-        <br>
-
-        "Laminator bubble defect"
-
-        <br>
-
-        "Stringer health"
-
-        `;
-
-    }
+        }
+    );
 
 
-    // =================================================
-    // ENGLISH
-    // =================================================
-
-    return `
-
-    👋 Welcome to <b>SAMA</b>
-
-    <br><br>
-
-    <b>S</b>olex <b>A</b>I <b>M</b>aintenance Assistant
-
-    <br><br>
-
-    I can help with:
-
-    <br><br>
-
-    ⚙ Machine Breakdown Analysis
-
-    <br>
-
-    🚨 Alarm Troubleshooting
-
-    <br>
-
-    🛠 Preventive Maintenance
-
-    <br>
-
-    📦 Spare Recommendation
-
-    <br>
-
-    📊 Machine Health
-
-    <br>
-
-    📚 Breakdown History
-
-    <br><br>
-
-    <b>Try:</b>
-
-    <br>
-
-    "Servo alarm E37"
-
-    <br>
-
-    "Stringer cell breakage"
-
-    <br>
-
-    "Laminator bubble defect"
-
-    <br>
-
-    "Stringer health"
-
-    `;
+    input.focus();
 
 }
 
@@ -292,12 +158,18 @@ function getWelcomeMessage(){
 
 function sendMessage(){
 
+    if(samaBusy){
+        return;
+    }
+
+
     const input =
-        document.getElementById("userInput");
+        document.getElementById(
+            "userInput"
+        );
 
 
     if(!input){
-
         return;
     }
 
@@ -307,97 +179,137 @@ function sendMessage(){
 
 
     if(message === ""){
-
         return;
     }
 
 
-    addUserMessage(message);
+    // Display user message
 
+    addUserMessage(
+        message
+    );
+
+
+    // Save conversation
+
+    conversationHistory.push({
+
+        role:"user",
+
+        message:message,
+
+        timestamp:
+            new Date()
+
+    });
+
+
+    // Clear input
 
     input.value = "";
 
 
-    conversationHistory.push({
+    // Lock assistant while processing
 
-        role: "user",
-
-        message: message
-
-    });
+    samaBusy = true;
 
 
     showTyping();
 
 
+    // Small delay to make interaction natural
+
     setTimeout(
-        () => {
+        function(){
 
             removeTyping();
 
 
-            const response =
-                processSAMAQuery(message);
+            let response;
 
 
-            addBotMessage(response);
+            try{
+
+                response =
+                    processSAMAQuery(
+                        message
+                    );
+
+            }
+            catch(error){
+
+                console.error(
+                    "SAMA processing error:",
+                    error
+                );
+
+
+                response =
+                    getErrorMessage();
+
+            }
+
+
+            addBotMessage(
+                response
+            );
 
 
             conversationHistory.push({
 
-                role: "assistant",
+                role:"assistant",
 
-                message: response
+                message:response,
+
+                timestamp:
+                    new Date()
 
             });
 
 
-            if(
-                conversationHistory.length > 30
-            ){
+            samaBusy = false;
 
-                conversationHistory.shift();
 
-            }
+            input.focus();
 
         },
-        800
+        500
     );
 
 }
 
 
 // =====================================================
-// CONNECT AI ENGINE
+// CONNECT CHAT TO AI ENGINE
 // =====================================================
 
 function processSAMAQuery(query){
 
-    try{
+    if(
+        typeof generateAIResponse ===
+        "function"
+    ){
 
-        if(
-            typeof generateAIResponse === "function"
-        ){
-
-            return generateAIResponse(query);
-
-        }
-
-
-        return getEngineDisconnectedMessage();
-
-    }
-    catch(error){
-
-        console.error(
-            "SAMA Error:",
-            error
+        return generateAIResponse(
+            query
         );
 
-
-        return getSAMAErrorMessage(error);
-
     }
+
+
+    return `
+
+        ⚠️ <b>SAMA AI Engine is not connected.</b>
+
+        <br><br>
+
+        Please verify:
+
+        <br>
+
+        <b>js/aiEngine.js</b>
+
+    `;
 
 }
 
@@ -409,33 +321,50 @@ function processSAMAQuery(query){
 function addUserMessage(message){
 
     if(!chatBox){
-
         return;
     }
 
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     div.className =
         "user-message";
 
 
+    const operatorName =
+        typeof t === "function"
+        ?
+        t("operator")
+        :
+        "Operator";
+
+
     div.innerHTML = `
 
         <div class="message-header">
 
-            👨‍🔧 ${getOperatorLabel()}
+            👨‍🔧 ${operatorName}
+
+            <span class="message-time">
+                ${getCurrentTime()}
+            </span>
 
         </div>
 
-        ${escapeHTML(message)}
+        <div class="message-content">
+            ${escapeHTML(message)}
+        </div>
 
     `;
 
 
-    chatBox.appendChild(div);
+    chatBox.appendChild(
+        div
+    );
 
 
     scrollChat();
@@ -447,16 +376,20 @@ function addUserMessage(message){
 // BOT MESSAGE
 // =====================================================
 
-function addBotMessage(message){
+function addBotMessage(
+    message,
+    showTime = true
+){
 
     if(!chatBox){
-
         return;
     }
 
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     div.className =
@@ -467,16 +400,36 @@ function addBotMessage(message){
 
         <div class="message-header">
 
-            🤖 SAMA
+            <span>
+                🤖 SAMA
+            </span>
+
+            ${
+                showTime
+                ?
+                `
+                <span class="message-time">
+                    ${getCurrentTime()}
+                </span>
+                `
+                :
+                ""
+            }
 
         </div>
 
-        ${message}
+        <div class="message-content">
+
+            ${message}
+
+        </div>
 
     `;
 
 
-    chatBox.appendChild(div);
+    chatBox.appendChild(
+        div
+    );
 
 
     scrollChat();
@@ -485,13 +438,12 @@ function addBotMessage(message){
 
 
 // =====================================================
-// TYPING MESSAGE
+// TYPING INDICATOR
 // =====================================================
 
 function showTyping(){
 
     if(!chatBox){
-
         return;
     }
 
@@ -500,7 +452,9 @@ function showTyping(){
 
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     div.id =
@@ -508,7 +462,26 @@ function showTyping(){
 
 
     div.className =
-        "bot-message";
+        "bot-message typing-message";
+
+
+    let text =
+        "SAMA is analyzing";
+
+
+    if(
+        typeof t ===
+        "function"
+    ){
+
+        text =
+            t("analyzing")
+            .replace(
+                "...",
+                ""
+            );
+
+    }
 
 
     div.innerHTML = `
@@ -519,12 +492,32 @@ function showTyping(){
 
         </div>
 
-        ${getTypingText()}
+
+        <div class="typing-content">
+
+            <span>
+                ${text}
+            </span>
+
+
+            <div class="typing-dots">
+
+                <span></span>
+
+                <span></span>
+
+                <span></span>
+
+            </div>
+
+        </div>
 
     `;
 
 
-    chatBox.appendChild(div);
+    chatBox.appendChild(
+        div
+    );
 
 
     scrollChat();
@@ -539,7 +532,9 @@ function showTyping(){
 function removeTyping(){
 
     const typing =
-        document.getElementById("typing");
+        document.getElementById(
+            "typing"
+        );
 
 
     if(typing){
@@ -552,38 +547,24 @@ function removeTyping(){
 
 
 // =====================================================
-// AUTO SCROLL
+// QUICK QUESTION
 // =====================================================
 
-function scrollChat(){
-
-    if(chatBox){
-
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
-
-    }
-
-}
-
-
-// =====================================================
-// QUICK BUTTON
-// =====================================================
-
-function sendSuggestion(text){
+function askQuickQuestion(question){
 
     const input =
-        document.getElementById("userInput");
+        document.getElementById(
+            "userInput"
+        );
 
 
     if(!input){
-
         return;
     }
 
 
-    input.value = text;
+    input.value =
+        question;
 
 
     sendMessage();
@@ -592,118 +573,118 @@ function sendSuggestion(text){
 
 
 // =====================================================
-// OPERATOR LABEL
+// COMPATIBILITY WITH OLD BUTTONS
 // =====================================================
 
-function getOperatorLabel(){
+function sendSuggestion(text){
 
-    const language =
-        typeof getSAMALanguage === "function"
-            ? getSAMALanguage()
-            : "en";
-
-
-    if(language === "hi"){
-
-        return "ऑपरेटर";
-
-    }
-
-
-    if(language === "gu"){
-
-        return "ઓપરેટર";
-
-    }
-
-
-    return "Operator";
+    askQuickQuestion(
+        text
+    );
 
 }
 
 
 // =====================================================
-// TYPING TEXT
+// CLEAR CHAT
 // =====================================================
 
-function getTypingText(){
+function clearSAMAChat(){
 
-    const language =
-        typeof getSAMALanguage === "function"
-            ? getSAMALanguage()
-            : "en";
-
-
-    if(language === "hi"){
-
-        return "SAMA विश्लेषण कर रहा है...";
-
+    if(!chatBox){
+        return;
     }
 
 
-    if(language === "gu"){
-
-        return "SAMA વિશ્લેષણ કરી રહ્યું છે...";
-
-    }
+    conversationHistory = [];
 
 
-    return "SAMA is analyzing...";
+    chatBox.innerHTML = "";
+
+
+    initializeSAMA();
 
 }
 
 
 // =====================================================
-// ENGINE DISCONNECTED MESSAGE
+// REFRESH WELCOME AFTER LANGUAGE CHANGE
 // =====================================================
 
-function getEngineDisconnectedMessage(){
+function refreshSAMAWelcome(){
 
-    const language =
-        typeof getSAMALanguage === "function"
-            ? getSAMALanguage()
-            : "en";
+    if(
+        conversationHistory.length >
+        0
+    ){
 
-
-    if(language === "hi"){
-
-        return `
-
-        ⚠️ AI Engine कनेक्ट नहीं है।
-
-        <br><br>
-
-        कृपया aiEngine.js जांचें।
-
-        `;
-
+        return;
     }
 
 
-    if(language === "gu"){
-
-        return `
-
-        ⚠️ AI Engine કનેક્ટ થયેલ નથી.
-
-        <br><br>
-
-        કૃપા કરીને aiEngine.js તપાસો.
-
-        `;
-
+    if(!chatBox){
+        return;
     }
 
 
-    return `
+    chatBox.innerHTML = "";
 
-    ⚠️ AI Engine not connected.
 
-    <br><br>
+    initializeSAMA();
 
-    Please check aiEngine.js.
+}
 
-    `;
+
+// =====================================================
+// GET CONVERSATION HISTORY
+// =====================================================
+
+function getConversationHistory(){
+
+    return conversationHistory;
+
+}
+
+
+// =====================================================
+// GET CURRENT TIME
+// =====================================================
+
+function getCurrentTime(){
+
+    const now =
+        new Date();
+
+
+    return now.toLocaleTimeString(
+        [],
+        {
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+// =====================================================
+// ESCAPE USER INPUT
+// Prevent HTML injection from chat input
+// =====================================================
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
 
 }
 
@@ -712,31 +693,26 @@ function getEngineDisconnectedMessage(){
 // ERROR MESSAGE
 // =====================================================
 
-function getSAMAErrorMessage(error){
+function getErrorMessage(){
 
     const language =
-        typeof getSAMALanguage === "function"
-            ? getSAMALanguage()
-            : "en";
-
-
-    const safeError =
-        escapeHTML(
-            error && error.message
-                ? error.message
-                : String(error)
-        );
+        typeof getSAMALanguage ===
+        "function"
+        ?
+        getSAMALanguage()
+        :
+        "en";
 
 
     if(language === "hi"){
 
         return `
 
-        ⚠️ SAMA में त्रुटि आई है।
+            ⚠️ <b>SAMA अनुरोध को प्रोसेस नहीं कर सका।</b>
 
-        <br><br>
+            <br><br>
 
-        ${safeError}
+            कृपया दोबारा प्रयास करें।
 
         `;
 
@@ -747,11 +723,11 @@ function getSAMAErrorMessage(error){
 
         return `
 
-        ⚠️ SAMA માં ભૂલ આવી છે.
+            ⚠️ <b>SAMA વિનંતી પ્રોસેસ કરી શક્યું નથી.</b>
 
-        <br><br>
+            <br><br>
 
-        ${safeError}
+            કૃપા કરીને ફરી પ્રયાસ કરો.
 
         `;
 
@@ -760,11 +736,11 @@ function getSAMAErrorMessage(error){
 
     return `
 
-    ⚠️ SAMA Error
+        ⚠️ <b>SAMA could not process the request.</b>
 
-    <br><br>
+        <br><br>
 
-    ${safeError}
+        Please try again.
 
     `;
 
@@ -772,18 +748,91 @@ function getSAMAErrorMessage(error){
 
 
 // =====================================================
-// HTML ESCAPE
-// Prevent user input from becoming executable HTML
+// SHOW SYSTEM MESSAGE
 // =====================================================
 
-function escapeHTML(value){
+function showSystemMessage(message){
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    if(!chatBox){
+        return;
+    }
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "system-message";
+
+
+    div.innerHTML =
+        message;
+
+
+    chatBox.appendChild(
+        div
+    );
+
+
+    scrollChat();
+
+}
+
+
+// =====================================================
+// SCROLL CHAT
+// =====================================================
+
+function scrollChat(){
+
+    if(!chatBox){
+        return;
+    }
+
+
+    setTimeout(
+        function(){
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+        },
+        50
+    );
+
+}
+
+
+// =====================================================
+// CHAT STATUS
+// =====================================================
+
+function getSAMAChatStatus(){
+
+    return {
+
+        status:
+            samaBusy
+            ?
+            "Analyzing"
+            :
+            "Ready",
+
+        messages:
+            conversationHistory.length,
+
+        language:
+            typeof getSAMALanguage ===
+            "function"
+            ?
+            getSAMALanguage()
+            :
+            "en"
+
+    };
 
 }
 
@@ -793,5 +842,5 @@ function escapeHTML(value){
 // =====================================================
 
 console.log(
-    "✅ SAMA Multi-Language Chat Controller Loaded"
+    "✅ SAMA Chat Controller Loaded"
 );
