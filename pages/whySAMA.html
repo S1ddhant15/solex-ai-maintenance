@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Why SAMA - Solex AI Maintenance Assistant</title>
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/solex-logo.png"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- ==========================================
+         SIDEBAR
+    ========================================== -->
+
+    <div class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="logo-area">
+
+            <img
+                src="../assets/solex-logo.png"
+                class="solex-logo"
+                alt="Solex Logo"
+            >
+
+            <h2>🤖 SAMA</h2>
+
+            <p>AI Maintenance Assistant</p>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <ul>
+
+
+            <li onclick="window.location.href='../index.html'">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>AI Chat</span>
+
+            </li>
+
+
+            <li onclick="showComingSoon('Machine Status')">
+
+                <i class="fa-solid fa-gears"></i>
+
+                <span>Machine Status</span>
+
+            </li>
+
+
+            <li onclick="showComingSoon('Alarm History')">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <span>Alarm History</span>
+
+            </li>
+
+
+            <li onclick="showComingSoon('Preventive Maintenance')">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>Preventive Maintenance</span>
+
+            </li>
+
+
+            <li onclick="showComingSoon('Spare Inventory')">
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>Spare Inventory</span>
+
+            </li>
+
+
+            <li onclick="showComingSoon('Breakdown History')">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                <span>Breakdown History</span>
+
+            </li>
+
+
+            <li class="active">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>Why SAMA</span>
+
+            </li>
+
+
+        </ul>
+
+
+        <!-- FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <p>SAMA v1.0</p>
+
+            <small>
+                Solex Digital Transformation
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <div class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+
+            <div class="topbar-title">
+
+                <h1>
+                    💡 Why SAMA?
+                </h1>
+
+                <p>
+                    From Reactive Recovery to Autonomous Maintenance
+                </p>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                SAMA Online
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==========================================
+             CONTENT
+        ========================================== -->
+
+        <div class="content-card">
+
+
+            <!-- INTRODUCTION -->
+
+            <h2>
+                🤖 SAMA – From Reactive Recovery to Autonomous Maintenance
+            </h2>
+
+
+            <p>
+
+                <strong>
+                    SAMA (Solex AI Maintenance Assistant)
+                </strong>
+
+                is an AI-powered maintenance platform designed to
+                reduce machine downtime, preserve maintenance knowledge,
+                standardize troubleshooting and improve maintenance
+                response across the manufacturing plant.
+
+            </p>
+
+
+
+            <!-- ======================================
+                 CURRENT CHALLENGES
+            ======================================= -->
+
+            <h2>
+                ⚠️ Current Challenges
+            </h2>
+
+
+            <div class="challenge-grid">
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-user-gear"></i>
+
+                    <h3>Expert Dependency</h3>
+
+                    <p>
+                        Troubleshooting depends heavily on experienced
+                        maintenance engineers.
+                    </p>
+
+                </div>
+
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <h3>Slow Diagnosis</h3>
+
+                    <p>
+                        Fault identification can increase machine
+                        downtime and MTTR.
+                    </p>
+
+                </div>
+
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-book"></i>
+
+                    <h3>Knowledge Loss</h3>
+
+                    <p>
+                        Maintenance experience often remains with
+                        individuals instead of the organization.
+                    </p>
+
+                </div>
+
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-file-lines"></i>
+
+                    <h3>Scattered Information</h3>
+
+                    <p>
+                        SOPs, manuals and maintenance records are
+                        stored across multiple locations.
+                    </p>
+
+                </div>
+
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-arrows-rotate"></i>
+
+                    <h3>Repeated Failures</h3>
+
+                    <p>
+                        Previous breakdown knowledge may not be readily
+                        available during recurring problems.
+                    </p>
+
+                </div>
+
+
+
+                <div class="challenge-card">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <h3>Production Impact</h3>
+
+                    <p>
+                        Longer downtime directly impacts machine
+                        availability, production and OEE.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ======================================
+                 ROADMAP
+            ======================================= -->
+
+            <h2 class="roadmap-heading">
+
+                🚀 SAMA Development Roadmap
+
+            </h2>
+
+
+
+            <div class="phase-container">
+
+
+                <!-- PHASE 1 -->
+
+                <div class="phase-card">
+
+
+                    <div class="phase-badge">
+                        PHASE 1
+                    </div>
+
+
+                    <h3>
+                        🤖 Digital AI Maintenance Assistant
+                    </h3>
+
+
+                    <p class="phase-objective">
+
+                        <strong>Objective:</strong>
+
+                        Digitize maintenance knowledge and provide
+                        intelligent troubleshooting support.
+
+                    </p>
+
+
+                    <ul>
+
+                        <li>
+                            AI-guided machine troubleshooting
+                        </li>
+
+                        <li>
+                            Alarm diagnosis with probable causes
+                        </li>
+
+                        <li>
+                            Recommended corrective actions
+                        </li>
+
+                        <li>
+                            Preventive maintenance checklists
+                        </li>
+
+                        <li>
+                            Intelligent spare recommendations
+                        </li>
+
+                        <li>
+                            Machine health information
+                        </li>
+
+                        <li>
+                            Breakdown history reference
+                        </li>
+
+                        <li>
+                            Centralized maintenance knowledge
+                        </li>
+
+                        <li>
+                            Multi-language support
+                        </li>
+
+                    </ul>
+
+
+                    <div class="impact-box">
+
+                        <strong>Business Impact</strong>
+
+                        <p>
+                            Faster diagnosis • Reduced MTTR •
+                            Standardized troubleshooting •
+                            Reduced dependency on individuals
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- PHASE 2 -->
+
+                <div class="phase-card phase-two">
+
+
+                    <div class="phase-badge">
+                        PHASE 2
+                    </div>
+
+
+                    <h3>
+                        🧠 Intelligent & Autonomous Maintenance
+                    </h3>
+
+
+                    <p class="phase-objective">
+
+                        <strong>Objective:</strong>
+
+                        Connect SAMA with live equipment data and
+                        move toward predictive and autonomous maintenance.
+
+                    </p>
+
+
+                    <ul>
+
+                        <li>
+                            PLC & machine integration
+                        </li>
+
+                        <li>
+                            Live machine health monitoring
+                        </li>
+
+                        <li>
+                            Vacuum pressure monitoring
+                        </li>
+
+                        <li>
+                            Temperature monitoring
+                        </li>
+
+                        <li>
+                            Real-time alarm monitoring
+                        </li>
+
+                        <li>
+                            AI-assisted root cause analysis
+                        </li>
+
+                        <li>
+                            Predictive maintenance
+                        </li>
+
+                        <li>
+                            Automatic maintenance reports
+                        </li>
+
+                        <li>
+                            MES / ERP integration
+                        </li>
+
+                        <li>
+                            Continuous AI learning
+                        </li>
+
+                    </ul>
+
+
+                    <div class="impact-box">
+
+                        <strong>Business Impact</strong>
+
+                        <p>
+                            Reduced unplanned downtime •
+                            Higher machine availability •
+                            Improved OEE •
+                            Data-driven maintenance
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ======================================
+                 BENEFITS
+            ======================================= -->
+
+            <h2 class="benefit-heading">
+
+                📈 Expected Benefits
+
+            </h2>
+
+
+            <div class="benefit-grid">
+
+
+                <div class="benefit-card">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                    <h3>Faster Diagnosis</h3>
+
+                    <p>
+                        Reduce troubleshooting time.
+                    </p>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                    <h3>Reduced MTTR</h3>
+
+                    <p>
+                        Faster machine recovery.
+                    </p>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <h3>Improved OEE</h3>
+
+                    <p>
+                        Increase equipment availability.
+                    </p>
+
+                </div>
+
+
+                <div class="benefit-card">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                    <h3>Knowledge Retention</h3>
+
+                    <p>
+                        Preserve organizational expertise.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ======================================
+                 VISION
+            ======================================= -->
+
+            <div class="vision-box">
+
+
+                <h2>
+                    🎯 Our Vision
+                </h2>
+
+
+                <p>
+
+                    Transform maintenance at Solex from
+
+                    <strong>
+                        Reactive Recovery
+                    </strong>
+
+                    to
+
+                    <strong>
+                        Intelligent & Autonomous Maintenance
+                    </strong>
+
+                    — improving reliability, reducing downtime,
+                    preserving organizational knowledge and driving
+                    operational excellence.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+function showComingSoon(feature)
+{
+
+    alert(
+        feature +
+        " module is currently under development."
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
