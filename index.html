@@ -3,47 +3,22 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        SAMA - Solex AI Maintenance Assistant
-    </title>
+<title>SAMA - Solex AI Maintenance Assistant</title>
 
+<link rel="stylesheet" href="css/style.css">
 
-    <!-- ==========================================
-         MAIN CSS
-    ========================================== -->
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
-
-    <!-- ==========================================
-         FONT AWESOME
-    ========================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    >
-
-
-    <!-- ==========================================
-         FAVICON
-    ========================================== -->
-
-    <link
-        rel="icon"
-        type="image/png"
-        href="assets/solex-logo.png"
-    >
+<link
+rel="icon"
+type="image/png"
+href="assets/solex-logo.png">
 
 </head>
 
@@ -54,496 +29,362 @@
 <div class="dashboard">
 
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
 
-    <aside class="sidebar">
+<aside class="sidebar">
 
 
-        <!-- LOGO -->
+<div class="logo-area">
 
-        <div class="logo-area">
+<img
+src="assets/solex-logo.png"
+class="solex-logo"
+alt="Solex Logo">
 
+<h2>🤖 SAMA</h2>
 
-            <img
-                src="assets/solex-logo.png"
-                class="solex-logo"
-                alt="Solex Logo"
-            >
+<p>AI Maintenance Assistant</p>
 
+</div>
 
-            <h2>
-                🤖 SAMA
-            </h2>
 
 
-            <p>
-                AI Maintenance Assistant
-            </p>
+<ul>
 
 
-        </div>
+<li class="active">
 
+<i class="fa-solid fa-robot"></i>
 
+<span data-i18n="aiChat">
+AI Chat
+</span>
 
-        <!-- =================================================
-             NAVIGATION
-        ================================================== -->
+</li>
 
-        <ul>
 
 
-            <!-- AI CHAT -->
+<li onclick="window.location.href='pages/machine-status.html'">
 
-            <li class="active">
+<i class="fa-solid fa-gears"></i>
 
-                <i class="fa-solid fa-robot"></i>
+<span data-i18n="machineStatus">
+Machine Status
+</span>
 
-                <span data-i18n="aiChat">
-                    AI Chat
-                </span>
+</li>
 
-            </li>
 
 
+<li onclick="showComingSoon('Alarm History')">
 
-            <!-- MACHINE STATUS -->
+<i class="fa-solid fa-triangle-exclamation"></i>
 
-            <li
-                onclick="showComingSoon('Machine Status')"
-            >
+<span data-i18n="alarmHistory">
+Alarm History
+</span>
 
-                <i class="fa-solid fa-gears"></i>
+</li>
 
-                <span data-i18n="machineStatus">
-                    Machine Status
-                </span>
 
-            </li>
 
+<li onclick="showComingSoon('Preventive Maintenance')">
 
+<i class="fa-solid fa-calendar-check"></i>
 
-            <!-- ALARM HISTORY -->
+<span data-i18n="preventiveMaintenance">
+Preventive Maintenance
+</span>
 
-            <li
-                onclick="showComingSoon('Alarm History')"
-            >
+</li>
 
-                <i class="fa-solid fa-triangle-exclamation"></i>
 
-                <span data-i18n="alarmHistory">
-                    Alarm History
-                </span>
 
-            </li>
+<li onclick="showComingSoon('Spare Inventory')">
 
+<i class="fa-solid fa-box"></i>
 
+<span data-i18n="spareInventory">
+Spare Inventory
+</span>
 
-            <!-- PREVENTIVE MAINTENANCE -->
+</li>
 
-            <li
-                onclick="showComingSoon('Preventive Maintenance')"
-            >
 
-                <i class="fa-solid fa-calendar-check"></i>
 
-                <span data-i18n="preventiveMaintenance">
-                    Preventive Maintenance
-                </span>
+<li onclick="showComingSoon('Breakdown History')">
 
-            </li>
+<i class="fa-solid fa-clock-rotate-left"></i>
 
+<span data-i18n="breakdownHistory">
+Breakdown History
+</span>
 
+</li>
 
-            <!-- SPARE INVENTORY -->
 
-            <li
-                onclick="showComingSoon('Spare Inventory')"
-            >
 
-                <i class="fa-solid fa-box"></i>
+<li onclick="window.location.href='pages/whySAMA.html'">
 
-                <span data-i18n="spareInventory">
-                    Spare Inventory
-                </span>
+<i class="fa-solid fa-lightbulb"></i>
 
-            </li>
+<span data-i18n="whySAMA">
+Why SAMA
+</span>
 
+</li>
 
 
-            <!-- BREAKDOWN HISTORY -->
+</ul>
 
-            <li
-                onclick="showComingSoon('Breakdown History')"
-            >
 
-                <i class="fa-solid fa-clock-rotate-left"></i>
 
-                <span data-i18n="breakdownHistory">
-                    Breakdown History
-                </span>
+<div class="sidebar-footer">
 
-            </li>
+<p>SAMA v2.0</p>
 
+<small>
+Solex Digital Transformation
+</small>
 
+</div>
 
-            <!-- WHY SAMA -->
 
-            <li
-                onclick="window.location.href='pages/whySAMA.html'"
-            >
+</aside>
 
-                <i class="fa-solid fa-lightbulb"></i>
 
-                <span data-i18n="whySAMA">
-                    Why SAMA
-                </span>
 
-            </li>
+<!-- =====================================================
+MAIN
+===================================================== -->
 
+<main class="main-content">
 
-        </ul>
 
+<header class="topbar">
 
 
-        <!-- =================================================
-             SIDEBAR FOOTER
-        ================================================== -->
+<div class="topbar-title">
 
-        <div class="sidebar-footer">
+<h1 data-i18n="appName">
 
+Solex AI Maintenance Assistant
 
-            <p>
-                SAMA v2.0
-            </p>
+</h1>
 
+<p data-i18n="subtitle">
 
-            <small>
-                Solex Digital Transformation
-            </small>
+Industrial Troubleshooting & Maintenance Support
 
+</p>
 
-        </div>
+</div>
 
 
-    </aside>
 
+<div class="topbar-actions">
 
 
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
+<div class="language-control">
 
-    <main class="main-content">
+<i class="fa-solid fa-globe"></i>
 
+<select
+id="samaLanguageSelector"
+class="language-selector"
+onchange="changeSAMALanguage(this.value)">
 
-        <!-- =================================================
-             TOP BAR
-        ================================================== -->
+<option value="en">
+English
+</option>
 
-        <header class="topbar">
+<option value="hi">
+हिन्दी
+</option>
 
+<option value="gu">
+ગુજરાતી
+</option>
 
-            <div class="topbar-title">
+</select>
 
+</div>
 
-                <h1 data-i18n="appName">
 
-                    Solex AI Maintenance Assistant
 
-                </h1>
+<div class="system-status">
 
+<span class="status-dot"></span>
 
-                <p data-i18n="subtitle">
+<span data-i18n="samaOnline">
+SAMA Online
+</span>
 
-                    Industrial Troubleshooting & Maintenance Support
+</div>
 
-                </p>
 
+</div>
 
-            </div>
 
+</header>
 
 
-            <!-- TOP RIGHT -->
 
-            <div class="topbar-actions">
+<!-- =====================================================
+CHAT
+===================================================== -->
 
+<section class="chat-container">
 
-                <!-- LANGUAGE -->
 
-                <div class="language-control">
+<div class="chat-header">
 
 
-                    <i class="fa-solid fa-globe"></i>
+<div class="chat-header-left">
 
+<i class="fa-solid fa-robot"></i>
 
-                    <select
-                        id="samaLanguageSelector"
-                        class="language-selector"
-                        onchange="changeSAMALanguage(this.value)"
-                    >
+<span>SAMA</span>
 
-                        <option value="en">
-                            English
-                        </option>
+</div>
 
 
-                        <option value="hi">
-                            हिन्दी
-                        </option>
+<div class="chat-header-status">
 
+<span data-i18n="online">
+Online
+</span>
 
-                        <option value="gu">
-                            ગુજરાતી
-                        </option>
+<span class="online-dot"></span>
 
+</div>
 
-                    </select>
 
+</div>
 
-                </div>
 
 
+<div
+id="chatBox"
+class="chat-box">
+</div>
 
-                <!-- ONLINE STATUS -->
 
-                <div class="system-status">
 
+<div class="quick-actions">
 
-                    <span class="status-dot"></span>
 
+<button
+type="button"
+onclick="askQuickQuestion('ATW Stringer alarm E37')">
 
-                    <span data-i18n="samaOnline">
+🚨 ATW E37
 
-                        SAMA Online
+</button>
 
-                    </span>
 
+<button
+type="button"
+onclick="askQuickQuestion('ATW Stringer cell breakage')">
 
-                </div>
+⚙ Cell Breakage
 
+</button>
 
-            </div>
 
+<button
+type="button"
+onclick="askQuickQuestion('SC Laminator bubble defect')">
 
-        </header>
+🔥 Laminator Bubble
 
+</button>
 
 
-        <!-- =================================================
-             CHAT PANEL
-        ================================================== -->
+<button
+type="button"
+onclick="askQuickQuestion('SC Laminator PM')">
 
-        <section class="chat-container">
+🛠 Laminator PM
 
+</button>
 
-            <!-- =================================================
-                 CHAT HEADER
-            ================================================== -->
 
-            <div class="chat-header">
+<button
+type="button"
+onclick="askQuickQuestion('Stringer health')">
 
+📊 Stringer Health
 
-                <div class="chat-header-left">
+</button>
 
 
-                    <i class="fa-solid fa-robot"></i>
+<button
+type="button"
+onclick="askQuickQuestion('Stringer repeated failures')">
 
+🔁 Repeated Failure
 
-                    <span>
-                        SAMA
-                    </span>
+</button>
 
 
-                </div>
+<button
+type="button"
+onclick="askQuickQuestion('Laminator MTTR')">
 
+⏱ MTTR
 
+</button>
 
-                <div class="chat-header-status">
 
+</div>
 
-                    <span data-i18n="online">
 
-                        Online
 
-                    </span>
+<div class="chat-input">
 
 
-                    <span class="online-dot"></span>
+<input
+type="text"
+id="userInput"
+placeholder="Ask SAMA about machine, alarm, PM, spare..."
+autocomplete="off">
 
 
-                </div>
+<button
+type="button"
+class="clear-chat-btn"
+onclick="clearSAMAChat()"
+title="Clear Chat">
 
+<i class="fa-solid fa-trash"></i>
 
-            </div>
+</button>
 
 
+<button
+type="button"
+class="send-btn"
+onclick="sendMessage()">
 
-            <!-- =================================================
-                 CHAT MESSAGES
-            ================================================== -->
+<i class="fa-solid fa-paper-plane"></i>
 
-            <div
-                id="chatBox"
-                class="chat-box"
-            >
+<span data-i18n="send">
+Send
+</span>
 
-                <!--
-                SAMA messages are generated
-                automatically by chat.js
-                -->
+</button>
 
-            </div>
 
+</div>
 
 
-            <!-- =================================================
-                 QUICK QUESTIONS
-            ================================================== -->
+</section>
 
-            <div class="quick-actions">
 
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('ATW Stringer alarm E37')"
-                >
-
-                    🚨 ATW E37
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('ATW Stringer cell breakage')"
-                >
-
-                    ⚙ Cell Breakage
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('SC Laminator bubble defect')"
-                >
-
-                    🔥 Laminator Bubble
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('SC Laminator PM')"
-                >
-
-                    🛠 Laminator PM
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('Stringer health')"
-                >
-
-                    📊 Stringer Health
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('Stringer repeated failures')"
-                >
-
-                    🔁 Repeated Failure
-
-                </button>
-
-
-
-                <button
-                    type="button"
-                    onclick="askQuickQuestion('Laminator MTTR')"
-                >
-
-                    ⏱ MTTR
-
-                </button>
-
-
-            </div>
-
-
-
-            <!-- =================================================
-                 INPUT
-            ================================================== -->
-
-            <div class="chat-input">
-
-
-                <input
-                    type="text"
-                    id="userInput"
-                    placeholder="Ask SAMA about machine, alarm, PM, spare..."
-                    autocomplete="off"
-                >
-
-
-
-                <!-- CLEAR BUTTON -->
-
-                <button
-                    type="button"
-                    class="clear-chat-btn"
-                    onclick="clearSAMAChat()"
-                    title="Clear Chat"
-                >
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-
-
-                <!-- SEND BUTTON -->
-
-                <button
-                    type="button"
-                    class="send-btn"
-                    onclick="sendMessage()"
-                >
-
-                    <i class="fa-solid fa-paper-plane"></i>
-
-                    <span data-i18n="send">
-
-                        Send
-
-                    </span>
-
-
-                </button>
-
-
-            </div>
-
-
-        </section>
-
-
-    </main>
+</main>
 
 
 </div>
@@ -551,232 +392,145 @@
 
 
 <!-- =====================================================
-     JAVASCRIPT LOAD ORDER
-
-     DO NOT CHANGE THIS ORDER
-====================================================== -->
-
-
-<!-- MACHINE MASTER -->
+JS LOAD ORDER
+===================================================== -->
 
 <script src="js/machines.js"></script>
 
-
-
-<!-- TROUBLESHOOTING KNOWLEDGE -->
-
 <script src="js/knowledge.js"></script>
-
-
-
-<!-- ALARM DATABASE -->
 
 <script src="js/alarmDatabase.js"></script>
 
-
-
-<!-- SPARE DATABASE -->
-
 <script src="js/spareDatabase.js"></script>
-
-
-
-<!-- BREAKDOWN HISTORY -->
 
 <script src="js/breakdownHistory.js"></script>
 
-
-
-<!-- PREVENTIVE MAINTENANCE -->
-
 <script src="js/pmDatabase.js"></script>
-
-
-
-<!-- MULTI LANGUAGE ENGINE -->
 
 <script src="js/language.js"></script>
 
-
-
-<!-- SAMA AI DECISION ENGINE -->
-
 <script src="js/aiEngine.js"></script>
-
-
-
-<!-- CHAT CONTROLLER -->
 
 <script src="js/chat.js"></script>
 
 
 
-<!-- =====================================================
-     PAGE FUNCTIONS
-====================================================== -->
-
 <script>
 
 
-// =====================================================
-// CHANGE LANGUAGE
-// =====================================================
-
 function changeSAMALanguage(language){
 
+if(
+typeof setSAMALanguage === "function"
+){
 
-    if(
-        typeof setSAMALanguage ===
-        "function"
-    ){
+setSAMALanguage(language);
 
-        setSAMALanguage(
-            language
-        );
+}
 
-    }
+if(
+typeof refreshSAMAWelcome === "function"
+){
 
+refreshSAMAWelcome();
 
-    if(
-        typeof refreshSAMAWelcome ===
-        "function"
-    ){
-
-        refreshSAMAWelcome();
-
-    }
+}
 
 }
 
 
-
-// =====================================================
-// QUICK QUESTION
-// =====================================================
 
 function askQuickQuestion(question){
 
+const input =
+document.getElementById("userInput");
 
-    const input =
-        document.getElementById(
-            "userInput"
-        );
+if(!input){
+return;
+}
 
+input.value =
+question;
 
-    if(!input){
+if(
+typeof sendMessage === "function"
+){
 
-        return;
+sendMessage();
 
-    }
-
-
-    input.value =
-        question;
-
-
-    if(
-        typeof sendMessage ===
-        "function"
-    ){
-
-        sendMessage();
-
-    }
+}
 
 }
 
 
-
-// =====================================================
-// COMING SOON
-// =====================================================
 
 function showComingSoon(feature){
 
+let language = "en";
 
-    let language =
-        "en";
+if(
+typeof getSAMALanguage === "function"
+){
 
+language =
+getSAMALanguage();
 
-    if(
-        typeof getSAMALanguage ===
-        "function"
-    ){
-
-        language =
-            getSAMALanguage();
-
-    }
+}
 
 
+if(language === "hi"){
 
-    if(
-        language === "hi"
-    ){
+alert(
+feature +
+" मॉड्यूल अभी विकासाधीन है।"
+);
 
-        alert(
-            feature +
-            " मॉड्यूल अभी विकासाधीन है।"
-        );
+return;
 
-        return;
-
-    }
+}
 
 
+if(language === "gu"){
 
-    if(
-        language === "gu"
-    ){
+alert(
+feature +
+" મોડ્યુલ હાલમાં વિકાસ હેઠળ છે."
+);
 
-        alert(
-            feature +
-            " મોડ્યુલ હાલમાં વિકાસ હેઠળ છે."
-        );
+return;
 
-        return;
-
-    }
+}
 
 
-
-    alert(
-        feature +
-        " module is currently under development."
-    );
+alert(
+feature +
+" module is currently under development."
+);
 
 }
 
 
 
-// =====================================================
-// RESTORE SAVED LANGUAGE
-// =====================================================
-
 document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+"DOMContentLoaded",
+function(){
 
+const selector =
+document.getElementById(
+"samaLanguageSelector"
+);
 
-        const selector =
-            document.getElementById(
-                "samaLanguageSelector"
-            );
+if(
+selector &&
+typeof getSAMALanguage === "function"
+){
 
+selector.value =
+getSAMALanguage();
 
-        if(
-            selector
-            &&
-            typeof getSAMALanguage ===
-            "function"
-        ){
+}
 
-            selector.value =
-                getSAMALanguage();
-
-        }
-
-    }
+}
 );
 
 
