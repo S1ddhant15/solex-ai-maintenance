@@ -10,6 +10,7 @@
 <title>SAMA - Solex AI Operations & Maintenance Assistant</title>
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium.css?v=7">
 
 <link
 rel="stylesheet"
@@ -165,7 +166,7 @@ Why SAMA
 
 <div class="sidebar-footer">
 
-<p>SAMA v4.0</p>
+<p>SAMA v7.0</p>
 
 <small>
 Solex Digital Transformation
@@ -253,10 +254,19 @@ SAMA Online
 </header>
 
 
+<section class="sama-command-strip" aria-label="SAMA operational context">
+<div class="command-brand"><span>SAMA</span><b>ANALYZE · SOLVE</b></div>
+<div class="command-flow"><b>SEE</b><i>→</i><b>ANALYZE</b><i>→</i><b>SOLVE</b><i>→</i><b>LEARN</b><i>→</i><b>IMPROVE</b></div>
+<div class="command-shift"><span class="status-dot"></span><div><small>ACTIVE SHIFT</small><b id="activeShiftLabel">Shift A</b></div></div>
+</section>
+
+
 
 <!-- =====================================================
 CHAT
 ===================================================== -->
+
+<div class="sama-intelligence-layout">
 
 <section class="chat-container">
 
@@ -406,6 +416,30 @@ Send
 </section>
 
 
+<aside class="context-rail" aria-label="Shift intelligence">
+<section class="context-card handover-card">
+<div class="context-heading"><div><small>SHIFT CONTINUITY</small><h2>Handover briefing</h2></div><span id="handoverStatus" class="context-status">LIVE</span></div>
+<div class="handover-route"><span id="handoverFrom">Shift C</span><i>→</i><b id="handoverTo">Shift A</b></div>
+<p id="handoverSummary">Loading the authorised carry-forward summary…</p>
+<button type="button" data-sama-question="Give me the complete shift handover">Ask for full handover <span>→</span></button>
+</section>
+
+<section class="context-card previous-card">
+<div class="context-heading"><div><small>PREVIOUS SHIFT</small><h2>Performance snapshot</h2></div><span id="previousShiftName">—</span></div>
+<div id="previousShiftMetrics" class="context-metrics"></div>
+<button type="button" data-sama-question="Give me the previous shift production defects and breakdown summary">Explain previous shift <span>→</span></button>
+</section>
+
+<section class="context-card priority-card">
+<div class="context-heading"><div><small>PRIORITY CONTROL</small><h2>Carry-forward items</h2></div><span id="priorityCount">0 OPEN</span></div>
+<div id="priorityHandoverList" class="priority-list"></div>
+<button type="button" data-sama-question="Show all active problems and owners">Review all active problems <span>→</span></button>
+</section>
+</aside>
+
+</div>
+
+
 </main>
 
 
@@ -420,6 +454,8 @@ JS LOAD ORDER
 <script src="js/samaShell.js"></script>
 
 <script src="js/operationalData.js"></script>
+
+<script src="js/shiftIntelligence.js"></script>
 
 <script src="js/machines.js"></script>
 

@@ -20,6 +20,10 @@ The active SAMA interface is intentionally limited to department-controlled AI C
 - 🎛️ Quality process-parameter view
 - ✅ Controlled parameter change requests, approval and audit trail
 - 🤖 Login-aware AI agents using the same operational KPI dataset
+- 🔄 Department-aware shift handover and carry-forward briefing
+- 🚦 Cross-functional active problem and ownership board
+- 🕘 Previous-shift production, defects, downtime and breakdown review
+- 🧭 Role-safe troubleshooting playbooks for Production, Quality and Maintenance
 - 🧠 Machine Knowledge Base
 - 🚨 Alarm Database
 
@@ -71,6 +75,8 @@ SAMA reads the logged-in Employee ID, department, role and permissions from the 
 - Management / Operations Excellence agent: complete cross-functional summary and priority actions.
 
 Production receives machine status, cycle time, production count, plan achievement and production rejection summaries, but cannot view process parameters. Quality, Maintenance, Process Engineering and authorised management profiles receive parameter visibility according to the central permission list. Parameter request and approval authority remain separately controlled.
+
+The AI Chat also uses `previousShift`, `shiftHandover`, `problemBoard`, `previousShiftDefects`, `breakdowns` and `troubleshootingPlaybooks` from `js/operationalData.js`. Production sees business impact and safe operator actions; Maintenance sees diagnosis and restoration steps; Quality sees defect containment and release checks; authorised management profiles receive the cross-functional summary.
 
 ---
 
