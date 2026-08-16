@@ -1,351 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SAMA - Maintenance Analytics</title>
-
-
-<link rel="stylesheet" href="../css/style.css">
-
-
-<!-- Chart JS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-<script src="../js/portalGuard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA Role-Based Analytics</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/analytics-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../assets/solex-logo.png">
+    <script src="../js/portalGuard.js"></script>
 </head>
-
-
 <body>
-
-
-<!-- ==============================
-     Header
-================================ -->
-
-
-<header class="top-header">
-
-    <div class="logo-area">
-
-        <img src="../assets/logo.png">
-
-        <h2>SAMA</h2>
-
-    </div>
-
-
-    <div class="user-area">
-
-        <span>
-            AI Maintenance Assistant
-        </span>
-
-    </div>
-
-
-</header>
-
-
-
-
-<!-- ==============================
-     Sidebar
-================================ -->
-
-
-<aside class="sidebar">
-
-
-<ul>
-
-
-<li onclick="location.href='../dashboard.html'">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</li>
-
-
-
-<li onclick="location.href='chat.html'">
-
-<i class="fa-solid fa-robot"></i>
-
-AI Chat
-
-</li>
-
-
-
-<li onclick="location.href='machines.html'">
-
-<i class="fa-solid fa-gears"></i>
-
-Machines
-
-</li>
-
-
-
-<li onclick="location.href='breakdown.html'">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-Breakdown
-
-</li>
-
-
-
-<li onclick="location.href='spare.html'">
-
-<i class="fa-solid fa-box"></i>
-
-Spare Parts
-
-</li>
-
-
-
-<li class="active">
-
-<i class="fa-solid fa-chart-line"></i>
-
-Analytics
-
-</li>
-
-
-</ul>
-
-
-</aside>
-
-
-
-
-
-<!-- ==============================
-     Main Content
-================================ -->
-
-
-<main class="content">
-
-
-<h1>
-Maintenance Analytics
-</h1>
-
-
-
-<!-- KPI CARDS -->
-
-<div class="card-container">
-
-
-
-<div class="card">
-
-<h3>Total Machines</h3>
-
-<p id="totalMachines">
-0
-</p>
-
+<div class="dashboard analytics-shell">
+    <aside class="sidebar analytics-sidebar" id="analyticsSidebar">
+        <div class="logo-area">
+            <img src="../assets/solex-logo.png" class="solex-logo" alt="Solex Energies">
+            <h2><i class="fa-solid fa-wand-magic-sparkles"></i> SAMA</h2>
+            <p>Operational Intelligence</p>
+        </div>
+        <ul>
+            <li onclick="location.href='../index.html'"><i class="fa-solid fa-robot"></i><span>AI Agent</span></li>
+            <li onclick="location.href='operations.html'"><i class="fa-solid fa-gauge-high"></i><span>Operations Control</span></li>
+            <li class="active"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></li>
+            <li onclick="location.href='machine-status.html'"><i class="fa-solid fa-industry"></i><span>Machine Status</span></li>
+            <li onclick="location.href='pm.html'"><i class="fa-solid fa-calendar-check"></i><span>Maintenance</span></li>
+            <li onclick="location.href='alarm-history.html'"><i class="fa-solid fa-triangle-exclamation"></i><span>Alarm History</span></li>
+        </ul>
+        <div class="sidebar-footer"><p>SAMA v4.0</p><small>Analytics & AI Agent</small></div>
+    </aside>
+
+    <main class="main-content analytics-main">
+        <header class="topbar analytics-topbar">
+            <button class="analytics-menu" id="analyticsMenu"><i class="fa-solid fa-bars"></i></button>
+            <div class="topbar-title">
+                <h1>Role-Based Analytics Dashboard</h1>
+                <p id="analyticsSubtitle">Loading your department intelligence…</p>
+            </div>
+            <div class="topbar-actions">
+                <label class="analytics-filter"><i class="fa-solid fa-filter"></i><select id="analyticsLineFilter"><option value="all">All Lines</option></select></label>
+                <div class="analytics-user"><span id="analyticsInitials">ST</span><div><b id="analyticsUserName">User</b><small id="analyticsDepartment">Department</small></div></div>
+            </div>
+        </header>
+
+        <section class="analytics-role-banner">
+            <div><small>YOUR ACTIVE AI AGENT</small><strong id="analyticsAgentName">SAMA Intelligence Agent</strong></div>
+            <p id="analyticsRoleDescription"></p>
+            <span><i></i><b id="analyticsRefreshTime">Live demo</b></span>
+        </section>
+
+        <section class="analytics-kpis" id="analyticsKpis"></section>
+
+        <section class="analytics-grid primary-grid">
+            <article class="analytics-card production-card">
+                <div class="analytics-card-title"><div><small>SHIFT PERFORMANCE</small><h2>Hourly production</h2></div><span id="productionProgressLabel"></span></div>
+                <div class="achievement-track"><i id="achievementBar"></i></div>
+                <div class="hourly-chart" id="hourlyChart"></div>
+            </article>
+
+            <article class="analytics-card machine-card">
+                <div class="analytics-card-title"><div><small>EQUIPMENT CONDITION</small><h2>Machine availability</h2></div><span>Current state</span></div>
+                <div class="machine-donut" id="analyticsMachineDonut"><div><strong id="donutAvailability">—</strong><small>Running</small></div></div>
+                <div class="machine-legend" id="analyticsMachineLegend"></div>
+            </article>
+        </section>
+
+        <section class="analytics-grid secondary-grid">
+            <article class="analytics-card trend-card">
+                <div class="analytics-card-title"><div><small>7-DAY VIEW</small><h2>Production trend</h2></div><span>Actual vs plan</span></div>
+                <div class="trend-chart" id="productionTrend"></div>
+            </article>
+            <article class="analytics-card">
+                <div class="analytics-card-title"><div><small>LINE COMPARISON</small><h2>Plan, rejection and takt</h2></div><span>Today</span></div>
+                <div class="analytics-table-wrap"><table class="analytics-table"><thead><tr><th>Line</th><th>Output</th><th>Ach.</th><th>Reject</th><th>Takt</th><th>Status</th></tr></thead><tbody id="analyticsLineTable"></tbody></table></div>
+            </article>
+        </section>
+
+        <section class="analytics-card role-insight-card">
+            <div class="insight-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <div><small id="insightLabel">SAMA AI SHIFT BRIEFING</small><h2 id="aiInsightTitle">Analysing current performance…</h2><p id="aiInsightText"></p></div>
+            <button id="askAgentButton">Ask SAMA for my update →</button>
+        </section>
+
+        <section class="analytics-grid detail-grid">
+            <article class="analytics-card" id="qualityAnalyticsPanel">
+                <div class="analytics-card-title"><div><small>QUALITY</small><h2>Grade and yield summary</h2></div><span id="qualityYieldBadge"></span></div>
+                <div class="quality-breakdown" id="qualityBreakdown"></div>
+            </article>
+
+            <article class="analytics-card" id="parameterAnalyticsPanel">
+                <div class="analytics-card-title"><div><small>PROCESS CONTROL</small><h2>Parameter watch</h2></div><span>Actual vs limits</span></div>
+                <div class="analytics-watch-list" id="parameterWatchList"></div>
+            </article>
+
+            <article class="analytics-card" id="maintenanceAnalyticsPanel">
+                <div class="analytics-card-title"><div><small>RELIABILITY</small><h2>Maintenance watch</h2></div><span>Immediate priorities</span></div>
+                <div class="analytics-watch-list" id="maintenanceWatchList"></div>
+            </article>
+        </section>
+    </main>
 </div>
-
-
-
-<div class="card">
-
-<h3>Running Machines</h3>
-
-<p id="runningMachines">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Breakdowns</h3>
-
-<p id="breakdowns">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Downtime</h3>
-
-<p id="downtime">
-0
-</p>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="card-container">
-
-
-
-<div class="card">
-
-<h3>MTBF</h3>
-
-<p id="mtbf">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>MTTR</h3>
-
-<p id="mttr">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>PM Pending</h3>
-
-<p id="pmPending">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Critical Alerts</h3>
-
-<p id="criticalAlerts">
-0
-</p>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- ==============================
- Charts
-================================ -->
-
-
-<div class="chart-container">
-
-
-<div class="chart-box">
-
-<h3>
-Breakdown Trend
-</h3>
-
-
-<canvas id="breakdownChart"></canvas>
-
-
-</div>
-
-
-
-
-<div class="chart-box">
-
-
-<h3>
-Machine Health Status
-</h3>
-
-
-<canvas id="machineHealthChart"></canvas>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- ==============================
- AI Recommendation
-================================ -->
-
-
-<div class="ai-box">
-
-
-<h2>
-SAMA AI Recommendation
-</h2>
-
-
-<p id="aiSuggestion">
-
-Click generate recommendation
-
-</p>
-
-
-
-<button onclick="generateMaintenanceSuggestion()">
-
-Generate Suggestion
-
-</button>
-
-
-</div>
-
-
-
-
-</main>
-
-
-
-
-<script src="../js/analytics.js"></script>
-
-
+<script src="../js/operationalData.js"></script>
+<script src="../js/analyticsDashboard.js"></script>
 </body>
-
 </html>

@@ -25,6 +25,9 @@
             <li class="active">
                 <i class="fa-solid fa-gauge-high"></i><span>Operations Control</span>
             </li>
+            <li onclick="window.location.href='analytics.html'">
+                <i class="fa-solid fa-chart-line"></i><span>Analytics Dashboard</span>
+            </li>
             <li onclick="window.location.href='machine-status.html'">
                 <i class="fa-solid fa-industry"></i><span>Machine Status</span>
             </li>
@@ -39,7 +42,7 @@
             </li>
         </ul>
         <div class="sidebar-footer">
-            <p>SAMA v3.0</p>
+            <p>SAMA v4.0</p>
             <small>Solex Digital Transformation</small>
         </div>
     </aside>
@@ -207,6 +210,7 @@
     </main>
 </div>
 <div class="ops-toast" id="opsToast" role="status"></div>
+<script src="../js/operationalData.js"></script>
 <script src="../js/operations.js"></script>
 </body>
 </html>
