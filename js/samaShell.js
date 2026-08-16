@@ -6,21 +6,29 @@
     const topbar = document.querySelector(".topbar");
     if (!access || !sidebar || !topbar) return;
 
-    const onMachinePage = window.location.pathname.toLowerCase().endsWith("/pages/machine-status.html");
-    const chatUrl = onMachinePage ? "../index.html" : "index.html";
-    const machineUrl = onMachinePage ? "machine-status.html" : "pages/machine-status.html";
+    const path = window.location.pathname.toLowerCase();
+    const inPages = path.includes("/pages/");
+    const onMachinePage = path.endsWith("/pages/machine-status.html");
+    const onWhyPage = path.endsWith("/pages/whysama.html");
+    const chatUrl = inPages ? "../index.html" : "index.html";
+    const machineUrl = inPages ? "machine-status.html" : "pages/machine-status.html";
+    const whyUrl = inPages ? "whySAMA.html" : "pages/whySAMA.html";
     const navigation = sidebar.querySelector("ul");
 
     navigation.innerHTML = `
-        <li class="${onMachinePage ? "" : "active"}" data-sama-route="chat">
+        <li class="${!onMachinePage && !onWhyPage ? "active" : ""}" data-sama-route="chat">
             <i class="fa-solid fa-robot"></i><span>AI Chat</span>
         </li>
         <li class="${onMachinePage ? "active" : ""}" data-sama-route="machines">
             <i class="fa-solid fa-gears"></i><span>Machine Status</span>
+        </li>
+        <li class="${onWhyPage ? "active" : ""}" data-sama-route="why">
+            <i class="fa-solid fa-lightbulb"></i><span>Why SAMA</span>
         </li>`;
 
     navigation.querySelector('[data-sama-route="chat"]').addEventListener("click", () => window.location.href = chatUrl);
     navigation.querySelector('[data-sama-route="machines"]').addEventListener("click", () => window.location.href = machineUrl);
+    navigation.querySelector('[data-sama-route="why"]').addEventListener("click", () => window.location.href = whyUrl);
 
     const footer = sidebar.querySelector(".sidebar-footer");
     if (footer) {

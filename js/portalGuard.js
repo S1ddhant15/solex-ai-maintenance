@@ -59,7 +59,8 @@
     const path = window.location.pathname.toLowerCase();
     const isChat = path.endsWith("/solex-ai-maintenance/") || path.endsWith("/solex-ai-maintenance/index.html") || (isLocal && path.endsWith("/index.html"));
     const isMachineStatus = path.endsWith("/pages/machine-status.html");
-    if (!isChat && !isMachineStatus) {
+    const isWhySAMA = path.endsWith("/pages/whysama.html");
+    if (!isChat && !isMachineStatus && !isWhySAMA) {
         document.documentElement.style.display = "none";
         const localHome = path.includes("/pages/") ? "../index.html" : "index.html";
         window.top.location.replace(isLocal ? localHome : SAMA_HOME);
