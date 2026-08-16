@@ -10,7 +10,13 @@ The application helps technicians and engineers quickly diagnose machine faults,
 
 ## Features
 
-- 🔐 Secure Login
+- 🔐 Central portal access guard
+- 🏭 Live machine condition dashboard
+- ⏱️ Machine cycle-time and line takt monitoring
+- 📈 Production vs plan and rejection-rate monitoring
+- 🛠️ Maintenance / breakdown visibility
+- 🎛️ Quality process-parameter view
+- ✅ Controlled parameter change requests, approval and audit trail
 - 🏠 Dashboard
 - 🤖 AI Maintenance Chat
 - ⚙️ Machine Library
@@ -34,6 +40,7 @@ solex-ai-maintenance/
 │
 ├── pages/
 │   ├── dashboard.html
+│   ├── operations.html
 │   ├── chat.html
 │   ├── machines.html
 │   ├── machine.html
@@ -44,7 +51,8 @@ solex-ai-maintenance/
 │   └── settings.html
 │
 ├── css/
-│   └── style.css
+│   ├── style.css
+│   └── operations.css
 │
 ├── js/
 │   ├── app.js
@@ -52,7 +60,9 @@ solex-ai-maintenance/
 │   ├── knowledge.js
 │   ├── alarmDatabase.js
 │   ├── chat.js
-│   └── aiEngine.js
+│   ├── aiEngine.js
+│   ├── portalGuard.js
+│   └── operations.js
 │
 ├── data/
 │   ├── machines.json
@@ -83,6 +93,10 @@ solex-ai-maintenance/
 - Spare Parts Management
 - Technician Management
 - Predictive Maintenance
+
+## Important deployment note
+
+The live values in `js/operations.js` are clearly marked prototype data. For plant deployment, replace them with authenticated API responses from MES/MySQL. Never connect browser JavaScript directly to a PLC. Parameter changes must use a server-side approval and machine-write service with allowlisted tags, engineering limits and an immutable audit log.
 
 ---
 
