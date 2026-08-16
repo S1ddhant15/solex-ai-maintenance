@@ -1,760 +1,362 @@
-// ============================================================
-// SAMA - SOLEX AI MAINTENANCE ASSISTANT
-// SOLEX MACHINE MASTER DATABASE
+// =====================================================
+// SAMA - Solex AI Maintenance Assistant
+// Machine Master & Health Database
 // File: machines.js
-// ============================================================
+// =====================================================
 //
 // NOTE:
-// Current parameter values are prototype/demo values.
-// Later these can be replaced by live PLC / MES / database values.
+// Current parameter values are SIMULATED prototype data.
+// Later these can come from PLC / MES / MySQL.
 //
-// ============================================================
-
+// =====================================================
 
 
 const machineDatabase = {
 
 
+    // =================================================
+    // ATW STRINGER 01
+    // =================================================
 
-    // ========================================================
-    // STRINGER - 01
-    // MAKE: ATW
-    // ========================================================
+    "Stringer-01":{
 
-    "Stringer-01": {
+        id:"STR-01",
 
-        id: "STR-L1-01",
+        name:"Stringer-01",
 
-        assetCode: "SAMA-STR-001",
+        machineType:"Stringer",
 
-        name: "Stringer-01",
+        manufacturer:"ATW",
 
-        shortName: "Stringer 01",
+        process:"Cell Stringing",
 
-        type: "Automatic Stringer",
+        line:"Line-1",
 
-        process: "Cell Stringing",
+        criticality:"Critical",
 
-        department: "Production",
+        status:"Running",
 
-        line: "Line-1",
+        healthScore:92,
 
-        manufacturer: "ATW",
+        lastPM:"2026-08-10",
 
-        location: "Stringing Section",
-
-        status: "Running",
-
-        health: 96,
-
-        criticality: "High",
+        nextPM:"2026-08-17",
 
 
-        parameters: {
+        parameters:{
 
-            solderingTemperature: "365°C",
-
-            vacuumPressure: "-82 kPa",
-
-            airPressure: "5.8 Bar",
-
-            productionSpeed: "18 CPM",
-
-            cellPickupVacuum: "Normal",
-
-            ribbonTension: "Normal",
-
-            alignmentCamera: "Healthy",
-
-            servoStatus: "Healthy",
-
-            plcCommunication: "Online",
-
-            vibration: "Normal"
-
-        },
-
-
-        parameterLimits: {
-
-            vacuumPressure: {
-                normal: "-75 to -90 kPa",
-                warning: "Below -70 kPa"
+            pneumaticPressure:{
+                value:0.62,
+                unit:"MPa",
+                min:0.50,
+                max:0.70
             },
 
-            airPressure: {
-                normal: "5.5 - 6.5 Bar",
-                warning: "Below 5.0 Bar"
+            vacuumPressure:{
+                value:-72,
+                unit:"kPa",
+                min:-90,
+                max:-60
             },
 
-            solderingTemperature: {
-                normal: "Process recipe dependent",
-                warning: "Deviation from approved recipe"
+            solderingTemperature:{
+                value:345,
+                unit:"°C",
+                min:330,
+                max:360
+            },
+
+            cycleTime:{
+                value:3.8,
+                unit:"sec",
+                min:3.0,
+                max:5.0
+            },
+
+            cellBreakage:{
+                value:0.42,
+                unit:"%",
+                min:0,
+                max:0.80
             }
 
-        },
-
-
-        runtime: 12450,
-
-
-        lastMaintenance: "28-Jul-2026",
-
-        nextPM: "28-Aug-2026",
-
-
-        maintenanceStatus: "On Schedule",
-
-
-        criticalMonitoringPoints: [
-
-            "Cell pickup vacuum",
-
-            "Ribbon tension",
-
-            "Soldering temperature",
-
-            "Cell alignment",
-
-            "Servo axis condition",
-
-            "Camera alignment",
-
-            "Air pressure",
-
-            "Cell breakage trend"
-
-        ],
-
-
-        criticalSpares: [
-
-            "Servo Drive",
-
-            "Servo Motor",
-
-            "Encoder Cable",
-
-            "Vacuum Sensor",
-
-            "Proximity Sensor",
-
-            "Solenoid Valve",
-
-            "Vacuum Cup",
-
-            "Ribbon Feeding Components",
-
-            "Camera / Vision Components"
-
-        ],
-
-
-        activeAlarms: [],
-
-
-        breakdownHistory: [
-
-            {
-
-                date: "25-Jul-2026",
-
-                alarm: "E37",
-
-                category: "Servo",
-
-                issue: "Servo communication / positioning error",
-
-                symptom: "Machine stopped during stringing cycle",
-
-                downtimeMinutes: 35,
-
-                rootCause: "Encoder feedback / communication instability",
-
-                correctiveAction:
-                    "Encoder connection and servo communication inspected before restart",
-
-                status: "Resolved"
-
-            },
-
-
-            {
-
-                date: "15-Jul-2026",
-
-                alarm: "S01",
-
-                category: "Sensor / Vacuum",
-
-                issue: "Cell pickup vacuum low",
-
-                symptom: "Cell pickup unstable",
-
-                downtimeMinutes: 20,
-
-                rootCause: "Vacuum path / pickup condition required inspection",
-
-                correctiveAction:
-                    "Vacuum line, pickup cup and sensor feedback inspected",
-
-                status: "Resolved"
-
-            }
-
-        ]
+        }
 
     },
 
 
 
+    // =================================================
+    // ATW STRINGER 02
+    // =================================================
+
+    "Stringer-02":{
+
+        id:"STR-02",
+
+        name:"Stringer-02",
+
+        machineType:"Stringer",
+
+        manufacturer:"ATW",
+
+        process:"Cell Stringing",
+
+        line:"Line-1",
+
+        criticality:"Critical",
+
+        status:"Running",
+
+        healthScore:88,
+
+        lastPM:"2026-08-09",
+
+        nextPM:"2026-08-16",
 
 
-    // ========================================================
-    // STRINGER - 02
-    // MAKE: ATW
-    // ========================================================
+        parameters:{
 
-    "Stringer-02": {
+            pneumaticPressure:{
+                value:0.59,
+                unit:"MPa",
+                min:0.50,
+                max:0.70
+            },
 
-        id: "STR-L1-02",
+            vacuumPressure:{
+                value:-64,
+                unit:"kPa",
+                min:-90,
+                max:-60
+            },
 
-        assetCode: "SAMA-STR-002",
+            solderingTemperature:{
+                value:351,
+                unit:"°C",
+                min:330,
+                max:360
+            },
 
-        name: "Stringer-02",
+            cycleTime:{
+                value:4.1,
+                unit:"sec",
+                min:3.0,
+                max:5.0
+            },
 
-        shortName: "Stringer 02",
+            cellBreakage:{
+                value:0.68,
+                unit:"%",
+                min:0,
+                max:0.80
+            }
 
-        type: "Automatic Stringer",
-
-        process: "Cell Stringing",
-
-        department: "Production",
-
-        line: "Line-1",
-
-        manufacturer: "ATW",
-
-        location: "Stringing Section",
-
-        status: "Running",
-
-        health: 94,
-
-        criticality: "High",
-
-
-        parameters: {
-
-            solderingTemperature: "363°C",
-
-            vacuumPressure: "-80 kPa",
-
-            airPressure: "5.9 Bar",
-
-            productionSpeed: "18 CPM",
-
-            cellPickupVacuum: "Normal",
-
-            ribbonTension: "Normal",
-
-            alignmentCamera: "Healthy",
-
-            servoStatus: "Healthy",
-
-            plcCommunication: "Online",
-
-            vibration: "Normal"
-
-        },
-
-
-        runtime: 11890,
-
-
-        lastMaintenance: "02-Aug-2026",
-
-        nextPM: "02-Sep-2026",
-
-
-        maintenanceStatus: "On Schedule",
-
-
-        criticalMonitoringPoints: [
-
-            "Cell pickup vacuum",
-
-            "Ribbon tension",
-
-            "Cell alignment",
-
-            "Soldering temperature",
-
-            "Servo condition"
-
-        ],
-
-
-        activeAlarms: [],
-
-
-        breakdownHistory: []
+        }
 
     },
 
 
 
+    // =================================================
+    // SC LAMINATOR 01
+    // =================================================
+
+    "Laminator-01":{
+
+        id:"LAM-01",
+
+        name:"Laminator-01",
+
+        machineType:"Laminator",
+
+        manufacturer:"SC",
+
+        process:"Module Lamination",
+
+        line:"Line-1",
+
+        criticality:"Critical",
+
+        status:"Running",
+
+        healthScore:94,
+
+        lastPM:"2026-08-08",
+
+        nextPM:"2026-08-18",
 
 
-    // ========================================================
-    // LAMINATOR - 01
-    // MAKE: SC
-    // ========================================================
+        parameters:{
 
-    "Laminator-01": {
-
-        id: "LAM-L1-01",
-
-        assetCode: "SAMA-LAM-001",
-
-        name: "Laminator-01",
-
-        shortName: "Laminator 01",
-
-        type: "Solar Module Laminator",
-
-        process: "Module Lamination",
-
-        department: "Production",
-
-        line: "Line-1",
-
-        manufacturer: "SC",
-
-        location: "Lamination Section",
-
-        status: "Running",
-
-        health: 91,
-
-        criticality: "Critical",
-
-
-        parameters: {
-
-            temperature: "145°C",
-
-            vacuumPressure: "-95 kPa",
-
-            airPressure: "8 Bar",
-
-            cycleTime: "12 min",
-
-            heatingSystem: "Normal",
-
-            vacuumPump: "Healthy",
-
-            thermocoupleStatus: "Healthy",
-
-            pressureSystem: "Normal",
-
-            plcCommunication: "Online",
-
-            vibration: "Normal"
-
-        },
-
-
-        parameterLimits: {
-
-            temperature: {
-                normal: "As per approved lamination recipe",
-                warning: "Recipe deviation"
+            temperatureZone1:{
+                value:148,
+                unit:"°C",
+                min:140,
+                max:155
             },
 
-            vacuumPressure: {
-                normal: "-90 to -100 kPa",
-                warning: "Vacuum deterioration"
+            temperatureZone2:{
+                value:150,
+                unit:"°C",
+                min:140,
+                max:155
             },
 
-            airPressure: {
-                normal: "7 - 8 Bar",
-                warning: "Below process requirement"
+            temperatureZone3:{
+                value:149,
+                unit:"°C",
+                min:140,
+                max:155
+            },
+
+            vacuumPressure:{
+                value:-96,
+                unit:"kPa",
+                min:-100,
+                max:-90
+            },
+
+            pneumaticPressure:{
+                value:0.61,
+                unit:"MPa",
+                min:0.50,
+                max:0.70
+            },
+
+            cycleTime:{
+                value:930,
+                unit:"sec",
+                min:850,
+                max:1000
             }
 
-        },
-
-
-        runtime: 18500,
-
-
-        lastMaintenance: "20-Jul-2026",
-
-        nextPM: "20-Aug-2026",
-
-
-        maintenanceStatus: "PM Due Soon",
-
-
-        criticalMonitoringPoints: [
-
-            "Vacuum pressure",
-
-            "Heating plate temperature",
-
-            "Temperature uniformity",
-
-            "Vacuum pump performance",
-
-            "Thermocouple feedback",
-
-            "SSR output",
-
-            "Air pressure",
-
-            "Lamination cycle time",
-
-            "Membrane condition"
-
-        ],
-
-
-        criticalSpares: [
-
-            "Thermocouple",
-
-            "SSR",
-
-            "Heater",
-
-            "Vacuum Pump",
-
-            "Vacuum Pump Seal Kit",
-
-            "Solenoid Valve",
-
-            "Pressure Sensor",
-
-            "Temperature Controller",
-
-            "Contactor",
-
-            "Relay"
-
-        ],
-
-
-        activeAlarms: [],
-
-
-        breakdownHistory: [
-
-            {
-
-                date: "30-Jul-2026",
-
-                alarm: "T01",
-
-                category: "Temperature",
-
-                issue: "Temperature deviation",
-
-                symptom:
-                    "Heating zone temperature deviated from process requirement",
-
-                downtimeMinutes: 45,
-
-                rootCause:
-                    "Heating control circuit / SSR required inspection",
-
-                correctiveAction:
-                    "SSR output, heater current and temperature feedback checked",
-
-                status: "Resolved"
-
-            },
-
-
-            {
-
-                date: "12-Jul-2026",
-
-                alarm: "P01",
-
-                category: "Vacuum",
-
-                issue: "Vacuum pressure low",
-
-                symptom:
-                    "Required vacuum level not achieved",
-
-                downtimeMinutes: 30,
-
-                rootCause:
-                    "Vacuum system leakage / pump performance required inspection",
-
-                correctiveAction:
-                    "Vacuum circuit and pump condition inspected",
-
-                status: "Resolved"
-
-            }
-
-        ]
+        }
 
     },
 
 
 
+    // =================================================
+    // EL TESTER 01
+    // =================================================
+
+    "EL-Tester-01":{
+
+        id:"EL-01",
+
+        name:"EL-Tester-01",
+
+        machineType:"EL Tester",
+
+        manufacturer:"To Be Updated",
+
+        process:"EL Inspection",
+
+        line:"Line-1",
+
+        criticality:"High",
+
+        status:"Running",
+
+        healthScore:96,
+
+        lastPM:"2026-08-11",
+
+        nextPM:"2026-08-18",
 
 
-    // ========================================================
-    // EL TESTER - 01
-    // ========================================================
+        parameters:{
 
-    "EL-Tester-01": {
+            cameraStatus:{
+                value:"OK",
+                unit:"",
+                type:"status"
+            },
 
-        id: "EL-L1-01",
+            communication:{
+                value:"Online",
+                unit:"",
+                type:"status"
+            },
 
-        assetCode: "SAMA-EL-001",
+            imageQuality:{
+                value:97,
+                unit:"%",
+                min:90,
+                max:100
+            },
 
-        name: "EL-Tester-01",
-
-        shortName: "EL Tester 01",
-
-        type: "Electroluminescence Inspection System",
-
-        process: "EL Inspection",
-
-        department: "Quality",
-
-        line: "Line-1",
-
-        manufacturer: "To Be Updated",
-
-        location: "Inspection Section",
-
-        status: "Running",
-
-        health: 94,
-
-        criticality: "High",
-
-
-        parameters: {
-
-            cameraStatus: "Healthy",
-
-            imageQuality: "Good",
-
-            communication: "Online",
-
-            inspectionSystem: "Normal",
-
-            illumination: "Stable"
-
-        },
-
-
-        runtime: 8600,
-
-
-        lastMaintenance: "22-Jul-2026",
-
-        nextPM: "22-Aug-2026",
-
-
-        maintenanceStatus: "On Schedule",
-
-
-        criticalMonitoringPoints: [
-
-            "Camera health",
-
-            "Image quality",
-
-            "Electrical contact",
-
-            "Communication",
-
-            "Calibration"
-
-        ],
-
-
-        criticalSpares: [
-
-            "Industrial Camera",
-
-            "Communication Cable",
-
-            "Power Supply",
-
-            "Contact Components",
-
-            "Inspection PC Components"
-
-        ],
-
-
-        activeAlarms: [],
-
-
-        breakdownHistory: [
-
-            {
-
-                date: "22-Jul-2026",
-
-                alarm: "CAM01",
-
-                category: "Vision",
-
-                issue: "Image quality issue",
-
-                symptom:
-                    "EL image quality unstable",
-
-                downtimeMinutes: 25,
-
-                rootCause:
-                    "Camera / illumination condition required correction",
-
-                correctiveAction:
-                    "Camera and inspection system calibrated",
-
-                status: "Resolved"
-
+            falseRejectRate:{
+                value:0.35,
+                unit:"%",
+                min:0,
+                max:1
             }
 
-        ]
+        }
 
     },
 
 
 
+    // =================================================
+    // AOI 01
+    // =================================================
+
+    "AOI-01":{
+
+        id:"AOI-01",
+
+        name:"AOI-01",
+
+        machineType:"AOI",
+
+        manufacturer:"To Be Updated",
+
+        process:"Automatic Optical Inspection",
+
+        line:"Line-1",
+
+        criticality:"High",
+
+        status:"Running",
+
+        healthScore:91,
+
+        lastPM:"2026-08-09",
+
+        nextPM:"2026-08-16",
 
 
-    // ========================================================
-    // AOI - 01
-    // ========================================================
+        parameters:{
 
-    "AOI-01": {
+            cameraStatus:{
+                value:"OK",
+                unit:"",
+                type:"status"
+            },
 
-        id: "AOI-L1-01",
+            lightingStatus:{
+                value:"OK",
+                unit:"",
+                type:"status"
+            },
 
-        assetCode: "SAMA-AOI-001",
+            communication:{
+                value:"Online",
+                unit:"",
+                type:"status"
+            },
 
-        name: "AOI-01",
-
-        shortName: "AOI 01",
-
-        type: "Automatic Optical Inspection",
-
-        process: "Visual Quality Inspection",
-
-        department: "Quality",
-
-        line: "Line-1",
-
-        manufacturer: "To Be Updated",
-
-        location: "Inspection Section",
-
-        status: "Running",
-
-        health: 89,
-
-        criticality: "Medium",
-
-
-        parameters: {
-
-            cameraStatus: "Healthy",
-
-            inspectionRate: "98.5%",
-
-            falseReject: "1.2%",
-
-            lightingStatus: "Stable",
-
-            communication: "Online"
-
-        },
-
-
-        runtime: 9200,
-
-
-        lastMaintenance: "18-Jul-2026",
-
-        nextPM: "18-Aug-2026",
-
-
-        maintenanceStatus: "PM Due Soon",
-
-
-        criticalMonitoringPoints: [
-
-            "Camera focus",
-
-            "Lighting intensity",
-
-            "Inspection threshold",
-
-            "False rejection trend",
-
-            "Calibration"
-
-        ],
-
-
-        criticalSpares: [
-
-            "Industrial Camera",
-
-            "Camera Lens",
-
-            "Lighting Controller",
-
-            "Communication Cable",
-
-            "Power Supply"
-
-        ],
-
-
-        activeAlarms: [],
-
-
-        breakdownHistory: [
-
-            {
-
-                date: "18-Jul-2026",
-
-                alarm: "AOI01",
-
-                category: "Inspection",
-
-                issue: "High false rejection",
-
-                symptom:
-                    "AOI false NG increased",
-
-                downtimeMinutes: 40,
-
-                rootCause:
-                    "Inspection threshold / calibration required optimization",
-
-                correctiveAction:
-                    "Inspection parameters reviewed and optimized",
-
-                status: "Resolved"
-
+            falseRejectRate:{
+                value:0.72,
+                unit:"%",
+                min:0,
+                max:1
             }
 
-        ]
+        }
 
     }
 
@@ -762,54 +364,36 @@ const machineDatabase = {
 
 
 
+// =====================================================
+// GET MACHINE
+// =====================================================
+
+function getMachine(machineName){
 
 
-// ============================================================
-// NORMALIZE MACHINE SEARCH TEXT
-// ============================================================
-
-function normalizeMachineText(value) {
-
-    return String(value || "")
-        .toLowerCase()
-        .trim()
-        .replace(/_/g, "-")
-        .replace(/\s+/g, " ");
-
-}
-
-
-
-
-
-// ============================================================
-// GET MACHINE DETAILS
-// ============================================================
-
-function getMachineDetails(machineName) {
-
-
-    const search =
-        normalizeMachineText(machineName);
-
-
-
-    if(!search) {
+    if(!machineName){
 
         return null;
 
     }
 
 
+    const search =
+        String(machineName)
+        .toLowerCase()
+        .trim();
 
-    // Exact search
 
-    for(const key in machineDatabase) {
+    // Direct ID/name match
 
+    for(
+        const key in machineDatabase
+    ){
 
         if(
-            normalizeMachineText(key) === search
-        ) {
+            key.toLowerCase() ===
+            search
+        ){
 
             return machineDatabase[key];
 
@@ -818,42 +402,22 @@ function getMachineDetails(machineName) {
     }
 
 
+    // Machine type search
 
-    // Flexible search
-
-    for(const key in machineDatabase) {
-
+    for(
+        const key in machineDatabase
+    ){
 
         const machine =
             machineDatabase[key];
 
 
-        const combined =
-            [
-
-                key,
-
-                machine.name,
-
-                machine.shortName,
-
-                machine.type,
-
-                machine.id,
-
-                machine.assetCode,
-
-                machine.manufacturer
-
-            ]
-            .join(" ")
-            .toLowerCase();
-
-
-
         if(
-            combined.includes(search)
-        ) {
+            search.includes(
+                machine.machineType
+                .toLowerCase()
+            )
+        ){
 
             return machine;
 
@@ -862,54 +426,28 @@ function getMachineDetails(machineName) {
     }
 
 
+    // Manufacturer search
 
-    // Generic Stringer
+    for(
+        const key in machineDatabase
+    ){
 
-    if(
-        search === "stringer"
-    ) {
-
-        return machineDatabase["Stringer-01"];
-
-    }
+        const machine =
+            machineDatabase[key];
 
 
+        if(
+            search.includes(
+                machine.manufacturer
+                .toLowerCase()
+            )
+        ){
 
-    // Generic Laminator
+            return machine;
 
-    if(
-        search === "laminator"
-    ) {
-
-        return machineDatabase["Laminator-01"];
-
-    }
-
-
-
-    // Generic EL
-
-    if(
-        search === "el" ||
-        search === "el tester"
-    ) {
-
-        return machineDatabase["EL-Tester-01"];
+        }
 
     }
-
-
-
-    // Generic AOI
-
-    if(
-        search === "aoi"
-    ) {
-
-        return machineDatabase["AOI-01"];
-
-    }
-
 
 
     return null;
@@ -918,85 +456,177 @@ function getMachineDetails(machineName) {
 
 
 
+// =====================================================
+// PARAMETER STATUS
+// =====================================================
+
+function getParameterStatus(parameter){
 
 
-// ============================================================
-// GET ALL MACHINES
-// ============================================================
+    if(!parameter){
 
-function getAllMachines() {
+        return {
 
-    return Object.keys(machineDatabase);
+            status:"Unknown",
+            icon:"⚪"
 
-}
+        };
 
-
-
+    }
 
 
-// ============================================================
-// MACHINE HEALTH
-// ============================================================
+    // Status-type parameter
 
-function getMachineHealth(machineName) {
+    if(
+        parameter.type ===
+        "status"
+    ){
+
+        const value =
+            String(
+                parameter.value
+            )
+            .toLowerCase();
 
 
-    const machine =
-        getMachineDetails(machineName);
+        if(
+            value === "ok" ||
+            value === "online" ||
+            value === "running"
+        ){
+
+            return {
+
+                status:"Normal",
+                icon:"🟢"
+
+            };
+
+        }
 
 
+        return {
 
-    if(!machine) {
+            status:"Abnormal",
+            icon:"🔴"
 
-        return null;
+        };
 
     }
 
 
 
-    let healthStatus;
+    // Numeric parameter
+
+    const value =
+        Number(
+            parameter.value
+        );
 
 
+    if(
+        Number.isNaN(value)
+    ){
 
-    if(machine.health >= 90) {
+        return {
 
-        healthStatus =
-            "Healthy";
+            status:"Unknown",
+            icon:"⚪"
 
-    }
-
-    else if(machine.health >= 75) {
-
-        healthStatus =
-            "Attention Required";
-
-    }
-
-    else {
-
-        healthStatus =
-            "Critical";
+        };
 
     }
 
+
+    if(
+        parameter.min !== undefined
+        &&
+        value < parameter.min
+    ){
+
+        return {
+
+            status:"Low",
+            icon:"🔴"
+
+        };
+
+    }
+
+
+    if(
+        parameter.max !== undefined
+        &&
+        value > parameter.max
+    ){
+
+        return {
+
+            status:"High",
+            icon:"🔴"
+
+        };
+
+    }
+
+
+
+    // Warning band near limits
+
+    if(
+        parameter.min !== undefined
+        &&
+        parameter.max !== undefined
+    ){
+
+        const range =
+            parameter.max -
+            parameter.min;
+
+
+        const warningBand =
+            Math.abs(range) *
+            0.10;
+
+
+        if(
+            value <=
+            parameter.min +
+            warningBand
+        ){
+
+            return {
+
+                status:"Near Lower Limit",
+                icon:"🟡"
+
+            };
+
+        }
+
+
+        if(
+            value >=
+            parameter.max -
+            warningBand
+        ){
+
+            return {
+
+                status:"Near Upper Limit",
+                icon:"🟡"
+
+            };
+
+        }
+
+    }
 
 
     return {
 
-        machine:
-            machine.name,
-
-        score:
-            machine.health,
-
-        status:
-            healthStatus,
-
-        runningStatus:
-            machine.status,
-
-        maintenanceStatus:
-            machine.maintenanceStatus
+        status:"Normal",
+        icon:"🟢"
 
     };
 
@@ -1004,82 +634,187 @@ function getMachineHealth(machineName) {
 
 
 
+// =====================================================
+// FORMAT PARAMETER NAME
+// =====================================================
+
+function formatParameterName(name){
 
 
-// ============================================================
-// FORMAT PARAMETERS
-// ============================================================
+    return String(name)
 
-function formatMachineParameters(parameters) {
+        .replace(
+            /([A-Z])/g,
+            " $1"
+        )
 
-
-    if(!parameters) {
-
-        return "No parameter data available.";
-
-    }
-
-
-
-    let html = "";
-
-
-
-    Object.entries(parameters)
-        .forEach(([key,value]) => {
-
-
-            const label =
-                key
-                .replace(/([A-Z])/g," $1")
-                .replace(/^./,char =>
-                    char.toUpperCase()
-                );
-
-
-            html +=
-            `
-
-            <div class="machine-parameter">
-
-                <span>
-                    ${label}
-                </span>
-
-                <strong>
-                    ${value}
-                </strong>
-
-            </div>
-
-            `;
-
-        });
-
-
-
-    return html;
+        .replace(
+            /^./,
+            char =>
+                char.toUpperCase()
+        );
 
 }
 
 
 
+// =====================================================
+// GET ABNORMAL PARAMETERS
+// =====================================================
 
-
-// ============================================================
-// GENERATE MACHINE HEALTH REPORT
-// ============================================================
-
-function generateMachineReport(machineName) {
+function getAbnormalParameters(
+    machineName
+){
 
 
     const machine =
-        getMachineDetails(machineName);
+        getMachine(
+            machineName
+        );
+
+
+    if(!machine){
+
+        return [];
+
+    }
+
+
+    const results = [];
+
+
+    for(
+        const key
+        in machine.parameters
+    ){
+
+        const parameter =
+            machine.parameters[key];
+
+
+        const condition =
+            getParameterStatus(
+                parameter
+            );
+
+
+        if(
+            condition.status !==
+            "Normal"
+        ){
+
+            results.push({
+
+                parameter:key,
+
+                name:
+                    formatParameterName(
+                        key
+                    ),
+
+                value:
+                    parameter.value,
+
+                unit:
+                    parameter.unit,
+
+                status:
+                    condition.status,
+
+                icon:
+                    condition.icon
+
+            });
+
+        }
+
+    }
+
+
+    return results;
+
+}
 
 
 
-    if(!machine) {
+// =====================================================
+// HEALTH STATUS
+// =====================================================
 
+function getHealthStatus(score){
+
+
+    const value =
+        Number(score);
+
+
+    if(value >= 90){
+
+        return {
+
+            status:"Healthy",
+
+            icon:"🟢"
+
+        };
+
+    }
+
+
+    if(value >= 75){
+
+        return {
+
+            status:"Attention",
+
+            icon:"🟡"
+
+        };
+
+    }
+
+
+    if(value >= 60){
+
+        return {
+
+            status:"Warning",
+
+            icon:"🟠"
+
+        };
+
+    }
+
+
+    return {
+
+        status:"Critical",
+
+        icon:"🔴"
+
+    };
+
+}
+
+
+
+// =====================================================
+// MACHINE HEALTH REPORT
+// =====================================================
+
+function generateMachineReport(
+    machineName
+){
+
+
+    const machine =
+        getMachine(
+            machineName
+        );
+
+
+    if(!machine){
 
         return `
 
@@ -1087,17 +822,49 @@ function generateMachineReport(machineName) {
 
         <br><br>
 
-        SAMA could not find:
+        Machine data is not available.
 
-        <b>${machineName}</b>
+        `;
 
-        <br><br>
+    }
 
-        Available machines:
+
+    const health =
+        getHealthStatus(
+            machine.healthScore
+        );
+
+
+    let parameterHTML = "";
+
+
+    for(
+        const key
+        in machine.parameters
+    ){
+
+        const parameter =
+            machine.parameters[key];
+
+
+        const condition =
+            getParameterStatus(
+                parameter
+            );
+
+
+        parameterHTML += `
+
+        ${condition.icon}
+
+        <b>
+        ${formatParameterName(key)}:
+        </b>
+
+        ${parameter.value}
+        ${parameter.unit || ""}
 
         <br>
-
-        ${getAllMachines().join("<br>")}
 
         `;
 
@@ -1105,22 +872,93 @@ function generateMachineReport(machineName) {
 
 
 
-    let healthStatus =
-        "Healthy 🟢";
+    // =================================================
+    // BREAKDOWN DATA
+    // =================================================
+
+    let breakdownCount = "-";
+
+    let downtime = "-";
+
+    let mttr = "-";
 
 
-    if(machine.health < 90) {
+    if(
+        typeof getBreakdownCount ===
+        "function"
+    ){
 
-        healthStatus =
-            "Attention Required 🟡";
+        breakdownCount =
+            getBreakdownCount(
+                machine.name
+            );
 
     }
 
 
-    if(machine.health < 75) {
+    if(
+        typeof getTotalDowntime ===
+        "function"
+    ){
 
-        healthStatus =
-            "Critical 🔴";
+        downtime =
+            getTotalDowntime(
+                machine.name
+            );
+
+    }
+
+
+    if(
+        typeof calculateBreakdownMTTR ===
+        "function"
+    ){
+
+        mttr =
+            calculateBreakdownMTTR(
+                machine.name
+            );
+
+    }
+
+
+
+    // =================================================
+    // ABNORMAL PARAMETERS
+    // =================================================
+
+    const abnormal =
+        getAbnormalParameters(
+            machine.name
+        );
+
+
+    let recommendation;
+
+
+    if(
+        abnormal.length === 0
+    ){
+
+        recommendation =
+
+        "No abnormal parameter detected in the current prototype dataset. Continue routine monitoring and preventive maintenance.";
+
+    }
+    else{
+
+        const names =
+            abnormal
+            .map(
+                item =>
+                    item.name
+            )
+            .join(", ");
+
+
+        recommendation =
+
+        `Attention required for: ${names}. Verify the parameter trend and equipment condition before it develops into a breakdown.`;
 
     }
 
@@ -1128,119 +966,129 @@ function generateMachineReport(machineName) {
 
     return `
 
-
     <b>📊 Machine Health Report</b>
 
-
     <br><br>
-
 
     <b>Machine:</b>
-
     ${machine.name}
 
-
     <br>
-
-
-    <b>Asset ID:</b>
-
-    ${machine.id}
-
-
-    <br>
-
-
-    <b>Line:</b>
-
-    ${machine.line}
-
-
-    <br>
-
-
-    <b>Process:</b>
-
-    ${machine.process}
-
-
-    <br>
-
 
     <b>Make:</b>
-
     ${machine.manufacturer}
 
+    <br>
+
+    <b>Process:</b>
+    ${machine.process}
 
     <br>
 
+    <b>Line:</b>
+    ${machine.line}
+
+    <br>
 
     <b>Status:</b>
-
     ${machine.status}
 
-
     <br>
 
-
-    <b>Health Score:</b>
-
-    ${machine.health}%
-
-
-    <br>
-
-
-    <b>Condition:</b>
-
-    ${healthStatus}
-
-
-    <br>
-
-
-    <b>Runtime:</b>
-
-    ${machine.runtime} Hours
+    <b>Criticality:</b>
+    ${machine.criticality}
 
 
     <br><br>
 
 
-    <b>⚙ Machine Parameters</b>
+    <b>❤️ Health Score:</b>
+
+    ${health.icon}
+
+    ${machine.healthScore}%
+
+    —
+
+    ${health.status}
 
 
     <br><br>
 
 
-    ${formatMachineParameters(
-        machine.parameters
-    )}
+    <b>📡 Machine Parameters</b>
+
+    <br><br>
+
+    ${parameterHTML}
 
 
     <br>
 
 
-    <b>🛠 Last Maintenance:</b>
-
-    ${machine.lastMaintenance}
-
+    <b>🛠 Maintenance</b>
 
     <br>
 
+    Last PM:
+    ${machine.lastPM}
 
-    <b>📅 Next PM:</b>
+    <br>
 
+    Next PM:
     ${machine.nextPM}
 
 
+    <br><br>
+
+
+    <b>📉 Breakdown Performance</b>
+
     <br>
 
+    Breakdown Count:
+    ${breakdownCount}
 
-    <b>Maintenance Status:</b>
+    <br>
 
-    ${machine.maintenanceStatus}
+    Total Downtime:
+    ${downtime}
+    ${
+        downtime !== "-"
+        ?
+        " min"
+        :
+        ""
+    }
 
+    <br>
+
+    MTTR:
+    ${mttr}
+    ${
+        mttr !== "-"
+        ?
+        " min"
+        :
+        ""
+    }
+
+
+    <br><br>
+
+
+    <b>🤖 SAMA Recommendation:</b>
+
+    <br>
+
+    ${recommendation}
+
+
+    <br><br>
+
+    <small>
+    ⚠ Current machine parameters are prototype/simulated values.
+    </small>
 
     `;
 
@@ -1248,111 +1096,220 @@ function generateMachineReport(machineName) {
 
 
 
+// =====================================================
+// GET MACHINE LIST
+// =====================================================
+
+function getMachineList(){
 
 
-// ============================================================
-// BREAKDOWN HISTORY
-// ============================================================
+    return Object.values(
+        machineDatabase
+    )
+    .map(
+        machine => ({
 
-function getBreakdownHistory(machineName) {
+            id:
+                machine.id,
+
+            name:
+                machine.name,
+
+            type:
+                machine.machineType,
+
+            manufacturer:
+                machine.manufacturer,
+
+            process:
+                machine.process,
+
+            line:
+                machine.line,
+
+            status:
+                machine.status,
+
+            healthScore:
+                machine.healthScore
+
+        })
+    );
+
+}
 
 
-    const machine =
-        getMachineDetails(machineName);
 
+// =====================================================
+// GET MACHINES BY TYPE
+// =====================================================
+
+function getMachinesByType(type){
+
+
+    const search =
+        String(type || "")
+        .toLowerCase();
+
+
+    return Object.values(
+        machineDatabase
+    )
+    .filter(
+        machine =>
+
+            machine.machineType
+            .toLowerCase()
+            .includes(search)
+
+    );
+
+}
+
+
+
+// =====================================================
+// GET CRITICAL MACHINES
+// =====================================================
+
+function getCriticalMachines(){
+
+
+    return Object.values(
+        machineDatabase
+    )
+    .filter(
+        machine =>
+
+            machine.criticality ===
+            "Critical"
+
+    );
+
+}
+
+
+
+// =====================================================
+// PLANT HEALTH SUMMARY
+// =====================================================
+
+function getPlantHealthSummary(){
+
+
+    const machines =
+        Object.values(
+            machineDatabase
+        );
 
 
     if(
-        !machine ||
-        !machine.breakdownHistory
-    ) {
+        machines.length === 0
+    ){
 
-        return [];
+        return null;
 
     }
 
 
+    const totalHealth =
+        machines.reduce(
+            (total,machine) =>
 
-    return machine.breakdownHistory;
+                total +
+                Number(
+                    machine.healthScore || 0
+                ),
+
+            0
+        );
+
+
+    const averageHealth =
+        Number(
+            (
+                totalHealth /
+                machines.length
+            )
+            .toFixed(1)
+        );
+
+
+    const running =
+        machines.filter(
+            machine =>
+                machine.status ===
+                "Running"
+        ).length;
+
+
+    const attention =
+        machines.filter(
+            machine =>
+                machine.healthScore < 90
+        ).length;
+
+
+    return {
+
+        totalMachines:
+            machines.length,
+
+        runningMachines:
+            running,
+
+        averageHealth:
+            averageHealth,
+
+        machinesRequiringAttention:
+            attention
+
+    };
 
 }
 
 
 
-
-
-// ============================================================
-// UPDATE MACHINE STATUS
-// ============================================================
-
-function updateMachineStatus(
-    machineName,
-    newStatus
-) {
-
-
-    const machine =
-        getMachineDetails(machineName);
-
-
-
-    if(!machine) {
-
-        return false;
-
-    }
-
-
-
-    machine.status =
-        newStatus;
-
-
-
-    return true;
-
-}
-
-
-
-
-
-// ============================================================
-// UPDATE MACHINE PARAMETER
-// FUTURE PLC / MES USE
-// ============================================================
+// =====================================================
+// UPDATE PARAMETER
+// Future PLC / MES integration hook
+// =====================================================
 
 function updateMachineParameter(
     machineName,
-    parameter,
-    value
-) {
+    parameterName,
+    newValue
+){
 
 
     const machine =
-        getMachineDetails(machineName);
+        getMachine(
+            machineName
+        );
 
 
-
-    if(!machine) {
+    if(!machine){
 
         return false;
 
     }
 
 
+    if(
+        !machine.parameters[
+            parameterName
+        ]
+    ){
 
-    if(!machine.parameters) {
-
-        machine.parameters = {};
+        return false;
 
     }
 
 
-
-    machine.parameters[parameter] =
-        value;
-
+    machine.parameters[
+        parameterName
+    ].value =
+        newValue;
 
 
     return true;
@@ -1361,63 +1318,16 @@ function updateMachineParameter(
 
 
 
-
-
-// ============================================================
-// GET MACHINES BY LINE
-// ============================================================
-
-function getMachinesByLine(line) {
-
-
-    return Object.values(machineDatabase)
-        .filter(machine =>
-
-            machine.line
-                .toLowerCase() ===
-            line.toLowerCase()
-
-        );
-
-}
-
-
-
-
-
-// ============================================================
-// GET MACHINES BY MANUFACTURER
-// ============================================================
-
-function getMachinesByManufacturer(
-    manufacturer
-) {
-
-
-    return Object.values(machineDatabase)
-        .filter(machine =>
-
-            machine.manufacturer
-                .toLowerCase() ===
-            manufacturer.toLowerCase()
-
-        );
-
-}
-
-
-
-
-
-// ============================================================
-// SAMA MACHINE DATABASE READY
-// ============================================================
+// =====================================================
+// READY
+// =====================================================
 
 console.log(
-    "✅ SAMA Solex Machine Database Loaded"
+    "✅ SAMA Machine Database Loaded"
 );
+
 
 console.log(
     "Machines:",
-    getAllMachines()
+    getMachineList()
 );
