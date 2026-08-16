@@ -1296,3 +1296,62 @@ body{
     }
 
 }
+
+/* =========================================================
+   TOPBAR ACTIONS + LANGUAGE SELECTOR
+========================================================= */
+
+.topbar-actions{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.language-control{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 12px;
+
+    background:#171c20;
+
+    border:1px solid #30363b;
+
+    border-radius:9px;
+}
+
+.language-control i{
+    color:var(--orange);
+}
+
+.language-selector{
+    background:transparent;
+
+    color:#ffffff;
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    font-size:14px;
+}
+
+.language-selector option{
+    background:#111518;
+    color:#ffffff;
+}
+
+@media(max-width:750px){
+
+    .language-control{
+        padding:7px;
+    }
+
+    .language-selector{
+        max-width:90px;
+    }
+
+}
