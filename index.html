@@ -5,20 +5,40 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>SAMA - Solex AI Maintenance Assistant</title>
+    <title>
+        SAMA - Solex AI Maintenance Assistant
+    </title>
 
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="css/style.css">
 
-    <!-- FONT AWESOME -->
+    <!-- ==========================================
+         MAIN CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <!-- ==========================================
+         FONT AWESOME
+    ========================================== -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
 
-    <!-- FAVICON -->
+
+    <!-- ==========================================
+         FAVICON
+    ========================================== -->
+
     <link
         rel="icon"
         type="image/png"
@@ -34,16 +54,17 @@
 <div class="dashboard">
 
 
-    <!-- ==========================================
+    <!-- =====================================================
          SIDEBAR
-    ========================================== -->
+    ====================================================== -->
 
-    <div class="sidebar">
+    <aside class="sidebar">
 
 
-        <!-- LOGO AREA -->
+        <!-- LOGO -->
 
         <div class="logo-area">
+
 
             <img
                 src="assets/solex-logo.png"
@@ -51,24 +72,29 @@
                 alt="Solex Logo"
             >
 
+
             <h2>
                 🤖 SAMA
             </h2>
 
-            <p data-i18n="subtitle">
+
+            <p>
                 AI Maintenance Assistant
             </p>
+
 
         </div>
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              NAVIGATION
-        ========================================== -->
+        ================================================== -->
 
         <ul>
 
+
+            <!-- AI CHAT -->
 
             <li class="active">
 
@@ -82,7 +108,11 @@
 
 
 
-            <li onclick="showComingSoon(t('machineStatus'))">
+            <!-- MACHINE STATUS -->
+
+            <li
+                onclick="showComingSoon('Machine Status')"
+            >
 
                 <i class="fa-solid fa-gears"></i>
 
@@ -94,7 +124,11 @@
 
 
 
-            <li onclick="showComingSoon(t('alarmHistory'))">
+            <!-- ALARM HISTORY -->
+
+            <li
+                onclick="showComingSoon('Alarm History')"
+            >
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
 
@@ -106,7 +140,11 @@
 
 
 
-            <li onclick="showComingSoon(t('preventiveMaintenance'))">
+            <!-- PREVENTIVE MAINTENANCE -->
+
+            <li
+                onclick="showComingSoon('Preventive Maintenance')"
+            >
 
                 <i class="fa-solid fa-calendar-check"></i>
 
@@ -118,7 +156,11 @@
 
 
 
-            <li onclick="showComingSoon(t('spareInventory'))">
+            <!-- SPARE INVENTORY -->
+
+            <li
+                onclick="showComingSoon('Spare Inventory')"
+            >
 
                 <i class="fa-solid fa-box"></i>
 
@@ -130,7 +172,11 @@
 
 
 
-            <li onclick="showComingSoon(t('breakdownHistory'))">
+            <!-- BREAKDOWN HISTORY -->
+
+            <li
+                onclick="showComingSoon('Breakdown History')"
+            >
 
                 <i class="fa-solid fa-clock-rotate-left"></i>
 
@@ -142,7 +188,11 @@
 
 
 
-            <li onclick="window.location.href='pages/whySAMA.html'">
+            <!-- WHY SAMA -->
+
+            <li
+                onclick="window.location.href='pages/whySAMA.html'"
+            >
 
                 <i class="fa-solid fa-lightbulb"></i>
 
@@ -157,52 +207,66 @@
 
 
 
-        <!-- SIDEBAR FOOTER -->
+        <!-- =================================================
+             SIDEBAR FOOTER
+        ================================================== -->
 
         <div class="sidebar-footer">
 
+
             <p>
-                SAMA v1.0
+                SAMA v2.0
             </p>
+
 
             <small>
                 Solex Digital Transformation
             </small>
 
+
         </div>
 
 
-    </div>
+    </aside>
 
 
 
-    <!-- ==========================================
+    <!-- =====================================================
          MAIN CONTENT
-    ========================================== -->
+    ====================================================== -->
 
-    <div class="main-content">
+    <main class="main-content">
 
 
-        <!-- ==========================================
+        <!-- =================================================
              TOP BAR
-        ========================================== -->
+        ================================================== -->
 
-        <div class="topbar">
+        <header class="topbar">
 
 
             <div class="topbar-title">
 
+
                 <h1 data-i18n="appName">
+
                     Solex AI Maintenance Assistant
+
                 </h1>
 
-                <p>
+
+                <p data-i18n="subtitle">
+
                     Industrial Troubleshooting & Maintenance Support
+
                 </p>
+
 
             </div>
 
 
+
+            <!-- TOP RIGHT -->
 
             <div class="topbar-actions">
 
@@ -211,26 +275,33 @@
 
                 <div class="language-control">
 
+
                     <i class="fa-solid fa-globe"></i>
 
+
                     <select
-                        id="languageSelector"
+                        id="samaLanguageSelector"
                         class="language-selector"
+                        onchange="changeSAMALanguage(this.value)"
                     >
 
                         <option value="en">
                             English
                         </option>
 
+
                         <option value="hi">
                             हिन्दी
                         </option>
+
 
                         <option value="gu">
                             ગુજરાતી
                         </option>
 
+
                     </select>
+
 
                 </div>
 
@@ -240,11 +311,16 @@
 
                 <div class="system-status">
 
+
                     <span class="status-dot"></span>
 
-                    <span data-i18n="online">
-                        Online
+
+                    <span data-i18n="samaOnline">
+
+                        SAMA Online
+
                     </span>
+
 
                 </div>
 
@@ -252,29 +328,34 @@
             </div>
 
 
-        </div>
+        </header>
 
 
 
-        <!-- ==========================================
-             CHAT CONTAINER
-        ========================================== -->
+        <!-- =================================================
+             CHAT PANEL
+        ================================================== -->
 
-        <div class="chat-container">
+        <section class="chat-container">
 
 
-            <!-- CHAT HEADER -->
+            <!-- =================================================
+                 CHAT HEADER
+            ================================================== -->
 
             <div class="chat-header">
 
 
                 <div class="chat-header-left">
 
+
                     <i class="fa-solid fa-robot"></i>
 
-                    <span data-i18n="assistantName">
+
+                    <span>
                         SAMA
                     </span>
+
 
                 </div>
 
@@ -282,11 +363,16 @@
 
                 <div class="chat-header-status">
 
+
                     <span data-i18n="online">
+
                         Online
+
                     </span>
 
+
                     <span class="online-dot"></span>
+
 
                 </div>
 
@@ -295,57 +381,104 @@
 
 
 
-            <!-- ==========================================
+            <!-- =================================================
                  CHAT MESSAGES
-            ========================================== -->
+            ================================================== -->
 
             <div
                 id="chatBox"
                 class="chat-box"
             >
 
-                <!-- chat.js inserts messages here -->
+                <!--
+                SAMA messages are generated
+                automatically by chat.js
+                -->
 
             </div>
 
 
 
-            <!-- ==========================================
-                 QUICK ACTIONS
-            ========================================== -->
+            <!-- =================================================
+                 QUICK QUESTIONS
+            ================================================== -->
 
             <div class="quick-actions">
 
 
                 <button
                     type="button"
-                    onclick="askQuickQuestion('Servo alarm E37')"
+                    onclick="askQuickQuestion('ATW Stringer alarm E37')"
                 >
-                    🚨 Servo Alarm E37
+
+                    🚨 ATW E37
+
                 </button>
+
 
 
                 <button
                     type="button"
-                    onclick="askQuickQuestion('Stringer cell breakage')"
+                    onclick="askQuickQuestion('ATW Stringer cell breakage')"
                 >
-                    ⚙ Stringer Breakdown
+
+                    ⚙ Cell Breakage
+
                 </button>
+
 
 
                 <button
                     type="button"
-                    onclick="askQuickQuestion('Laminator PM checklist')"
+                    onclick="askQuickQuestion('SC Laminator bubble defect')"
                 >
+
+                    🔥 Laminator Bubble
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('SC Laminator PM')"
+                >
+
                     🛠 Laminator PM
+
                 </button>
+
 
 
                 <button
                     type="button"
                     onclick="askQuickQuestion('Stringer health')"
                 >
-                    📊 Machine Health
+
+                    📊 Stringer Health
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Stringer repeated failures')"
+                >
+
+                    🔁 Repeated Failure
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Laminator MTTR')"
+                >
+
+                    ⏱ MTTR
+
                 </button>
 
 
@@ -353,9 +486,9 @@
 
 
 
-            <!-- ==========================================
-                 CHAT INPUT
-            ========================================== -->
+            <!-- =================================================
+                 INPUT
+            ================================================== -->
 
             <div class="chat-input">
 
@@ -363,22 +496,43 @@
                 <input
                     type="text"
                     id="userInput"
-                    data-i18n-placeholder="placeholder"
                     placeholder="Ask SAMA about machine, alarm, PM, spare..."
                     autocomplete="off"
                 >
 
 
+
+                <!-- CLEAR BUTTON -->
+
                 <button
                     type="button"
+                    class="clear-chat-btn"
+                    onclick="clearSAMAChat()"
+                    title="Clear Chat"
+                >
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+
+
+                <!-- SEND BUTTON -->
+
+                <button
+                    type="button"
+                    class="send-btn"
                     onclick="sendMessage()"
                 >
 
                     <i class="fa-solid fa-paper-plane"></i>
 
                     <span data-i18n="send">
+
                         Send
+
                     </span>
+
 
                 </button>
 
@@ -386,105 +540,122 @@
             </div>
 
 
-        </div>
+        </section>
 
 
-    </div>
+    </main>
 
 
 </div>
 
 
 
-<!-- ==========================================
-     DATABASES
-========================================== -->
+<!-- =====================================================
+     JAVASCRIPT LOAD ORDER
+
+     DO NOT CHANGE THIS ORDER
+====================================================== -->
+
+
+<!-- MACHINE MASTER -->
 
 <script src="js/machines.js"></script>
 
+
+
+<!-- TROUBLESHOOTING KNOWLEDGE -->
+
 <script src="js/knowledge.js"></script>
+
+
+
+<!-- ALARM DATABASE -->
 
 <script src="js/alarmDatabase.js"></script>
 
+
+
+<!-- SPARE DATABASE -->
+
 <script src="js/spareDatabase.js"></script>
+
+
+
+<!-- BREAKDOWN HISTORY -->
 
 <script src="js/breakdownHistory.js"></script>
 
 
 
-<!-- ==========================================
-     LANGUAGE ENGINE
-========================================== -->
+<!-- PREVENTIVE MAINTENANCE -->
+
+<script src="js/pmDatabase.js"></script>
+
+
+
+<!-- MULTI LANGUAGE ENGINE -->
 
 <script src="js/language.js"></script>
 
 
 
-<!-- ==========================================
-     AI ENGINE
-========================================== -->
+<!-- SAMA AI DECISION ENGINE -->
 
 <script src="js/aiEngine.js"></script>
 
 
 
-<!-- ==========================================
-     CHAT CONTROLLER
-========================================== -->
+<!-- CHAT CONTROLLER -->
 
 <script src="js/chat.js"></script>
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      PAGE FUNCTIONS
-========================================== -->
+====================================================== -->
 
 <script>
 
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function()
-    {
+// =====================================================
+// CHANGE LANGUAGE
+// =====================================================
 
-        const input =
-            document.getElementById(
-                "userInput"
-            );
+function changeSAMALanguage(language){
 
 
-        if(input)
-        {
+    if(
+        typeof setSAMALanguage ===
+        "function"
+    ){
 
-            input.addEventListener(
-                "keydown",
-                function(event)
-                {
-
-                    if(
-                        event.key === "Enter"
-                    )
-                    {
-
-                        event.preventDefault();
-
-                        sendMessage();
-
-                    }
-
-                }
-            );
-
-        }
+        setSAMALanguage(
+            language
+        );
 
     }
-);
+
+
+    if(
+        typeof refreshSAMAWelcome ===
+        "function"
+    ){
+
+        refreshSAMAWelcome();
+
+    }
+
+}
 
 
 
-function askQuickQuestion(question)
-{
+// =====================================================
+// QUICK QUESTION
+// =====================================================
+
+function askQuickQuestion(question){
+
 
     const input =
         document.getElementById(
@@ -492,8 +663,7 @@ function askQuickQuestion(question)
         );
 
 
-    if(!input)
-    {
+    if(!input){
 
         return;
 
@@ -504,57 +674,110 @@ function askQuickQuestion(question)
         question;
 
 
-    sendMessage();
+    if(
+        typeof sendMessage ===
+        "function"
+    ){
+
+        sendMessage();
+
+    }
 
 }
 
 
 
-function showComingSoon(feature)
-{
+// =====================================================
+// COMING SOON
+// =====================================================
 
-    const language =
-        typeof getSAMALanguage === "function"
-        ?
-        getSAMALanguage()
-        :
+function showComingSoon(feature){
+
+
+    let language =
         "en";
 
 
-    let message;
+    if(
+        typeof getSAMALanguage ===
+        "function"
+    ){
 
-
-    if(language === "hi")
-    {
-
-        message =
-        feature +
-        " मॉड्यूल अभी विकासाधीन है।";
-
-    }
-
-    else if(language === "gu")
-    {
-
-        message =
-        feature +
-        " મોડ્યુલ હાલમાં વિકાસ હેઠળ છે.";
-
-    }
-
-    else
-    {
-
-        message =
-        feature +
-        " module is currently under development.";
+        language =
+            getSAMALanguage();
 
     }
 
 
-    alert(message);
+
+    if(
+        language === "hi"
+    ){
+
+        alert(
+            feature +
+            " मॉड्यूल अभी विकासाधीन है।"
+        );
+
+        return;
+
+    }
+
+
+
+    if(
+        language === "gu"
+    ){
+
+        alert(
+            feature +
+            " મોડ્યુલ હાલમાં વિકાસ હેઠળ છે."
+        );
+
+        return;
+
+    }
+
+
+
+    alert(
+        feature +
+        " module is currently under development."
+    );
 
 }
+
+
+
+// =====================================================
+// RESTORE SAVED LANGUAGE
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+
+        const selector =
+            document.getElementById(
+                "samaLanguageSelector"
+            );
+
+
+        if(
+            selector
+            &&
+            typeof getSAMALanguage ===
+            "function"
+        ){
+
+            selector.value =
+                getSAMALanguage();
+
+        }
+
+    }
+);
 
 
 </script>
