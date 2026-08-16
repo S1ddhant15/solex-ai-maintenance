@@ -3,21 +3,27 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>SAMA - Solex AI Maintenance Assistant</title>
 
-<title>SAMA - Solex AI Maintenance Assistant</title>
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../css/style.css">
 
+    <!-- FONT AWESOME -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        rel="stylesheet"
+    >
 
-<link rel="stylesheet" href="../css/style.css">
-
-
-<link 
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
-rel="stylesheet">
-
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/solex-logo.png"
+    >
 
 </head>
 
@@ -28,298 +34,484 @@ rel="stylesheet">
 <div class="dashboard">
 
 
+    <!-- ==========================================
+         SIDEBAR
+    ========================================== -->
 
-<!-- =========================
-     SIDEBAR
-========================= -->
-
-
-<div class="sidebar">
+    <div class="sidebar">
 
 
+        <!-- LOGO -->
 
-<div class="logo-area">
+        <div class="logo-area">
+
+            <img
+                src="../assets/solex-logo.png"
+                class="solex-logo"
+                alt="Solex Logo"
+            >
+
+            <h2>
+                🤖 SAMA
+            </h2>
+
+            <p>
+                AI Maintenance Assistant
+            </p>
+
+        </div>
 
 
-<img 
-src="../assets/solex-logo.png"
-class="solex-logo"
-alt="Solex Logo">
+
+        <!-- NAVIGATION -->
+
+        <ul>
 
 
-<h2>
-🤖 SAMA
-</h2>
+            <!-- AI CHAT -->
+
+            <li class="active">
+
+                <i class="fa-solid fa-robot"></i>
+
+                <span>
+                    AI Chat
+                </span>
+
+            </li>
 
 
-<p>
-AI Maintenance Assistant
-</p>
+
+            <!-- MACHINE STATUS -->
+
+            <li onclick="showComingSoon('Machine Status')">
+
+                <i class="fa-solid fa-gears"></i>
+
+                <span>
+                    Machine Status
+                </span>
+
+            </li>
+
+
+
+            <!-- ALARM HISTORY -->
+
+            <li onclick="showComingSoon('Alarm History')">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <span>
+                    Alarm History
+                </span>
+
+            </li>
+
+
+
+            <!-- PM SCHEDULE -->
+
+            <li onclick="showComingSoon('PM Schedule')">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>
+                    PM Schedule
+                </span>
+
+            </li>
+
+
+
+            <!-- SPARE INVENTORY -->
+
+            <li onclick="showComingSoon('Spare Inventory')">
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>
+                    Spare Inventory
+                </span>
+
+            </li>
+
+
+
+            <!-- BREAKDOWN HISTORY -->
+
+            <li onclick="showComingSoon('Breakdown History')">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                <span>
+                    Breakdown History
+                </span>
+
+            </li>
+
+
+
+            <!-- WHY SAMA -->
+
+            <li onclick="window.location.href='whySAMA.html'">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <span>
+                    Why SAMA
+                </span>
+
+            </li>
+
+
+        </ul>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <p>
+                SAMA v1.0
+            </p>
+
+            <small>
+                Solex Digital Transformation
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <div class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+
+            <div class="topbar-title">
+
+                <h1>
+                    🤖 Solex AI Maintenance Assistant
+                </h1>
+
+                <p>
+                    Intelligent Maintenance & Troubleshooting Support
+                </p>
+
+            </div>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                SAMA Online
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==========================================
+             CHAT CONTAINER
+        ========================================== -->
+
+        <div class="chat-container">
+
+
+            <!-- CHAT HEADER -->
+
+            <div class="chat-header">
+
+
+                <div class="chat-header-left">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                    <span>
+                        SAMA
+                    </span>
+
+                </div>
+
+
+                <div class="chat-header-status">
+
+                    Online
+
+                    <span class="online-dot"></span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 CHAT MESSAGES
+            ========================================== -->
+
+            <div
+                id="chatBox"
+                class="chat-box"
+            >
+
+                <!--
+                    chat.js will automatically
+                    insert the welcome message here
+                -->
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 QUICK QUESTIONS
+            ========================================== -->
+
+            <div class="quick-actions">
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Servo alarm E37')"
+                >
+
+                    🚨 Servo Alarm E37
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Stringer breakdown')"
+                >
+
+                    ⚙ Stringer Breakdown
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Laminator PM checklist')"
+                >
+
+                    🛠 Laminator PM
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="askQuickQuestion('Stringer health')"
+                >
+
+                    📊 Machine Health
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 CHAT INPUT
+            ========================================== -->
+
+            <div class="chat-input">
+
+
+                <input
+                    type="text"
+                    id="userInput"
+                    placeholder="Ask SAMA about machine, alarm, PM, spare..."
+                    autocomplete="off"
+                >
+
+
+                <button
+                    type="button"
+                    id="sendButton"
+                    onclick="sendMessage()"
+                >
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Send
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
 
 
 </div>
 
 
 
+<!-- ==========================================
+     DATABASE LOAD ORDER
 
+     IMPORTANT:
 
-<ul>
+     Your database file is:
 
+     machines.js
 
-<li class="active">
+     NOT:
 
-<i class="fa-solid fa-robot"></i>
-
-AI Chat
-
-</li>
-
-
-
-
-
-<li onclick="alert('Machine Status Coming Soon')">
-
-<i class="fa-solid fa-gears"></i>
-
-Machine Status
-
-</li>
-
-
-
-
-
-<li onclick="alert('Alarm History Coming Soon')">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-Alarm History
-
-</li>
-
-
-
-
-
-<li onclick="alert('PM Schedule Coming Soon')">
-
-<i class="fa-solid fa-calendar-check"></i>
-
-PM Schedule
-
-</li>
-
-
-
-
-
-<li onclick="alert('Spare Inventory Coming Soon')">
-
-<i class="fa-solid fa-box"></i>
-
-Spare Inventory
-
-</li>
-
-
-
-
-
-<li onclick="alert('Breakdown History Coming Soon')">
-
-<i class="fa-solid fa-clock-rotate-left"></i>
-
-Breakdown History
-
-</li>
-
-
-
-
-
-</ul>
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- =========================
-     MAIN CONTENT
-========================= -->
-
-
-<div class="main-content">
-
-
-
-
-
-<div class="topbar">
-
-
-<h1>
-
-🤖 Solex AI Maintenance Assistant
-
-</h1>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- CHAT AREA -->
-
-
-<div class="chat-container">
-
-
-
-
-
-
-<div class="chat-header">
-
-
-🤖 SAMA
-
-
-<span>
-
-Online
-
-🟢
-
-</span>
-
-
-</div>
-
-
-
-
-
-
-
-
-<div id="chatBox" class="chat-box">
-
-
-
-<!-- Messages will appear here -->
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="chat-input">
-
-
-
-<input 
-
-
-type="text"
-
-
-id="userInput"
-
-
-placeholder="Ask SAMA about machine, alarm, PM, spare..."
-
-
-onkeypress="if(event.key==='Enter') sendMessage();"
-
-
-
->
-
-
-
-<button onclick="sendMessage()">
-
-
-<i class="fa-solid fa-paper-plane"></i>
-
-
-Send
-
-
-</button>
-
-
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- =========================
-     JAVASCRIPT LOAD ORDER
-========================= -->
-
-
-<!-- =========================
-     JAVASCRIPT LOAD ORDER
-========================= -->
+     machineDatabase.js
+========================================== -->
 
 
 <script src="../js/machines.js"></script>
 
+
 <script src="../js/knowledge.js"></script>
+
 
 <script src="../js/alarmDatabase.js"></script>
 
+
 <script src="../js/spareDatabase.js"></script>
+
 
 <script src="../js/breakdownHistory.js"></script>
 
+
+
+<!-- ==========================================
+     AI ENGINE
+========================================== -->
+
 <script src="../js/aiEngine.js"></script>
+
+
+
+<!-- ==========================================
+     CHAT CONTROLLER
+========================================== -->
 
 <script src="../js/chat.js"></script>
 
+
+
+<!-- ==========================================
+     PAGE FUNCTIONS
+========================================== -->
+
+<script>
+
+
+/* ------------------------------------------
+   ENTER KEY
+------------------------------------------ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function()
+    {
+
+        const input =
+        document.getElementById("userInput");
+
+
+        if(input)
+        {
+
+            input.addEventListener(
+                "keydown",
+                function(event)
+                {
+
+                    if(event.key === "Enter")
+                    {
+
+                        event.preventDefault();
+
+                        sendMessage();
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+
+/* ------------------------------------------
+   QUICK QUESTION
+------------------------------------------ */
+
+function askQuickQuestion(question)
+{
+
+    const input =
+    document.getElementById("userInput");
+
+
+    if(!input)
+    {
+
+        return;
+
+    }
+
+
+    input.value =
+    question;
+
+
+    sendMessage();
+
+}
+
+
+
+/* ------------------------------------------
+   COMING SOON
+------------------------------------------ */
+
+function showComingSoon(feature)
+{
+
+    alert(
+        feature +
+        " module is currently under development."
+    );
+
+}
+
+
+</script>
+
+
 </body>
+
 </html>
