@@ -1268,3 +1268,73 @@ max-width:92%;
 }
 
 }
+
+/* =========================================================
+   TWO-OPTION ROLE-CONTROLLED SAMA SHELL
+========================================================= */
+
+body.sama-shell-ready .sidebar {
+position:fixed;
+inset:0 auto 0 0;
+z-index:220;
+display:flex;
+transform:translateX(-100%);
+transition:transform .22s ease;
+box-shadow:9px 0 30px rgba(0,0,0,.55);
+}
+
+body:not(.sama-shell-ready) .sidebar ul {
+visibility:hidden;
+}
+
+body.sama-shell-ready.sama-sidebar-open .sidebar {
+transform:none;
+}
+
+body.sama-shell-ready .main-content {
+width:100%;
+margin-left:0;
+}
+
+.sama-menu-button {
+display:grid;
+place-items:center;
+flex:0 0 42px;
+width:42px;
+height:42px;
+margin-right:2px;
+border:1px solid #343a3f;
+border-radius:8px;
+background:#191e22;
+color:#fff;
+font-size:21px;
+cursor:pointer;
+}
+
+.sama-menu-button:hover {
+border-color:var(--orange);
+background:var(--orange);
+}
+
+#samaLogoutButton {
+width:100%;
+margin-top:11px;
+padding:8px;
+border:1px solid #4a3030;
+border-radius:6px;
+background:#2b1719;
+color:#f0a3aa;
+cursor:pointer;
+}
+
+#samaLogoutButton:hover {
+border-color:#d63c4b;
+background:#d63c4b;
+color:#fff;
+}
+
+@media(max-width:700px){
+.sama-menu-button {display:grid;}
+.topbar-title h1 {font-size:18px;}
+.topbar-title p {display:none;}
+}
