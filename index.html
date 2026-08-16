@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SAMA - Solex AI Maintenance Assistant</title>
+<title>SAMA - Solex AI Operations & Maintenance Assistant</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -47,7 +47,7 @@ alt="Solex Logo">
 
 <h2>🤖 SAMA</h2>
 
-<p>AI Maintenance Assistant</p>
+<p>AI Operations Assistant</p>
 
 </div>
 
@@ -72,6 +72,16 @@ AI Chat
 
 <span>
 Operations Control
+</span>
+
+</li>
+
+<li onclick="window.location.href='pages/analytics.html'">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<span>
+Analytics Dashboard
 </span>
 
 </li>
@@ -155,7 +165,7 @@ Why SAMA
 
 <div class="sidebar-footer">
 
-<p>SAMA v2.0</p>
+<p>SAMA v4.0</p>
 
 <small>
 Solex Digital Transformation
@@ -182,13 +192,13 @@ MAIN
 
 <h1 data-i18n="appName">
 
-Solex AI Maintenance Assistant
+Solex AI Operations & Maintenance Assistant
 
 </h1>
 
 <p data-i18n="subtitle">
 
-Industrial Troubleshooting & Maintenance Support
+Role-Based Manufacturing Intelligence & Maintenance Support
 
 </p>
 
@@ -285,7 +295,7 @@ class="chat-box">
 
 
 
-<div class="quick-actions">
+<div class="quick-actions" id="roleQuickActions">
 
 
 <button
@@ -407,6 +417,8 @@ Send
 JS LOAD ORDER
 ===================================================== -->
 
+<script src="js/operationalData.js"></script>
+
 <script src="js/machines.js"></script>
 
 <script src="js/knowledge.js"></script>
@@ -420,6 +432,8 @@ JS LOAD ORDER
 <script src="js/pmDatabase.js"></script>
 
 <script src="js/language.js"></script>
+
+<script src="js/roleAwareAI.js"></script>
 
 <script src="js/aiEngine.js"></script>
 

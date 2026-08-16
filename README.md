@@ -17,6 +17,8 @@ The application helps technicians and engineers quickly diagnose machine faults,
 - 🛠️ Maintenance / breakdown visibility
 - 🎛️ Quality process-parameter view
 - ✅ Controlled parameter change requests, approval and audit trail
+- 📊 Department-aware production, quality and maintenance analytics
+- 🤖 Login-aware AI agents using the same operational KPI dataset
 - 🏠 Dashboard
 - 🤖 AI Maintenance Chat
 - ⚙️ Machine Library
@@ -41,18 +43,19 @@ solex-ai-maintenance/
 ├── pages/
 │   ├── dashboard.html
 │   ├── operations.html
+│   ├── analytics.html
 │   ├── chat.html
 │   ├── machines.html
 │   ├── machine.html
 │   ├── alarms.html
 │   ├── pm.html
 │   ├── workorder.html
-│   ├── analytics.html
 │   └── settings.html
 │
 ├── css/
 │   ├── style.css
-│   └── operations.css
+│   ├── operations.css
+│   └── analytics-dashboard.css
 │
 ├── js/
 │   ├── app.js
@@ -62,7 +65,10 @@ solex-ai-maintenance/
 │   ├── chat.js
 │   ├── aiEngine.js
 │   ├── portalGuard.js
-│   └── operations.js
+│   ├── operations.js
+│   ├── operationalData.js
+│   ├── roleAwareAI.js
+│   └── analyticsDashboard.js
 │
 ├── data/
 │   ├── machines.json
@@ -79,7 +85,7 @@ solex-ai-maintenance/
 - CSS3
 - JavaScript (ES6)
 - JSON
-- Chart.js
+- Inline SVG and CSS charts
 
 ---
 
@@ -96,7 +102,17 @@ solex-ai-maintenance/
 
 ## Important deployment note
 
-The live values in `js/operations.js` are clearly marked prototype data. For plant deployment, replace them with authenticated API responses from MES/MySQL. Never connect browser JavaScript directly to a PLC. Parameter changes must use a server-side approval and machine-write service with allowlisted tags, engineering limits and an immutable audit log.
+The live values in `js/operationalData.js` are clearly marked prototype data. For plant deployment, replace them with authenticated API responses from MES/MySQL. Never connect browser JavaScript directly to a PLC. Parameter changes must use a server-side approval and machine-write service with allowlisted tags, engineering limits and an immutable audit log.
+
+## Login-aware AI behaviour
+
+SAMA reads the logged-in Employee ID, department, role and permissions from the central portal session. The shared `js/operationalData.js` adapter supplies Operations Control, Analytics and AI Chat, so all three show the same production count and operational KPIs.
+
+- Production agent: production count, plan gap, line performance, cycle time, machine status and rejection.
+- Quality agent: inspected quantity, yield, grades, defects, rejection and authorised process parameters.
+- Maintenance agent: machine condition, breakdown, downtime, MTTR, MTBF and PM.
+- Process Engineering agent: parameter stability, change requests and quality correlation.
+- Management / Operations Excellence agent: complete cross-functional summary and priority actions.
 
 ---
 

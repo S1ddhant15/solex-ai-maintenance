@@ -25,6 +25,22 @@ The browser must never connect to MySQL on port 3306 or directly to a PLC. It re
 | `GET /api/v1/process-parameters/live` | Actual value, approved setpoint, limits, units and source timestamp |
 | `GET /api/v1/parameter-change-requests` | Request, review, approval and execution history |
 
+The response from these endpoints should populate `js/operationalData.js` through a secured data service. Operations Control, Analytics and the login-aware AI must consume this one adapter so production counts cannot disagree between screens.
+
+## AI context sent by the secured backend
+
+The production AI service should build its context on the server from:
+
+- Verified Employee ID, department, role and permissions
+- Current shift and selected production line
+- Production actual, plan, gap and hourly trend
+- Yield, rejection, grade and defect metrics allowed for the user
+- Machine status, cycle time, downtime, MTTR, MTBF and PM status
+- Process parameters and limits only when the role has parameter-view permission
+- Parameter-change history only when audit permission is present
+
+Do not send the department or permissions from an editable browser form. Resolve them from the authenticated server session on every AI request.
+
 ## Minimum live-machine fields
 
 ```json
