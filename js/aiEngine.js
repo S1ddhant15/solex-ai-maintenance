@@ -50,6 +50,19 @@ function generateAIResponse(query){
 
     }
 
+    // Block legacy maintenance/knowledge responses when the logged-in
+    // department does not have permission for the requested information.
+    if(typeof getSAMAFallbackAccessResponse === "function"){
+
+        const accessControlledResponse =
+            getSAMAFallbackAccessResponse(originalQuery);
+
+        if(accessControlledResponse){
+            return accessControlledResponse;
+        }
+
+    }
+
 
     const machine =
         detectMachine(input);

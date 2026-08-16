@@ -630,6 +630,12 @@ function openMachineDetails(machineName){
 
     let parameterHTML = "";
 
+    const canViewProcessParameters =
+        window.SAMA_ACCESS &&
+        window.SAMA_ACCESS.can("sama.parameters.view");
+
+
+    if(canViewProcessParameters){
 
     for(
         const key
@@ -680,6 +686,19 @@ function openMachineDetails(machineName){
 
             </div>
 
+        `;
+
+    }
+
+    }
+    else{
+
+        parameterHTML = `
+            <div class="machine-detail-parameter restricted-parameter">
+                <span>Department access control</span>
+                <strong>🔒 Restricted</strong>
+                <small>Process parameters require an authorised Quality, Maintenance, Process Engineering, Management or Operations Excellence login.</small>
+            </div>
         `;
 
     }
