@@ -33,8 +33,49 @@ document.addEventListener(
 
         initializeChatInput();
 
+        processPendingSAMAQuestion();
+
     }
 );
+
+
+// =====================================================
+// OPEN A ROLE-SPECIFIC BRIEFING FROM ANALYTICS
+// =====================================================
+
+function processPendingSAMAQuestion(){
+
+    const pending =
+        sessionStorage.getItem(
+            "samaPendingQuestion"
+        );
+
+    if(!pending){
+        return;
+    }
+
+    sessionStorage.removeItem(
+        "samaPendingQuestion"
+    );
+
+    const input =
+        document.getElementById(
+            "userInput"
+        );
+
+    if(!input){
+        return;
+    }
+
+    input.value = pending;
+
+    setTimeout(
+        function(){
+            sendMessage();
+        },
+        250
+    );
+}
 
 
 // =====================================================
@@ -44,6 +85,22 @@ document.addEventListener(
 function initializeSAMA(){
 
     if(!chatBox){
+        return;
+    }
+
+
+    // Department-aware welcome from the Employee ID portal session
+
+    if(
+        typeof getRoleAwareWelcomeMessage ===
+        "function"
+    ){
+
+        addBotMessage(
+            getRoleAwareWelcomeMessage(),
+            false
+        );
+
         return;
     }
 

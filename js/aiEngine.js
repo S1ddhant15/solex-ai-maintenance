@@ -37,6 +37,20 @@ function generateAIResponse(query){
     }
 
 
+    // Login-aware operational intelligence takes priority for
+    // production, quality, maintenance and management KPI queries.
+    if(typeof generateRoleAwareOperationalResponse === "function"){
+
+        const roleAwareResponse =
+            generateRoleAwareOperationalResponse(originalQuery);
+
+        if(roleAwareResponse){
+            return roleAwareResponse;
+        }
+
+    }
+
+
     const machine =
         detectMachine(input);
 

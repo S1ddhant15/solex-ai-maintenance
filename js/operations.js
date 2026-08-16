@@ -13,44 +13,12 @@
     const REQUEST_KEY = "samaParameterChangeRequests";
     const SETPOINT_KEY = "samaApprovedSetpoints";
 
-    const plantSummary = {
-        taktActual: 22.8,
-        taktTarget: 24.0,
-        productionActual: 8507,
-        productionPlan: 9600,
-        rejectionRate: 0.86,
-        rejectionTarget: 0.80,
-        shift: "Shift A"
-    };
-
-    const lineData = [
-        { line: "Line-1", actual: 2864, plan: 3200, rejection: 0.74 },
-        { line: "Line-2", actual: 2732, plan: 3200, rejection: 1.08 },
-        { line: "Line-3", actual: 2911, plan: 3200, rejection: 0.77 }
-    ];
-
-    const machines = [
-        { id: "STR-01", name: "Stringer-01", line: "Line-1", process: "Cell Stringing", status: "Running", cycle: 3.8, targetCycle: 4.0, unit: "sec", processed: 12640, reject: 0.42, nextPM: "18 Aug", maintenance: "Healthy" },
-        { id: "STR-02", name: "Stringer-02", line: "Line-1", process: "Cell Stringing", status: "Maintenance", cycle: 4.1, targetCycle: 4.0, unit: "sec", processed: 9870, reject: 0.68, nextPM: "Today", maintenance: "PM in progress" },
-        { id: "LAY-01", name: "Layup-01", line: "Line-1", process: "String Layup", status: "Running", cycle: 21.7, targetCycle: 22.0, unit: "sec", processed: 2921, reject: 0.19, nextPM: "20 Aug", maintenance: "Healthy" },
-        { id: "LAM-01", name: "Laminator-01", line: "Line-1", process: "Lamination", status: "Running", cycle: 930, targetCycle: 930, unit: "sec", processed: 2880, reject: 0.31, nextPM: "18 Aug", maintenance: "Due in 2 days" },
-        { id: "LAM-02", name: "Laminator-02", line: "Line-2", process: "Lamination", status: "Idle", cycle: 948, targetCycle: 930, unit: "sec", processed: 2656, reject: 0.57, nextPM: "19 Aug", maintenance: "Waiting for material" },
-        { id: "EL-01", name: "EL-Tester-01", line: "Line-2", process: "EL Inspection", status: "Running", cycle: 20.9, targetCycle: 21.0, unit: "sec", processed: 2764, reject: 1.08, nextPM: "21 Aug", maintenance: "Healthy" },
-        { id: "FRM-01", name: "Framing-01", line: "Line-3", process: "Framing", status: "Breakdown", cycle: 25.6, targetCycle: 22.0, unit: "sec", processed: 2184, reject: 0.35, nextPM: "Overdue", maintenance: "Cylinder alarm" },
-        { id: "SUN-01", name: "Sun-Simulator-01", line: "Line-3", process: "IV Testing", status: "Running", cycle: 22.8, targetCycle: 24.0, unit: "sec", processed: 2911, reject: 0.77, nextPM: "22 Aug", maintenance: "Healthy" }
-    ];
-
-    const parameters = [
-        { id: "LAM-01-VAC", machine: "Laminator-01", line: "Line-1", name: "Vacuum Pressure", actual: -96, setpoint: -95, min: -100, max: -90, unit: "kPa", source: "PLC vacuum transmitter" },
-        { id: "LAM-01-TZ1", machine: "Laminator-01", line: "Line-1", name: "Temperature Zone 1", actual: 148, setpoint: 148, min: 140, max: 155, unit: "°C", source: "PLC thermocouple" },
-        { id: "LAM-01-TZ2", machine: "Laminator-01", line: "Line-1", name: "Temperature Zone 2", actual: 150, setpoint: 150, min: 140, max: 155, unit: "°C", source: "PLC thermocouple" },
-        { id: "LAM-01-TZ3", machine: "Laminator-01", line: "Line-1", name: "Temperature Zone 3", actual: 154, setpoint: 150, min: 140, max: 155, unit: "°C", source: "PLC thermocouple" },
-        { id: "LAM-01-PNEU", machine: "Laminator-01", line: "Line-1", name: "Pneumatic Pressure", actual: 0.61, setpoint: 0.60, min: 0.50, max: 0.70, unit: "MPa", source: "Pressure switch" },
-        { id: "LAM-02-VAC", machine: "Laminator-02", line: "Line-2", name: "Vacuum Pressure", actual: -89, setpoint: -95, min: -100, max: -90, unit: "kPa", source: "PLC vacuum transmitter" },
-        { id: "STR-01-SOLD", machine: "Stringer-01", line: "Line-1", name: "Soldering Temperature", actual: 345, setpoint: 345, min: 330, max: 360, unit: "°C", source: "Heater controller" },
-        { id: "STR-01-VAC", machine: "Stringer-01", line: "Line-1", name: "Cell Vacuum", actual: -72, setpoint: -75, min: -90, max: -60, unit: "kPa", source: "Vacuum sensor" },
-        { id: "FRM-01-AIR", machine: "Framing-01", line: "Line-3", name: "Air Pressure", actual: 0.47, setpoint: 0.60, min: 0.50, max: 0.70, unit: "MPa", source: "Pressure transmitter" }
-    ];
+    const sharedData = window.SAMA_OPERATIONAL_DATA;
+    if (!sharedData) throw new Error("SAMA operational data adapter is not loaded.");
+    const plantSummary = { ...sharedData.plantSummary, shift: sharedData.shift };
+    const lineData = sharedData.lineData;
+    const machines = sharedData.machines;
+    const parameters = sharedData.parameters;
 
     const starterRequests = [
         {
