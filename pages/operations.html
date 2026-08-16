@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations & Process Control - SAMA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/operations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../assets/solex-logo.png">
+    <script src="../js/portalGuard.js"></script>
+</head>
+<body>
+<div class="dashboard operations-shell">
+    <aside class="sidebar operations-sidebar" id="operationsSidebar">
+        <div class="logo-area">
+            <img src="../assets/solex-logo.png" class="solex-logo" alt="Solex Energies">
+            <h2><i class="fa-solid fa-wand-magic-sparkles"></i> SAMA</h2>
+            <p>AI Operations Assistant</p>
+        </div>
+        <ul>
+            <li onclick="window.location.href='../index.html'">
+                <i class="fa-solid fa-robot"></i><span>AI Chat</span>
+            </li>
+            <li class="active">
+                <i class="fa-solid fa-gauge-high"></i><span>Operations Control</span>
+            </li>
+            <li onclick="window.location.href='machine-status.html'">
+                <i class="fa-solid fa-industry"></i><span>Machine Status</span>
+            </li>
+            <li onclick="window.location.href='pm.html'">
+                <i class="fa-solid fa-calendar-check"></i><span>Maintenance</span>
+            </li>
+            <li onclick="window.location.href='alarm-history.html'">
+                <i class="fa-solid fa-triangle-exclamation"></i><span>Alarm History</span>
+            </li>
+            <li onclick="window.location.href='whySAMA.html'">
+                <i class="fa-solid fa-circle-info"></i><span>Why SAMA</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>SAMA v3.0</p>
+            <small>Solex Digital Transformation</small>
+        </div>
+    </aside>
+
+    <main class="main-content operations-main">
+        <header class="topbar operations-topbar">
+            <button class="ops-menu-button" id="opsMenuButton" aria-label="Open navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="topbar-title">
+                <h1>Operations & Process Control</h1>
+                <p>Machine condition, maintenance, cycle time, production, rejection and parameters</p>
+            </div>
+            <div class="topbar-actions">
+                <div class="ops-live"><i></i><span>LIVE DEMO</span></div>
+                <div class="ops-user">
+                    <span id="opsUserInitials">ST</span>
+                    <div><b id="opsUserName">User</b><small id="opsUserDepartment">Department</small></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="access-banner">
+            <div>
+                <small>ACTIVE ACCESS PROFILE</small>
+                <strong id="accessProfile">Loading permissions…</strong>
+            </div>
+            <p id="accessDescription"></p>
+            <time id="opsClock"></time>
+        </section>
+
+        <section class="ops-kpi-grid">
+            <article class="ops-kpi running">
+                <span><i class="fa-solid fa-circle-play"></i> Machines Running</span>
+                <strong id="runningKpi">—</strong><small id="runningDetail">Across all lines</small>
+            </article>
+            <article class="ops-kpi maintenance">
+                <span><i class="fa-solid fa-screwdriver-wrench"></i> Under Maintenance</span>
+                <strong id="maintenanceKpi">—</strong><small id="maintenanceDetail">Planned and breakdown</small>
+            </article>
+            <article class="ops-kpi cycle">
+                <span><i class="fa-solid fa-stopwatch"></i> Line Takt / Cycle</span>
+                <strong id="cycleKpi">—</strong><small id="cycleDetail">Against target</small>
+            </article>
+            <article class="ops-kpi output">
+                <span><i class="fa-solid fa-solar-panel"></i> Production Today</span>
+                <strong id="productionKpi">—</strong><small id="productionDetail">Plan achievement</small>
+            </article>
+            <article class="ops-kpi rejection">
+                <span><i class="fa-solid fa-circle-xmark"></i> Rejection Rate</span>
+                <strong id="rejectionKpi">—</strong><small id="rejectionDetail">Current shift</small>
+            </article>
+        </section>
+
+        <section class="ops-alert" id="opsAlert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div><strong>Attention required</strong><span id="opsAlertText">Loading machine alerts…</span></div>
+            <button data-open-tab="machines">View machines</button>
+        </section>
+
+        <nav class="ops-tabs" aria-label="Operations views">
+            <button class="active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i> Overview</button>
+            <button data-tab="machines"><i class="fa-solid fa-industry"></i> Live Machines</button>
+            <button data-tab="parameters" data-permission="sama.parameters.view"><i class="fa-solid fa-sliders"></i> Process Parameters</button>
+            <button data-tab="changes" data-permission="sama.audit.view"><i class="fa-solid fa-code-pull-request"></i> Parameter Changes <span id="pendingBadge">0</span></button>
+        </nav>
+
+        <section class="ops-panel active" id="overviewPanel">
+            <div class="ops-section-heading">
+                <div><small>PLANT SNAPSHOT</small><h2>Line and machine performance</h2></div>
+                <span>Prototype data refreshes every 30 seconds</span>
+            </div>
+            <div class="overview-grid">
+                <article class="ops-card">
+                    <div class="card-title"><h3>Machine condition</h3><button data-open-tab="machines">Open live view</button></div>
+                    <div id="machineConditionChart" class="condition-chart"></div>
+                    <div id="machineConditionLegend" class="condition-legend"></div>
+                </article>
+                <article class="ops-card">
+                    <div class="card-title"><h3>Production vs plan</h3><span>Current shift</span></div>
+                    <div id="linePerformance" class="line-performance"></div>
+                </article>
+            </div>
+            <article class="ops-card top-machines-card">
+                <div class="card-title"><h3>Critical machine watchlist</h3><span>Cycle loss, rejection or maintenance due</span></div>
+                <div id="watchlist" class="watchlist"></div>
+            </article>
+        </section>
+
+        <section class="ops-panel" id="machinesPanel">
+            <div class="ops-section-heading">
+                <div><small>LIVE SHOP-FLOOR VIEW</small><h2>Machine operating status</h2></div>
+                <div class="ops-filters">
+                    <input id="machineSearch" type="search" placeholder="Search machine or process">
+                    <select id="machineLineFilter"><option value="all">All lines</option></select>
+                    <select id="machineStateFilter">
+                        <option value="all">All status</option>
+                        <option value="Running">Running</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Breakdown">Breakdown</option>
+                        <option value="Idle">Idle</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ops-table-wrap">
+                <table class="ops-table">
+                    <thead><tr><th>Machine</th><th>Line / Process</th><th>Status</th><th>Cycle time</th><th>Processed</th><th>Rejection</th><th>Maintenance</th></tr></thead>
+                    <tbody id="machineTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="ops-panel" id="parametersPanel">
+            <div class="ops-section-heading">
+                <div><small>QUALITY & PROCESS VIEW</small><h2>Critical process parameters</h2></div>
+                <div class="ops-filters">
+                    <select id="parameterMachineFilter"><option value="all">All machines</option></select>
+                    <select id="parameterStateFilter">
+                        <option value="all">All conditions</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Near limit">Near limit</option>
+                        <option value="Out of spec">Out of spec</option>
+                    </select>
+                </div>
+            </div>
+            <div class="parameter-notice">
+                <i class="fa-solid fa-shield-halved"></i>
+                <p><strong>Controlled modification:</strong> the browser creates a change request only. It never writes directly to a PLC. Approval and an authorised machine-write service are required.</p>
+                <button id="newChangeButton" data-permission="sama.parameters.request">Request parameter change</button>
+            </div>
+            <div id="parameterGrid" class="parameter-grid"></div>
+        </section>
+
+        <section class="ops-panel" id="changesPanel">
+            <div class="ops-section-heading">
+                <div><small>CHANGE CONTROL & AUDIT</small><h2>Process parameter requests</h2></div>
+                <button class="orange-button" id="openChangeFormButton" data-permission="sama.parameters.request">+ New request</button>
+            </div>
+            <div class="change-layout">
+                <form id="changeRequestForm" class="ops-card change-form" hidden>
+                    <div class="card-title"><h3>New parameter change request</h3><button type="button" id="closeChangeForm">Close</button></div>
+                    <label for="changeParameter">Machine parameter</label>
+                    <select id="changeParameter" required></select>
+                    <div class="form-row">
+                        <label>Current setpoint<input id="currentSetpoint" readonly></label>
+                        <label>Proposed setpoint<input id="proposedSetpoint" type="number" step="any" required></label>
+                    </div>
+                    <div id="parameterLimitHint" class="limit-hint"></div>
+                    <label for="changeReason">Reason and expected benefit</label>
+                    <textarea id="changeReason" rows="3" minlength="15" required placeholder="Explain defect, evidence and expected result"></textarea>
+                    <label class="confirmation"><input id="riskConfirmed" type="checkbox" required><span>I have reviewed the approved recipe/specification and understand this request requires independent approval.</span></label>
+                    <button class="submit-change" type="submit">Submit for approval</button>
+                </form>
+                <article class="ops-card change-history-card">
+                    <div class="card-title"><h3>Request and approval history</h3><span id="requestCount">0 records</span></div>
+                    <div class="ops-table-wrap">
+                        <table class="ops-table compact-table">
+                            <thead><tr><th>Request</th><th>Parameter</th><th>Change</th><th>Requested by</th><th>Status</th><th>Action</th></tr></thead>
+                            <tbody id="changeTableBody"></tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+</div>
+<div class="ops-toast" id="opsToast" role="status"></div>
+<script src="../js/operations.js"></script>
+</body>
+</html>
