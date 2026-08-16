@@ -1,21 +1,40 @@
 // =====================================================
 // SAMA - Solex AI Maintenance Assistant
-// MULTI-LANGUAGE AI DECISION ENGINE
+// Advanced AI Decision Engine
 // File: aiEngine.js
 // =====================================================
-
+//
+// SAMA combines:
+//
+// machines.js
+// alarmDatabase.js
+// knowledge.js
+// pmDatabase.js
+// spareDatabase.js
+// breakdownHistory.js
+// language.js
+//
+// =====================================================
 
 
 // =====================================================
-// MAIN RESPONSE
+// MAIN AI RESPONSE GENERATOR
 // =====================================================
 
 function generateAIResponse(query){
 
+    const originalQuery =
+        String(query || "").trim();
+
     const input =
-        String(query || "")
-        .toLowerCase()
-        .trim();
+        originalQuery.toLowerCase();
+
+
+    if(input === ""){
+
+        return getGeneralHelpResponse();
+
+    }
 
 
     const machine =
@@ -31,150 +50,179 @@ function generateAIResponse(query){
 
 
 
-    // =================================================
-    // ALARM
-    // =================================================
-
-    if(
-        intent === "alarm" ||
-        alarm
-    ){
-
-        return analyzeAlarm(
-            alarm,
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // HISTORY
-    // =================================================
-
-    if(
-        isHistoryRequest(input)
-    ){
-
-        return generateHistory(
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // KNOWLEDGE / TROUBLESHOOTING
-    // =================================================
-
-    const knowledge =
-        analyzeKnowledge(query);
-
-
-    if(knowledge){
-
-        return knowledge;
-
-    }
-
-
-
-    // =================================================
-    // BREAKDOWN
-    // =================================================
-
-    if(intent === "breakdown"){
-
-        return analyzeBreakdown(
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // PM
-    // =================================================
-
-    if(intent === "pm"){
-
-        if(
-            typeof generatePMReport ===
-            "function"
-        ){
-
-            return generatePMReport(
-                machine
-            );
-
+    console.log(
+        "SAMA Query:",
+        {
+            query:originalQuery,
+            machine:machine,
+            alarm:alarm,
+            intent:intent
         }
-
-
-        return generatePMFallback(
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // SPARE
-    // =================================================
-
-    if(intent === "spare"){
-
-        if(
-            typeof generateSpareReport ===
-            "function"
-        ){
-
-            const spareKeyword =
-                detectSpareKeyword(
-                    input
-                );
-
-
-            return generateSpareReport(
-                machine,
-                spareKeyword
-            );
-
-        }
-
-
-        return generateSpareFallback(
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // HEALTH
-    // =================================================
-
-    if(intent === "health"){
-
-        return generateHealth(
-            machine
-        );
-
-    }
-
-
-
-    // =================================================
-    // GENERAL
-    // =================================================
-
-    return generalResponse(
-        machine
     );
+
+
+
+    // =================================================
+    // ALARM DIAGNOSIS
+    // =================================================
+
+    if(
+        alarm ||
+        intent === "alarm"
+    ){
+
+        return analyzeAlarmRequest(
+            originalQuery,
+            machine,
+            alarm
+        );
+
+    }
+
+
+
+    // =================================================
+    // BREAKDOWN HISTORY
+    // =================================================
+
+    if(
+        intent === "history"
+    ){
+
+        return analyzeHistoryRequest(
+            machine,
+            input
+        );
+
+    }
+
+
+
+    // =================================================
+    // BREAKDOWN / TROUBLESHOOTING
+    // =================================================
+
+    if(
+        intent === "breakdown"
+        ||
+        intent === "problem"
+    ){
+
+        return analyzeBreakdownRequest(
+            originalQuery,
+            machine
+        );
+
+    }
+
+
+
+    // =================================================
+    // PREVENTIVE MAINTENANCE
+    // =================================================
+
+    if(
+        intent === "pm"
+    ){
+
+        return analyzePMRequest(
+            machine
+        );
+
+    }
+
+
+
+    // =================================================
+    // SPARES
+    // =================================================
+
+    if(
+        intent === "spare"
+    ){
+
+        return analyzeSpareRequest(
+            machine,
+            input
+        );
+
+    }
+
+
+
+    // =================================================
+    // MACHINE HEALTH
+    // =================================================
+
+    if(
+        intent === "health"
+    ){
+
+        return analyzeMachineHealth(
+            machine
+        );
+
+    }
+
+
+
+    // =================================================
+    // MTTR / DOWNTIME
+    // =================================================
+
+    if(
+        intent === "analytics"
+    ){
+
+        return analyzeMaintenanceAnalytics(
+            machine,
+            input
+        );
+
+    }
+
+
+
+    // =================================================
+    // KNOWLEDGE SEARCH
+    // =================================================
+
+    const knowledgeResponse =
+        analyzeKnowledgeRequest(
+            originalQuery,
+            machine
+        );
+
+
+    if(knowledgeResponse){
+
+        return knowledgeResponse;
+
+    }
+
+
+
+    // =================================================
+    // MACHINE INFORMATION
+    // =================================================
+
+    if(
+        machine !== "unknown"
+    ){
+
+        return getMachineSummary(
+            machine
+        );
+
+    }
+
+
+
+    // =================================================
+    // GENERAL RESPONSE
+    // =================================================
+
+    return getGeneralHelpResponse();
 
 }
 
@@ -187,7 +235,9 @@ function generateAIResponse(query){
 function detectIntent(text){
 
 
+    // =================================================
     // ALARM
+    // =================================================
 
     if(
         text.includes("alarm") ||
@@ -197,7 +247,7 @@ function detectIntent(text){
 
         text.includes("अलार्म") ||
         text.includes("फॉल्ट") ||
-        text.includes("त्रुटि") ||
+        text.includes("एरर") ||
 
         text.includes("અલાર્મ") ||
         text.includes("ફોલ્ટ")
@@ -209,34 +259,64 @@ function detectIntent(text){
 
 
 
-    // BREAKDOWN
+    // =================================================
+    // HISTORY
+    // =================================================
 
     if(
-        text.includes("breakdown") ||
-        text.includes("stopped") ||
-        text.includes("stop") ||
-        text.includes("not running") ||
-        text.includes("failure") ||
+        text.includes("history") ||
+        text.includes("previous breakdown") ||
+        text.includes("last breakdown") ||
+        text.includes("repeated failure") ||
+        text.includes("repeat failure") ||
+        text.includes("past breakdown") ||
 
-        text.includes("ब्रेकडाउन") ||
-        text.includes("बंद") ||
+        text.includes("इतिहास") ||
+        text.includes("पिछला ब्रेकडाउन") ||
 
-        text.includes("બ્રેકડાઉન") ||
-        text.includes("બંધ")
+        text.includes("હિસ્ટ્રી") ||
+        text.includes("પાછલો બ્રેકડાઉન")
     ){
 
-        return "breakdown";
+        return "history";
 
     }
 
 
 
+    // =================================================
+    // ANALYTICS
+    // =================================================
+
+    if(
+        text.includes("mttr") ||
+        text.includes("downtime") ||
+        text.includes("breakdown count") ||
+        text.includes("most frequent") ||
+        text.includes("highest downtime") ||
+        text.includes("repeated breakdown") ||
+
+        text.includes("डाउनटाइम") ||
+
+        text.includes("ડાઉનટાઇમ")
+    ){
+
+        return "analytics";
+
+    }
+
+
+
+    // =================================================
     // PM
+    // =================================================
 
     if(
         text.includes("pm") ||
-        text.includes("maintenance") ||
-        text.includes("service") ||
+        text.includes("preventive") ||
+        text.includes("maintenance checklist") ||
+        text.includes("service checklist") ||
+        text.includes("maintenance plan") ||
 
         text.includes("मेंटेनेंस") ||
         text.includes("रखरखाव") ||
@@ -250,12 +330,16 @@ function detectIntent(text){
 
 
 
+    // =================================================
     // SPARE
+    // =================================================
 
     if(
         text.includes("spare") ||
-        text.includes("part") ||
-        text.includes("replace") ||
+        text.includes("part required") ||
+        text.includes("replacement part") ||
+        text.includes("stock") ||
+        text.includes("inventory") ||
 
         text.includes("स्पेयर") ||
         text.includes("पार्ट") ||
@@ -270,12 +354,15 @@ function detectIntent(text){
 
 
 
+    // =================================================
     // HEALTH
+    // =================================================
 
     if(
         text.includes("health") ||
-        text.includes("status") ||
-        text.includes("condition") ||
+        text.includes("machine condition") ||
+        text.includes("machine status") ||
+        text.includes("condition report") ||
 
         text.includes("हेल्थ") ||
         text.includes("स्थिति") ||
@@ -290,32 +377,36 @@ function detectIntent(text){
 
 
 
+    // =================================================
+    // BREAKDOWN
+    // =================================================
+
+    if(
+        text.includes("breakdown") ||
+        text.includes("machine stopped") ||
+        text.includes("not running") ||
+        text.includes("not working") ||
+        text.includes("stopped") ||
+        text.includes("failure") ||
+        text.includes("problem") ||
+        text.includes("issue") ||
+
+        text.includes("ब्रेकडाउन") ||
+        text.includes("बंद") ||
+        text.includes("समस्या") ||
+
+        text.includes("બ્રેકડાઉન") ||
+        text.includes("બંધ") ||
+        text.includes("સમસ્યા")
+    ){
+
+        return "breakdown";
+
+    }
+
+
+
     return "general";
-
-}
-
-
-
-// =====================================================
-// HISTORY REQUEST
-// =====================================================
-
-function isHistoryRequest(text){
-
-    return (
-
-        text.includes("history") ||
-        text.includes("previous") ||
-        text.includes("last breakdown") ||
-        text.includes("breakdown history") ||
-
-        text.includes("इतिहास") ||
-        text.includes("पिछला") ||
-
-        text.includes("હિસ્ટ્રી") ||
-        text.includes("પાછલો")
-
-    );
 
 }
 
@@ -328,26 +419,35 @@ function isHistoryRequest(text){
 function detectMachine(text){
 
 
+    const input =
+        String(text || "")
+        .toLowerCase();
+
+
     // =================================================
-    // ATW STRINGER
+    // STRINGER 02
     // =================================================
 
     if(
-        text.includes("stringer") ||
-        text.includes("atw")
+        input.includes("stringer 02") ||
+        input.includes("stringer-02") ||
+        input.includes("stringer 2")
     ){
 
+        return "Stringer-02";
 
-        if(
-            text.includes("02") ||
-            text.includes("stringer 2") ||
-            text.includes("stringer-02")
-        ){
+    }
 
-            return "Stringer-02";
 
-        }
 
+    // =================================================
+    // STRINGER
+    // =================================================
+
+    if(
+        input.includes("stringer") ||
+        input.includes("atw")
+    ){
 
         return "Stringer-01";
 
@@ -356,12 +456,12 @@ function detectMachine(text){
 
 
     // =================================================
-    // SC LAMINATOR
+    // LAMINATOR
     // =================================================
 
     if(
-        text.includes("laminator") ||
-        text.includes("sc laminator")
+        input.includes("laminator") ||
+        input.includes("sc laminator")
     ){
 
         return "Laminator-01";
@@ -371,13 +471,12 @@ function detectMachine(text){
 
 
     // =================================================
-    // EL
+    // EL TESTER
     // =================================================
 
     if(
-        text.includes("el tester") ||
-        text.includes("el-") ||
-        text.includes(" el ")
+        input.includes("el tester") ||
+        input.includes("el-tester")
     ){
 
         return "EL-Tester-01";
@@ -391,7 +490,7 @@ function detectMachine(text){
     // =================================================
 
     if(
-        text.includes("aoi")
+        input.includes("aoi")
     ){
 
         return "AOI-01";
@@ -407,14 +506,16 @@ function detectMachine(text){
 
 
 // =====================================================
-// ALARM DETECTION
+// ALARM CODE DETECTION
 // =====================================================
 
 function detectAlarm(text){
 
+
     const match =
-        text.match(
-            /[a-zA-Z]+\d+/
+        String(text || "")
+        .match(
+            /\b[A-Za-z]{1,5}\d{1,4}\b/
         );
 
 
@@ -433,10 +534,11 @@ function detectAlarm(text){
 
 
 // =====================================================
-// LANGUAGE
+// CURRENT LANGUAGE
 // =====================================================
 
-function currentLanguage(){
+function getCurrentSAMALanguage(){
+
 
     if(
         typeof getSAMALanguage ===
@@ -455,44 +557,40 @@ function currentLanguage(){
 
 
 // =====================================================
-// ALARM ANALYSIS
+// MACHINE DISPLAY NAME
 // =====================================================
 
-function analyzeAlarm(
-    alarm,
-    machine
-){
+function getMachineDisplayName(machine){
 
 
     if(
-        typeof getAlarmDetails ===
-        "function"
-        &&
-        alarm
+        machine === "unknown"
     ){
 
+        return getLocalizedText(
+            "Unknown Machine",
+            "मशीन पहचान नहीं हुई",
+            "મશીન ઓળખાયું નથી"
+        );
+
+    }
+
+
+    if(
+        typeof getMachine ===
+        "function"
+    ){
 
         const data =
-            getAlarmDetails(
-                alarm
-            );
+            getMachine(machine);
 
 
         if(data){
 
-
-            const resolvedMachine =
-                machine !== "unknown"
-                ?
-                machine
-                :
-                data.machine;
-
-
-            return buildAlarmResponse(
-                alarm,
-                resolvedMachine,
-                data
+            return (
+                data.manufacturer +
+                " " +
+                data.name
             );
 
         }
@@ -500,51 +598,363 @@ function analyzeAlarm(
     }
 
 
-
-    return getUnknownAlarmResponse(
-        alarm,
-        machine
-    );
+    return machine;
 
 }
 
 
 
 // =====================================================
-// BUILD ALARM RESPONSE
+// ALARM REQUEST
 // =====================================================
 
-function buildAlarmResponse(
-    alarm,
+function analyzeAlarmRequest(
+    query,
     machine,
-    data
+    alarmCode
 ){
 
 
-    const lang =
-        currentLanguage();
+    if(
+        !alarmCode
+    ){
+
+        return getLocalizedText(
+
+            `
+
+            <b>🚨 Alarm Code Required</b>
+
+            <br><br>
+
+            Please provide:
+
+            <br>
+
+            Machine + Alarm Code
+
+            <br><br>
+
+            Example:
+
+            <br>
+
+            <b>ATW Stringer alarm E37</b>
+
+            `,
+
+            `
+
+            <b>🚨 अलार्म कोड आवश्यक है</b>
+
+            <br><br>
+
+            कृपया मशीन और अलार्म कोड दें।
+
+            <br><br>
+
+            उदाहरण:
+
+            <br>
+
+            <b>ATW Stringer alarm E37</b>
+
+            `,
+
+            `
+
+            <b>🚨 અલાર્મ કોડ જરૂરી છે</b>
+
+            <br><br>
+
+            કૃપા કરીને મશીન અને અલાર્મ કોડ આપો.
+
+            <br><br>
+
+            ઉદાહરણ:
+
+            <br>
+
+            <b>ATW Stringer alarm E37</b>
+
+            `
+
+        );
+
+    }
 
 
 
-    // =================================================
-    // HINDI
-    // =================================================
+    if(
+        typeof getAlarmDetails !==
+        "function"
+    ){
 
-    if(lang === "hi"){
+        return databaseConnectionError(
+            "Alarm"
+        );
 
-        return `
+    }
 
-        <b>🚨 अलार्म डायग्नोसिस</b>
+
+
+    const alarm =
+        getAlarmDetails(
+            alarmCode
+        );
+
+
+
+    if(!alarm){
+
+        return unknownAlarmResponse(
+            alarmCode,
+            machine
+        );
+
+    }
+
+
+
+    let resolvedMachine =
+        machine;
+
+
+    if(
+        resolvedMachine ===
+        "unknown"
+        &&
+        alarm.machine
+    ){
+
+        resolvedMachine =
+            alarm.machine;
+
+    }
+
+
+
+    const causes =
+        formatArray(
+            alarm.possibleCauses,
+            "•"
+        );
+
+
+    const checks =
+        formatArray(
+            alarm.checks,
+            "✓"
+        );
+
+
+    const symptoms =
+        formatArray(
+            alarm.symptoms,
+            "•"
+        );
+
+
+    const spares =
+        formatArray(
+            alarm.spareSuggestion,
+            "📦"
+        );
+
+
+
+    let previousFailure = "";
+
+
+    if(
+        typeof getBreakdownByAlarm ===
+        "function"
+    ){
+
+        const history =
+            getBreakdownByAlarm(
+                alarmCode
+            );
+
+
+        if(
+            history &&
+            history.length > 0
+        ){
+
+            const last =
+                [...history]
+                .sort(
+                    (a,b) =>
+                        new Date(b.date) -
+                        new Date(a.date)
+                )[0];
+
+
+            previousFailure = `
+
+                <br><br>
+
+                <b>📚 Previous Similar Breakdown</b>
+
+                <br><br>
+
+                Date:
+                ${last.date}
+
+                <br>
+
+                Root Cause:
+                ${last.rootCause}
+
+                <br>
+
+                Corrective Action:
+                ${last.correctiveAction}
+
+            `;
+
+        }
+
+    }
+
+
+
+    return getLocalizedText(
+
+
+        // =================================================
+        // ENGLISH
+        // =================================================
+
+        `
+
+        <b>🚨 SAMA Alarm Diagnosis</b>
+
+        <br><br>
+
+        <b>Machine:</b>
+
+        ${getMachineDisplayName(resolvedMachine)}
+
+        <br>
+
+        <b>Alarm Code:</b>
+
+        ${alarmCode}
+
+        <br>
+
+        <b>Category:</b>
+
+        ${alarm.category}
+
+        <br>
+
+        <b>Severity:</b>
+
+        ${getSeverityIcon(alarm.severity)}
+        ${alarm.severity}
+
+        <br><br>
+
+        <b>Description:</b>
+
+        <br>
+
+        ${alarm.description}
+
+        <br><br>
+
+        <b>Observed Symptoms:</b>
+
+        <br>
+
+        ${symptoms}
+
+        <br><br>
+
+        <b>Possible Causes:</b>
+
+        <br>
+
+        ${causes}
+
+        <br><br>
+
+        <b>Recommended Checks:</b>
+
+        <br>
+
+        ${checks}
+
+        <br><br>
+
+        <b>Corrective Guidance:</b>
+
+        <br>
+
+        ${alarm.action}
+
+        ${previousFailure}
+
+        <br><br>
+
+        <b>Recommended Spares:</b>
+
+        <br>
+
+        ${spares}
+
+        <br><br>
+
+        <b>🤖 SAMA Recommendation:</b>
+
+        <br>
+
+        Confirm the root cause before resetting or replacing components.
+
+        <br><br>
+
+        <b>Confidence:</b>
+
+        92%
+
+        `,
+
+
+        // =================================================
+        // HINDI
+        // =================================================
+
+        `
+
+        <b>🚨 SAMA अलार्म डायग्नोसिस</b>
 
         <br><br>
 
         <b>मशीन:</b>
-        ${machine}
+
+        ${getMachineDisplayName(resolvedMachine)}
 
         <br>
 
         <b>अलार्म कोड:</b>
-        ${alarm}
+
+        ${alarmCode}
+
+        <br>
+
+        <b>कैटेगरी:</b>
+
+        ${alarm.category}
+
+        <br>
+
+        <b>गंभीरता:</b>
+
+        ${getSeverityIcon(alarm.severity)}
+        ${alarm.severity}
 
         <br><br>
 
@@ -552,7 +962,7 @@ function buildAlarmResponse(
 
         <br>
 
-        ${data.description}
+        ${alarm.description}
 
         <br><br>
 
@@ -560,54 +970,77 @@ function buildAlarmResponse(
 
         <br>
 
-        ${data.cause}
+        ${causes}
 
         <br><br>
 
-        <b>अनुशंसित कार्रवाई:</b>
+        <b>अनुशंसित जांच:</b>
 
         <br>
 
-        ${data.action}
+        ${checks}
 
         <br><br>
 
-        <b>SAMA सुझाव:</b>
+        <b>सुधारात्मक मार्गदर्शन:</b>
 
         <br>
 
-        मशीन रीसेट करने से पहले मूल कारण की पुष्टि करें।
+        ${alarm.action}
+
+        ${previousFailure}
 
         <br><br>
 
-        <b>विश्वसनीयता:</b>
-        92%
+        <b>सुझाए गए स्पेयर:</b>
 
-        `;
+        <br>
 
-    }
+        ${spares}
+
+        <br><br>
+
+        <b>🤖 SAMA सुझाव:</b>
+
+        <br>
+
+        मशीन रीसेट या पार्ट बदलने से पहले मूल कारण की पुष्टि करें।
+
+        `,
 
 
+        // =================================================
+        // GUJARATI
+        // =================================================
 
-    // =================================================
-    // GUJARATI
-    // =================================================
+        `
 
-    if(lang === "gu"){
-
-        return `
-
-        <b>🚨 અલાર્મ ડાયગ્નોસિસ</b>
+        <b>🚨 SAMA અલાર્મ ડાયગ્નોસિસ</b>
 
         <br><br>
 
         <b>મશીન:</b>
-        ${machine}
+
+        ${getMachineDisplayName(resolvedMachine)}
 
         <br>
 
         <b>અલાર્મ કોડ:</b>
-        ${alarm}
+
+        ${alarmCode}
+
+        <br>
+
+        <b>કેટેગરી:</b>
+
+        ${alarm.category}
+
+        <br>
+
+        <b>ગંભીરતા:</b>
+
+        ${getSeverityIcon(alarm.severity)}
+        ${alarm.severity}
 
         <br><br>
 
@@ -615,99 +1048,53 @@ function buildAlarmResponse(
 
         <br>
 
-        ${data.description}
+        ${alarm.description}
 
         <br><br>
 
-        <b>સંભવિત કારણ:</b>
+        <b>સંભવિત કારણો:</b>
 
         <br>
 
-        ${data.cause}
+        ${causes}
 
         <br><br>
 
-        <b>ભલામણ કરેલ કાર્યવાહી:</b>
+        <b>ભલામણ કરેલ તપાસ:</b>
 
         <br>
 
-        ${data.action}
+        ${checks}
 
         <br><br>
 
-        <b>SAMA ભલામણ:</b>
+        <b>સુધારાત્મક માર્ગદર્શન:</b>
 
         <br>
 
-        મશીન રીસેટ કરતા પહેલા મૂળ કારણ ચકાસો.
+        ${alarm.action}
+
+        ${previousFailure}
 
         <br><br>
 
-        <b>વિશ્વસનીયતા:</b>
-        92%
+        <b>ભલામણ કરેલ સ્પેર:</b>
 
-        `;
+        <br>
 
-    }
+        ${spares}
 
+        <br><br>
 
+        <b>🤖 SAMA ભલામણ:</b>
 
-    // =================================================
-    // ENGLISH
-    // =================================================
+        <br>
 
-    return `
+        મશીન reset અથવા component replacement પહેલાં root cause verify કરો.
 
-    <b>🚨 Alarm Diagnosis</b>
+        `
 
-    <br><br>
-
-    <b>Machine:</b>
-    ${machine}
-
-    <br>
-
-    <b>Alarm Code:</b>
-    ${alarm}
-
-    <br><br>
-
-    <b>Description:</b>
-
-    <br>
-
-    ${data.description}
-
-    <br><br>
-
-    <b>Possible Cause:</b>
-
-    <br>
-
-    ${data.cause}
-
-    <br><br>
-
-    <b>Recommended Action:</b>
-
-    <br>
-
-    ${data.action}
-
-    <br><br>
-
-    <b>SAMA Recommendation:</b>
-
-    <br>
-
-    Verify root cause before machine reset.
-
-    <br><br>
-
-    <b>Confidence:</b>
-    92%
-
-    `;
+    );
 
 }
 
@@ -717,189 +1104,252 @@ function buildAlarmResponse(
 // UNKNOWN ALARM
 // =====================================================
 
-function getUnknownAlarmResponse(
-    alarm,
+function unknownAlarmResponse(
+    alarmCode,
     machine
 ){
 
-    const lang =
-        currentLanguage();
 
+    return getLocalizedText(
 
+        `
 
-    if(lang === "hi"){
-
-        return `
-
-        <b>🚨 अलार्म जांच</b>
+        <b>🚨 Alarm Not Found</b>
 
         <br><br>
 
-        <b>मशीन:</b>
-        ${machine}
+        Alarm:
+
+        <b>${alarmCode}</b>
 
         <br>
 
-        <b>अलार्म:</b>
-        ${alarm || "-"}
+        Machine:
+
+        <b>${getMachineDisplayName(machine)}</b>
 
         <br><br>
 
-        अलार्म डेटाबेस में उपलब्ध नहीं है।
+        The alarm is not currently available in the SAMA database.
 
         <br><br>
 
-        कृपया जांचें:
+        Recommended checks:
 
         <br>
 
-        ✓ PLC alarm history
+        ✓ Check HMI alarm description
 
         <br>
 
-        ✓ Servo drive status
+        ✓ Review PLC alarm history
 
         <br>
 
-        ✓ Sensor feedback
+        ✓ Check sensor / servo / communication status
 
         <br>
 
-        ✓ Communication status
-
-        `;
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>🚨 અલાર્મ તપાસ</b>
+        ✓ Refer OEM manual
 
         <br><br>
 
-        <b>મશીન:</b>
-        ${machine}
+        Please add the confirmed alarm details to the SAMA knowledge base.
 
-        <br>
+        `,
 
-        <b>અલાર્મ:</b>
-        ${alarm || "-"}
+        `
 
-        <br><br>
-
-        અલાર્મ ડેટાબેઝમાં ઉપલબ્ધ નથી.
+        <b>🚨 अलार्म डेटाबेस में नहीं मिला</b>
 
         <br><br>
 
-        કૃપા કરીને તપાસો:
+        Alarm:
 
-        <br>
+        <b>${alarmCode}</b>
 
-        ✓ PLC alarm history
+        <br><br>
 
-        <br>
+        HMI और PLC alarm history जांचें तथा OEM manual से पुष्टि करें।
 
-        ✓ Servo drive status
+        `,
 
-        <br>
+        `
 
-        ✓ Sensor feedback
+        <b>🚨 અલાર્મ ડેટાબેઝમાં મળ્યો નથી</b>
 
-        <br>
+        <br><br>
 
-        ✓ Communication status
+        Alarm:
 
-        `;
+        <b>${alarmCode}</b>
 
-    }
+        <br><br>
 
+        HMI અને PLC alarm history તપાસો અને OEM manual સાથે verify કરો.
 
+        `
 
-    return `
-
-    <b>🚨 Alarm Investigation</b>
-
-    <br><br>
-
-    <b>Machine:</b>
-    ${machine}
-
-    <br>
-
-    <b>Alarm:</b>
-    ${alarm || "-"}
-
-    <br><br>
-
-    Alarm not available in the database.
-
-    <br><br>
-
-    Please check:
-
-    <br>
-
-    ✓ PLC alarm history
-
-    <br>
-
-    ✓ Servo drive status
-
-    <br>
-
-    ✓ Sensor feedback
-
-    <br>
-
-    ✓ Communication status
-
-    `;
+    );
 
 }
 
 
 
 // =====================================================
-// BREAKDOWN ANALYSIS
+// BREAKDOWN REQUEST
 // =====================================================
 
-function analyzeBreakdown(machine){
+function analyzeBreakdownRequest(
+    query,
+    machine
+){
 
-    const lang =
-        currentLanguage();
+
+    const knowledge =
+        analyzeKnowledgeRequest(
+            query,
+            machine
+        );
+
+
+    if(knowledge){
+
+        return knowledge;
+
+    }
 
 
 
-    if(lang === "hi"){
+    let lastBreakdownHTML = "";
 
-        return `
 
-        <b>🔧 ब्रेकडाउन विश्लेषण</b>
+    if(
+        machine !== "unknown"
+        &&
+        typeof getLastBreakdown ===
+        "function"
+    ){
+
+        const last =
+            getLastBreakdown(
+                machine
+            );
+
+
+        if(last){
+
+            lastBreakdownHTML = `
+
+                <br><br>
+
+                <b>📚 Last Breakdown</b>
+
+                <br>
+
+                Date:
+                ${last.date}
+
+                <br>
+
+                Issue:
+                ${last.issue}
+
+                <br>
+
+                Root Cause:
+                ${last.rootCause}
+
+                <br>
+
+                Corrective Action:
+                ${last.correctiveAction}
+
+            `;
+
+        }
+
+    }
+
+
+
+    return getLocalizedText(
+
+        `
+
+        <b>🔧 SAMA Breakdown Analysis</b>
+
+        <br><br>
+
+        <b>Machine:</b>
+
+        ${getMachineDisplayName(machine)}
+
+        <br><br>
+
+        <b>Immediate Checks:</b>
+
+        <br>
+
+        1️⃣ Check active alarms
+
+        <br>
+
+        2️⃣ Verify power and air supply
+
+        <br>
+
+        3️⃣ Check machine interlocks
+
+        <br>
+
+        4️⃣ Check sensor feedback
+
+        <br>
+
+        5️⃣ Check servo / drive status
+
+        <br>
+
+        6️⃣ Check communication status
+
+        <br>
+
+        7️⃣ Inspect for mechanical obstruction
+
+        ${lastBreakdownHTML}
+
+        <br><br>
+
+        <b>🤖 SAMA Recommendation:</b>
+
+        <br>
+
+        Do not repeatedly reset the equipment. Capture the alarm and symptom before intervention.
+
+        `,
+
+        `
+
+        <b>🔧 SAMA ब्रेकडाउन विश्लेषण</b>
 
         <br><br>
 
         <b>मशीन:</b>
-        ${machine}
+
+        ${getMachineDisplayName(machine)}
 
         <br><br>
 
-        <b>तत्काल जांच:</b>
+        1️⃣ Active alarm जांचें
 
         <br>
 
-        1️⃣ Active alarms जांचें
+        2️⃣ Power और air supply जांचें
 
         <br>
 
-        2️⃣ Power supply जांचें
-
-        <br>
-
-        3️⃣ Air pressure जांचें
+        3️⃣ Interlock जांचें
 
         <br>
 
@@ -911,48 +1361,37 @@ function analyzeBreakdown(machine){
 
         <br>
 
-        6️⃣ Last breakdown history देखें
-
-        <br><br>
-
-        <b>SAMA सुझाव:</b>
+        6️⃣ Communication status जांचें
 
         <br>
 
-        Root cause verify किए बिना मशीन reset न करें।
+        7️⃣ Mechanical obstruction जांचें
 
-        `;
+        ${lastBreakdownHTML}
 
-    }
+        `,
 
+        `
 
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>🔧 બ્રેકડાઉન વિશ્લેષણ</b>
+        <b>🔧 SAMA બ્રેકડાઉન વિશ્લેષણ</b>
 
         <br><br>
 
         <b>મશીન:</b>
-        ${machine}
+
+        ${getMachineDisplayName(machine)}
 
         <br><br>
 
-        <b>તાત્કાલિક તપાસ:</b>
+        1️⃣ Active alarm તપાસો
 
         <br>
 
-        1️⃣ Active alarms તપાસો
+        2️⃣ Power અને air supply તપાસો
 
         <br>
 
-        2️⃣ Power supply તપાસો
-
-        <br>
-
-        3️⃣ Air pressure તપાસો
+        3️⃣ Interlock તપાસો
 
         <br>
 
@@ -964,513 +1403,31 @@ function analyzeBreakdown(machine){
 
         <br>
 
-        6️⃣ Last breakdown history જુઓ
-
-        <br><br>
-
-        <b>SAMA ભલામણ:</b>
+        6️⃣ Communication status તપાસો
 
         <br>
 
-        Root cause verify કર્યા વગર મશીન reset ન કરો.
+        7️⃣ Mechanical obstruction તપાસો
 
-        `;
+        ${lastBreakdownHTML}
 
-    }
+        `
 
-
-
-    return `
-
-    <b>🔧 Breakdown Analysis</b>
-
-    <br><br>
-
-    <b>Machine:</b>
-    ${machine}
-
-    <br><br>
-
-    <b>Immediate Checks:</b>
-
-    <br>
-
-    1️⃣ Check active alarms
-
-    <br>
-
-    2️⃣ Verify power supply
-
-    <br>
-
-    3️⃣ Check air pressure
-
-    <br>
-
-    4️⃣ Check sensor feedback
-
-    <br>
-
-    5️⃣ Check servo / drive status
-
-    <br>
-
-    6️⃣ Review last breakdown history
-
-    <br><br>
-
-    <b>SAMA Recommendation:</b>
-
-    <br>
-
-    Do not reset the machine until the root cause has been verified.
-
-    `;
-
-}
-
-
-
-// =====================================================
-// PM FALLBACK
-// =====================================================
-
-function generatePMFallback(machine){
-
-    const lang =
-        currentLanguage();
-
-
-
-    if(lang === "hi"){
-
-        return `
-
-        <b>🛠 प्रिवेंटिव मेंटेनेंस</b>
-
-        <br><br>
-
-        PM database उपलब्ध नहीं है।
-
-        <br><br>
-
-        मशीन:
-        ${machine}
-
-        `;
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>🛠 પ્રિવેન્ટિવ મેન્ટેનન્સ</b>
-
-        <br><br>
-
-        PM database ઉપલબ્ધ નથી.
-
-        <br><br>
-
-        મશીન:
-        ${machine}
-
-        `;
-
-    }
-
-
-
-    return `
-
-    <b>🛠 Preventive Maintenance</b>
-
-    <br><br>
-
-    PM database is not connected.
-
-    <br><br>
-
-    Machine:
-    ${machine}
-
-    `;
-
-}
-
-
-
-// =====================================================
-// SPARE KEYWORD DETECTION
-// =====================================================
-
-function detectSpareKeyword(input){
-
-
-    const keywords = [
-
-        "servo drive",
-
-        "servo motor",
-
-        "encoder",
-
-        "sensor",
-
-        "vacuum",
-
-        "thermocouple",
-
-        "ssr",
-
-        "heater",
-
-        "pump",
-
-        "valve",
-
-        "cylinder",
-
-        "relay",
-
-        "contactor",
-
-        "smps",
-
-        "camera",
-
-        "lens",
-
-        "belt",
-
-        "bearing",
-
-        "motor",
-
-        "cable",
-
-        "membrane"
-
-    ];
-
-
-
-    for(
-        const keyword of keywords
-    ){
-
-        if(
-            input.includes(keyword)
-        ){
-
-            return keyword;
-
-        }
-
-    }
-
-
-
-    return "";
-
-}
-
-
-
-// =====================================================
-// SPARE FALLBACK
-// =====================================================
-
-function generateSpareFallback(machine){
-
-    const lang =
-        currentLanguage();
-
-
-
-    if(lang === "hi"){
-
-        return `
-
-        <b>📦 स्पेयर रिपोर्ट</b>
-
-        <br><br>
-
-        Spare database उपलब्ध नहीं है।
-
-        <br><br>
-
-        मशीन:
-        ${machine}
-
-        `;
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>📦 સ્પેર રિપોર્ટ</b>
-
-        <br><br>
-
-        Spare database ઉપલબ્ધ નથી.
-
-        <br><br>
-
-        મશીન:
-        ${machine}
-
-        `;
-
-    }
-
-
-
-    return `
-
-    <b>📦 Spare Report</b>
-
-    <br><br>
-
-    Spare database is not connected.
-
-    <br><br>
-
-    Machine:
-    ${machine}
-
-    `;
-
-}
-
-
-
-// =====================================================
-// MACHINE HEALTH
-// =====================================================
-
-function generateHealth(machine){
-
-    if(
-        typeof generateMachineReport ===
-        "function"
-    ){
-
-        return generateMachineReport(
-            machine
-        );
-
-    }
-
-
-
-    const lang =
-        currentLanguage();
-
-
-
-    if(lang === "hi"){
-
-        return "Machine database कनेक्ट नहीं है।";
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return "Machine database કનેક્ટ થયેલ નથી.";
-
-    }
-
-
-
-    return "Machine database not connected.";
-
-}
-
-
-
-// =====================================================
-// BREAKDOWN HISTORY
-// =====================================================
-
-function generateHistory(machine){
-
-    if(
-        typeof getBreakdownHistory !==
-        "function"
-    ){
-
-        return historyUnavailable();
-
-    }
-
-
-
-    const data =
-        getBreakdownHistory(
-            machine
-        );
-
-
-
-    if(
-        !data ||
-        data.length === 0
-    ){
-
-        return noHistoryResponse(
-            machine
-        );
-
-    }
-
-
-
-    let html = "";
-
-
-
-    data.forEach(
-        (item,index) => {
-
-
-            html += `
-
-            <br>
-
-            <b>
-                ${index + 1}.
-                ${item.issue || "Breakdown"}
-            </b>
-
-            <br>
-
-            📅
-            ${item.date || "-"}
-
-            <br>
-
-            🚨
-            ${item.alarm || "-"}
-
-            <br>
-
-            ⏱
-            ${
-                item.downtimeMinutes
-                ||
-                item.downtime
-                ||
-                "-"
-            }
-
-            ${
-                item.downtimeMinutes
-                ?
-                " min"
-                :
-                ""
-            }
-
-            <br>
-
-            🔍
-            ${item.rootCause || "-"}
-
-            <br>
-
-            🛠
-            ${
-                item.correctiveAction
-                ||
-                item.action
-                ||
-                "-"
-            }
-
-            <br>
-
-            `;
-
-        }
     );
 
-
-
-    const lang =
-        currentLanguage();
-
-
-
-    if(lang === "hi"){
-
-        return `
-
-        <b>📚 ब्रेकडाउन हिस्ट्री</b>
-
-        <br><br>
-
-        <b>मशीन:</b>
-        ${machine}
-
-        ${html}
-
-        `;
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>📚 બ્રેકડાઉન હિસ્ટ્રી</b>
-
-        <br><br>
-
-        <b>મશીન:</b>
-        ${machine}
-
-        ${html}
-
-        `;
-
-    }
-
-
-
-    return `
-
-    <b>📚 Breakdown History</b>
-
-    <br><br>
-
-    <b>Machine:</b>
-    ${machine}
-
-    ${html}
-
-    `;
-
 }
 
 
 
 // =====================================================
-// KNOWLEDGE BASE
+// KNOWLEDGE REQUEST
 // =====================================================
 
-function analyzeKnowledge(query){
+function analyzeKnowledgeRequest(
+    query,
+    machine
+){
+
 
     if(
         typeof searchKnowledge !==
@@ -1483,28 +1440,20 @@ function analyzeKnowledge(query){
 
 
 
-    const input =
-        String(query || "")
-        .toLowerCase();
+    if(
+        machine === "unknown"
+    ){
 
+        return null;
 
-
-    const machine =
-        detectMachine(input);
-
-
-
-    const knowledgeMachine =
-        normalizeKnowledgeMachine(
-            machine
-        );
+    }
 
 
 
     const result =
         searchKnowledge(
-            knowledgeMachine,
-            input
+            machine,
+            query
         );
 
 
@@ -1518,50 +1467,191 @@ function analyzeKnowledge(query){
 
 
     const causes =
-        Array.isArray(
-            result.possibleCause
-        )
-        ?
-        result.possibleCause
-            .map(
-                x => "• " + x
-            )
-            .join("<br>")
-        :
-        result.possibleCause;
-
+        formatArray(
+            result.possibleCause,
+            "•"
+        );
 
 
     const checks =
-        Array.isArray(
-            result.checks
-        )
-        ?
-        result.checks
-            .map(
-                x => "✓ " + x
-            )
-            .join("<br>")
-        :
-        result.checks;
+        formatArray(
+            result.checks,
+            "✓"
+        );
+
+
+    const rca =
+        formatArray(
+            result.rcaFocus,
+            "🔍"
+        );
 
 
 
-    const lang =
-        currentLanguage();
+    let historyHTML = "";
+
+
+    if(
+        typeof getBreakdownHistory ===
+        "function"
+    ){
+
+        const history =
+            getBreakdownHistory(
+                machine
+            );
+
+
+        const matches =
+            history.filter(
+                item => {
+
+
+                    const text =
+                        (
+
+                            item.issue +
+                            " " +
+                            item.category +
+                            " " +
+                            item.rootCause
+
+                        )
+                        .toLowerCase();
+
+
+                    const issue =
+                        String(
+                            result.key || ""
+                        )
+                        .toLowerCase();
+
+
+                    return (
+                        issue &&
+                        text.includes(issue)
+                    );
+
+                }
+            );
+
+
+        if(
+            matches.length > 0
+        ){
+
+            const last =
+                matches[matches.length - 1];
+
+
+            historyHTML = `
+
+                <br><br>
+
+                <b>📚 Similar Previous Breakdown</b>
+
+                <br>
+
+                Date:
+                ${last.date}
+
+                <br>
+
+                Root Cause:
+                ${last.rootCause}
+
+                <br>
+
+                Corrective Action:
+                ${last.correctiveAction}
+
+            `;
+
+        }
+
+    }
 
 
 
-    if(lang === "hi"){
+    return getLocalizedText(
 
-        return `
+        `
 
-        <b>🔧 SAMA ट्रबलशूटिंग विश्लेषण</b>
+        <b>🔧 SAMA Troubleshooting & RCA</b>
+
+        <br><br>
+
+        <b>Machine:</b>
+
+        ${result.manufacturer}
+        ${result.machine}
+
+        <br>
+
+        <b>Process:</b>
+
+        ${result.process}
+
+        <br><br>
+
+        <b>Problem:</b>
+
+        <br>
+
+        ${result.symptom}
+
+        <br><br>
+
+        <b>Possible Causes:</b>
+
+        <br>
+
+        ${causes}
+
+        <br><br>
+
+        <b>Recommended Checks:</b>
+
+        <br>
+
+        ${checks}
+
+        <br><br>
+
+        <b>RCA Focus Areas:</b>
+
+        <br>
+
+        ${rca}
+
+        ${historyHTML}
+
+        <br><br>
+
+        <b>🤖 SAMA Action:</b>
+
+        <br>
+
+        ${result.action}
+
+        <br><br>
+
+        <b>Confidence:</b>
+
+        88%
+
+        `,
+
+        `
+
+        <b>🔧 SAMA ट्रबलशूटिंग और RCA</b>
 
         <br><br>
 
         <b>मशीन:</b>
-        ${machine}
+
+        ${result.manufacturer}
+        ${result.machine}
 
         <br><br>
 
@@ -1589,37 +1679,38 @@ function analyzeKnowledge(query){
 
         <br><br>
 
-        <b>SAMA कार्रवाई:</b>
+        <b>RCA Focus:</b>
+
+        <br>
+
+        ${rca}
+
+        ${historyHTML}
+
+        <br><br>
+
+        <b>SAMA Action:</b>
 
         <br>
 
         ${result.action}
 
-        <br><br>
+        `,
 
-        <b>विश्वसनीयता:</b>
-        88%
+        `
 
-        `;
-
-    }
-
-
-
-    if(lang === "gu"){
-
-        return `
-
-        <b>🔧 SAMA ટ્રબલશૂટિંગ વિશ્લેષણ</b>
+        <b>🔧 SAMA ટ્રબલશૂટિંગ અને RCA</b>
 
         <br><br>
 
         <b>મશીન:</b>
-        ${machine}
+
+        ${result.manufacturer}
+        ${result.machine}
 
         <br><br>
 
-        <b>સમस्या:</b>
+        <b>સમસ્યા:</b>
 
         <br>
 
@@ -1627,7 +1718,7 @@ function analyzeKnowledge(query){
 
         <br><br>
 
-        <b>સંભવિત કારણ:</b>
+        <b>સંભવિત કારણો:</b>
 
         <br>
 
@@ -1643,318 +1734,339 @@ function analyzeKnowledge(query){
 
         <br><br>
 
-        <b>SAMA કાર્યવાહી:</b>
+        <b>RCA Focus:</b>
+
+        <br>
+
+        ${rca}
+
+        ${historyHTML}
+
+        <br><br>
+
+        <b>SAMA Action:</b>
 
         <br>
 
         ${result.action}
 
-        <br><br>
+        `
 
-        <b>વિશ્વસનીયતા:</b>
-        88%
-
-        `;
-
-    }
-
-
-
-    return `
-
-    <b>🔧 SAMA Troubleshooting Analysis</b>
-
-    <br><br>
-
-    <b>Machine:</b>
-    ${machine}
-
-    <br><br>
-
-    <b>Problem:</b>
-
-    <br>
-
-    ${result.symptom}
-
-    <br><br>
-
-    <b>Possible Causes:</b>
-
-    <br>
-
-    ${causes}
-
-    <br><br>
-
-    <b>Recommended Checks:</b>
-
-    <br>
-
-    ${checks}
-
-    <br><br>
-
-    <b>SAMA Action:</b>
-
-    <br>
-
-    ${result.action}
-
-    <br><br>
-
-    <b>Confidence:</b>
-    88%
-
-    `;
+    );
 
 }
 
 
 
 // =====================================================
-// NORMALIZE MACHINE FOR KNOWLEDGE.JS
+// PM REQUEST
 // =====================================================
 
-function normalizeKnowledgeMachine(machine){
-
-
-    const value =
-        String(machine || "")
-        .toLowerCase();
-
+function analyzePMRequest(machine){
 
 
     if(
-        value.includes("stringer")
+        typeof generatePMReport !==
+        "function"
     ){
 
-        return "stringer";
+        return databaseConnectionError(
+            "PM"
+        );
 
     }
 
 
-
-    if(
-        value.includes("laminator")
-    ){
-
-        return "laminator";
-
-    }
-
-
-
-    if(
-        value.includes("el")
-    ){
-
-        return "el tester";
-
-    }
-
-
-
-    if(
-        value.includes("aoi")
-    ){
-
-        return "aoi";
-
-    }
-
-
-
-    return value;
+    return generatePMReport(
+        machine
+    );
 
 }
 
 
 
 // =====================================================
-// GENERAL RESPONSE
+// SPARE REQUEST
 // =====================================================
 
-function generalResponse(machine){
+function analyzeSpareRequest(
+    machine,
+    query
+){
 
-    const lang =
-        currentLanguage();
 
+    if(
+        typeof generateSpareReport !==
+        "function"
+    ){
 
-
-    if(lang === "hi"){
-
-        return `
-
-        🤖 <b>SAMA तैयार है</b>
-
-        <br><br>
-
-        पहचानी गई मशीन:
-
-        <b>${machine}</b>
-
-        <br><br>
-
-        आप पूछ सकते हैं:
-
-        <br>
-
-        "ATW Stringer cell breakage"
-
-        <br>
-
-        "Servo alarm E37"
-
-        <br>
-
-        "SC Laminator PM"
-
-        <br>
-
-        "Stringer health"
-
-        <br>
-
-        "Laminator vacuum spare"
-
-        `;
+        return databaseConnectionError(
+            "Spare"
+        );
 
     }
 
 
 
-    if(lang === "gu"){
-
-        return `
-
-        🤖 <b>SAMA તૈયાર છે</b>
-
-        <br><br>
-
-        ઓળખાયેલ મશીન:
-
-        <b>${machine}</b>
-
-        <br><br>
-
-        તમે પૂછી શકો છો:
-
-        <br>
-
-        "ATW Stringer cell breakage"
-
-        <br>
-
-        "Servo alarm E37"
-
-        <br>
-
-        "SC Laminator PM"
-
-        <br>
-
-        "Stringer health"
-
-        <br>
-
-        "Laminator vacuum spare"
-
-        `;
-
-    }
+    const keyword =
+        detectSpareKeyword(
+            query
+        );
 
 
-
-    return `
-
-    🤖 <b>SAMA Ready</b>
-
-    <br><br>
-
-    Detected Machine:
-
-    <b>${machine}</b>
-
-    <br><br>
-
-    Try:
-
-    <br>
-
-    "ATW Stringer cell breakage"
-
-    <br>
-
-    "Servo alarm E37"
-
-    <br>
-
-    "SC Laminator PM"
-
-    <br>
-
-    "Stringer health"
-
-    <br>
-
-    "Laminator vacuum spare"
-
-    `;
+    return generateSpareReport(
+        machine,
+        keyword
+    );
 
 }
 
 
 
 // =====================================================
-// HISTORY HELPERS
+// SPARE KEYWORD
 // =====================================================
 
-function historyUnavailable(){
-
-    const lang =
-        currentLanguage();
+function detectSpareKeyword(text){
 
 
+    const keywords = [
 
-    if(lang === "hi"){
+        "servo drive",
+        "servo motor",
+        "encoder",
+        "camera",
+        "vacuum",
+        "sensor",
+        "valve",
+        "cylinder",
+        "thermocouple",
+        "ssr",
+        "heater",
+        "pump",
+        "relay",
+        "contactor",
+        "smps",
+        "membrane",
+        "belt",
+        "bearing",
+        "cable",
+        "lens"
 
-        return "ब्रेकडाउन हिस्ट्री डेटाबेस उपलब्ध नहीं है।";
+    ];
+
+
+    for(
+        const keyword of keywords
+    ){
+
+        if(
+            text.includes(keyword)
+        ){
+
+            return keyword;
+
+        }
 
     }
 
 
-
-    if(lang === "gu"){
-
-        return "બ્રેકડાઉન હિસ્ટ્રી ડેટાબેઝ ઉપલબ્ધ નથી.";
-
-    }
-
-
-
-    return "Breakdown history database unavailable.";
+    return "";
 
 }
 
 
 
-function noHistoryResponse(machine){
+// =====================================================
+// HEALTH REQUEST
+// =====================================================
 
-    const lang =
-        currentLanguage();
+function analyzeMachineHealth(machine){
+
+
+    if(
+        typeof generateMachineReport !==
+        "function"
+    ){
+
+        return databaseConnectionError(
+            "Machine"
+        );
+
+    }
 
 
 
-    if(lang === "hi"){
+    if(
+        machine === "unknown"
+    ){
+
+        return getLocalizedText(
+
+            `
+
+            <b>📊 Machine Health</b>
+
+            <br><br>
+
+            Please provide the machine name.
+
+            <br><br>
+
+            Example:
+
+            <br>
+
+            <b>ATW Stringer health</b>
+
+            `,
+
+            `
+
+            <b>📊 मशीन हेल्थ</b>
+
+            <br><br>
+
+            कृपया मशीन नाम दें।
+
+            `,
+
+            `
+
+            <b>📊 મશીન હેલ્થ</b>
+
+            <br><br>
+
+            કૃપા કરીને મશીન નામ આપો.
+
+            `
+
+        );
+
+    }
+
+
+    return generateMachineReport(
+        machine
+    );
+
+}
+
+
+
+// =====================================================
+// HISTORY REQUEST
+// =====================================================
+
+function analyzeHistoryRequest(
+    machine,
+    query
+){
+
+
+    if(
+        machine === "unknown"
+    ){
+
+        return getLocalizedText(
+
+            "Please provide a machine name for breakdown history.",
+
+            "ब्रेकडाउन हिस्ट्री के लिए मशीन नाम दें।",
+
+            "બ્રેકડાઉન હિસ્ટ્રી માટે મશીન નામ આપો."
+
+        );
+
+    }
+
+
+
+    if(
+        query.includes("repeated") ||
+        query.includes("repeat")
+    ){
+
+        return generateRepeatedFailureReport(
+            machine
+        );
+
+    }
+
+
+
+    if(
+        query.includes("last breakdown") ||
+        query.includes("previous")
+    ){
+
+        return generateLastBreakdownReport(
+            machine
+        );
+
+    }
+
+
+
+    if(
+        typeof generateBreakdownAnalyticsReport ===
+        "function"
+    ){
+
+        return generateBreakdownAnalyticsReport(
+            machine
+        );
+
+    }
+
+
+
+    return generateBasicHistory(
+        machine
+    );
+
+}
+
+
+
+// =====================================================
+// BASIC HISTORY
+// =====================================================
+
+function generateBasicHistory(machine){
+
+
+    if(
+        typeof getBreakdownHistory !==
+        "function"
+    ){
+
+        return databaseConnectionError(
+            "Breakdown History"
+        );
+
+    }
+
+
+
+    const history =
+        getBreakdownHistory(
+            machine
+        );
+
+
+    if(
+        !history ||
+        history.length === 0
+    ){
 
         return `
 
-        <b>📚 ब्रेकडाउन हिस्ट्री</b>
+        <b>📚 Breakdown History</b>
 
         <br><br>
 
-        ${machine} के लिए कोई ब्रेकडाउन रिकॉर्ड उपलब्ध नहीं है।
+        No breakdown history available.
 
         `;
 
@@ -1962,20 +2074,50 @@ function noHistoryResponse(machine){
 
 
 
-    if(lang === "gu"){
+    let html = "";
 
-        return `
 
-        <b>📚 બ્રેકડાઉન હિસ્ટ્રી</b>
+    history.forEach(
+        (item,index) => {
 
-        <br><br>
 
-        ${machine} માટે કોઈ બ્રેકડાઉન રેકોર્ડ ઉપલબ્ધ નથી.
+            html += `
 
-        `;
+            <br>
 
-    }
+            <b>${index + 1}. ${item.issue}</b>
 
+            <br>
+
+            Date:
+            ${item.date}
+
+            <br>
+
+            Alarm:
+            ${item.alarm || "-"}
+
+            <br>
+
+            Downtime:
+            ${item.downtimeMinutes} min
+
+            <br>
+
+            Root Cause:
+            ${item.rootCause}
+
+            <br>
+
+            Corrective Action:
+            ${item.correctiveAction}
+
+            <br>
+
+            `;
+
+        }
+    );
 
 
     return `
@@ -1984,9 +2126,684 @@ function noHistoryResponse(machine){
 
     <br><br>
 
-    No breakdown record available for ${machine}.
+    <b>Machine:</b>
+
+    ${getMachineDisplayName(machine)}
+
+    <br>
+
+    ${html}
 
     `;
+
+}
+
+
+
+// =====================================================
+// LAST BREAKDOWN
+// =====================================================
+
+function generateLastBreakdownReport(machine){
+
+
+    if(
+        typeof getLastBreakdown !==
+        "function"
+    ){
+
+        return databaseConnectionError(
+            "Breakdown History"
+        );
+
+    }
+
+
+
+    const item =
+        getLastBreakdown(
+            machine
+        );
+
+
+    if(!item){
+
+        return "No previous breakdown available.";
+
+    }
+
+
+
+    return `
+
+    <b>🕒 Last Breakdown</b>
+
+    <br><br>
+
+    <b>Machine:</b>
+
+    ${getMachineDisplayName(machine)}
+
+    <br><br>
+
+    Date:
+    ${item.date}
+
+    <br>
+
+    Issue:
+    ${item.issue}
+
+    <br>
+
+    Alarm:
+    ${item.alarm || "-"}
+
+    <br>
+
+    Downtime:
+    ${item.downtimeMinutes} min
+
+    <br><br>
+
+    <b>Root Cause:</b>
+
+    <br>
+
+    ${item.rootCause}
+
+    <br><br>
+
+    <b>Corrective Action:</b>
+
+    <br>
+
+    ${item.correctiveAction}
+
+    <br><br>
+
+    <b>Preventive Action:</b>
+
+    <br>
+
+    ${item.preventiveAction}
+
+    `;
+
+}
+
+
+
+// =====================================================
+// REPEATED FAILURE REPORT
+// =====================================================
+
+function generateRepeatedFailureReport(machine){
+
+
+    if(
+        typeof getRepeatedBreakdowns !==
+        "function"
+    ){
+
+        return databaseConnectionError(
+            "Breakdown Analytics"
+        );
+
+    }
+
+
+
+    const repeated =
+        getRepeatedBreakdowns(
+            machine
+        );
+
+
+    if(
+        !repeated ||
+        repeated.length === 0
+    ){
+
+        return `
+
+        <b>🔁 Repeated Failure Analysis</b>
+
+        <br><br>
+
+        No repeated failure category detected.
+
+        `;
+
+    }
+
+
+
+    let html = "";
+
+
+    repeated.forEach(
+        item => {
+
+
+            html += `
+
+            ⚠ <b>${item.category}</b>
+
+            <br>
+
+            Occurrences:
+            ${item.count}
+
+            <br>
+
+            Total Downtime:
+            ${item.downtimeMinutes} min
+
+            <br><br>
+
+            `;
+
+        }
+    );
+
+
+    return `
+
+    <b>🔁 SAMA Repeated Failure Analysis</b>
+
+    <br><br>
+
+    <b>Machine:</b>
+
+    ${getMachineDisplayName(machine)}
+
+    <br><br>
+
+    ${html}
+
+    <b>🤖 Recommendation:</b>
+
+    <br>
+
+    Repeated failures should be addressed through permanent corrective action and PM improvement instead of repeated reset or temporary repair.
+
+    `;
+
+}
+
+
+
+// =====================================================
+// MAINTENANCE ANALYTICS
+// =====================================================
+
+function analyzeMaintenanceAnalytics(
+    machine,
+    query
+){
+
+
+    if(
+        machine === "unknown"
+    ){
+
+        return "Please provide the machine name.";
+
+    }
+
+
+
+    if(
+        query.includes("mttr")
+        &&
+        typeof calculateBreakdownMTTR ===
+        "function"
+    ){
+
+        const mttr =
+            calculateBreakdownMTTR(
+                machine
+            );
+
+
+        return `
+
+        <b>⏱ MTTR Analysis</b>
+
+        <br><br>
+
+        Machine:
+
+        <b>${getMachineDisplayName(machine)}</b>
+
+        <br><br>
+
+        MTTR:
+
+        <b>${mttr} minutes</b>
+
+        `;
+
+    }
+
+
+
+    if(
+        query.includes("downtime")
+        &&
+        typeof getTotalDowntime ===
+        "function"
+    ){
+
+        const downtime =
+            getTotalDowntime(
+                machine
+            );
+
+
+        return `
+
+        <b>📉 Downtime Analysis</b>
+
+        <br><br>
+
+        Machine:
+
+        <b>${getMachineDisplayName(machine)}</b>
+
+        <br><br>
+
+        Total recorded downtime:
+
+        <b>${downtime} minutes</b>
+
+        `;
+
+    }
+
+
+
+    if(
+        typeof generateBreakdownAnalyticsReport ===
+        "function"
+    ){
+
+        return generateBreakdownAnalyticsReport(
+            machine
+        );
+
+    }
+
+
+
+    return databaseConnectionError(
+        "Breakdown Analytics"
+    );
+
+}
+
+
+
+// =====================================================
+// MACHINE SUMMARY
+// =====================================================
+
+function getMachineSummary(machine){
+
+
+    if(
+        typeof getMachine !==
+        "function"
+    ){
+
+        return databaseConnectionError(
+            "Machine"
+        );
+
+    }
+
+
+
+    const data =
+        getMachine(
+            machine
+        );
+
+
+    if(!data){
+
+        return "Machine information not available.";
+
+    }
+
+
+
+    return `
+
+    <b>⚙ Machine Information</b>
+
+    <br><br>
+
+    <b>Machine:</b>
+
+    ${data.name}
+
+    <br>
+
+    <b>Make:</b>
+
+    ${data.manufacturer}
+
+    <br>
+
+    <b>Process:</b>
+
+    ${data.process}
+
+    <br>
+
+    <b>Line:</b>
+
+    ${data.line}
+
+    <br>
+
+    <b>Status:</b>
+
+    ${data.status}
+
+    <br>
+
+    <b>Health:</b>
+
+    ${data.healthScore}%
+
+    <br><br>
+
+    Try:
+
+    <br>
+
+    "${data.machineType} health"
+
+    <br>
+
+    "${data.machineType} PM"
+
+    <br>
+
+    "${data.machineType} breakdown history"
+
+    `;
+
+}
+
+
+
+// =====================================================
+// GENERAL HELP
+// =====================================================
+
+function getGeneralHelpResponse(){
+
+
+    return getLocalizedText(
+
+        `
+
+        🤖 <b>SAMA Ready</b>
+
+        <br><br>
+
+        I can assist with:
+
+        <br><br>
+
+        ⚙ Breakdown troubleshooting
+
+        <br>
+
+        🚨 Alarm diagnosis
+
+        <br>
+
+        🧠 Root cause analysis
+
+        <br>
+
+        🛠 Preventive maintenance
+
+        <br>
+
+        📦 Spare recommendations
+
+        <br>
+
+        📊 Machine health
+
+        <br>
+
+        📚 Breakdown history
+
+        <br>
+
+        📉 MTTR & downtime analysis
+
+        <br><br>
+
+        <b>Try:</b>
+
+        <br>
+
+        "ATW Stringer cell breakage"
+
+        <br>
+
+        "ATW Stringer alarm E37"
+
+        <br>
+
+        "SC Laminator bubble defect"
+
+        <br>
+
+        "SC Laminator PM"
+
+        <br>
+
+        "Stringer repeated failures"
+
+        <br>
+
+        "Laminator MTTR"
+
+        `,
+
+        `
+
+        🤖 <b>SAMA तैयार है</b>
+
+        <br><br>
+
+        आप ब्रेकडाउन, अलार्म, RCA, PM, स्पेयर और मशीन हेल्थ के बारे में पूछ सकते हैं।
+
+        `,
+
+        `
+
+        🤖 <b>SAMA તૈયાર છે</b>
+
+        <br><br>
+
+        તમે breakdown, alarm, RCA, PM, spare અને machine health વિશે પૂછી શકો છો.
+
+        `
+
+    );
+
+}
+
+
+
+// =====================================================
+// LOCALIZED TEXT
+// =====================================================
+
+function getLocalizedText(
+    english,
+    hindi,
+    gujarati
+){
+
+
+    const language =
+        getCurrentSAMALanguage();
+
+
+    if(
+        language === "hi"
+    ){
+
+        return hindi;
+
+    }
+
+
+    if(
+        language === "gu"
+    ){
+
+        return gujarati;
+
+    }
+
+
+    return english;
+
+}
+
+
+
+// =====================================================
+// FORMAT ARRAY
+// =====================================================
+
+function formatArray(
+    list,
+    icon="•"
+){
+
+
+    if(
+        !Array.isArray(list)
+        ||
+        list.length === 0
+    ){
+
+        return "-";
+
+    }
+
+
+    return list
+
+        .map(
+            item =>
+                `${icon} ${item}`
+        )
+
+        .join("<br>");
+
+}
+
+
+
+// =====================================================
+// SEVERITY ICON
+// =====================================================
+
+function getSeverityIcon(severity){
+
+
+    const value =
+        String(severity || "")
+        .toLowerCase();
+
+
+    if(
+        value === "critical"
+    ){
+
+        return "🔴";
+
+    }
+
+
+    if(
+        value === "high"
+    ){
+
+        return "🟠";
+
+    }
+
+
+    if(
+        value === "medium"
+    ){
+
+        return "🟡";
+
+    }
+
+
+    return "🟢";
+
+}
+
+
+
+// =====================================================
+// DATABASE CONNECTION ERROR
+// =====================================================
+
+function databaseConnectionError(database){
+
+
+    return getLocalizedText(
+
+        `
+
+        ⚠️ <b>${database} Database Not Connected</b>
+
+        <br><br>
+
+        Please verify the required JavaScript file is loaded before aiEngine.js.
+
+        `,
+
+        `
+
+        ⚠️ <b>${database} डेटाबेस कनेक्ट नहीं है</b>
+
+        <br><br>
+
+        JavaScript load order जांचें।
+
+        `,
+
+        `
+
+        ⚠️ <b>${database} ડેટાબેઝ કનેક્ટ થયેલ નથી</b>
+
+        <br><br>
+
+        JavaScript load order તપાસો.
+
+        `
+
+    );
 
 }
 
@@ -1997,5 +2814,5 @@ function noHistoryResponse(machine){
 // =====================================================
 
 console.log(
-    "✅ SAMA Advanced AI Engine Loaded"
+    "✅ SAMA Advanced AI Decision Engine Loaded"
 );
