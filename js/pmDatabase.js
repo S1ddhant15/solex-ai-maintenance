@@ -1,441 +1,1060 @@
 // =====================================================
-// SAMA - AI Maintenance Assistant
+// SAMA - Solex AI Maintenance Assistant
 // Preventive Maintenance Database
+// File: pmDatabase.js
+// =====================================================
+
+
+// =====================================================
+// PM DATABASE
 // =====================================================
 
 
 const pmDatabase = {
 
 
-// =====================================================
-// STRINGER PM
-// =====================================================
 
+    // =================================================
+    // STRINGER PM
+    // MAKE: ATW
+    // =================================================
 
-"stringer":{
+    "stringer":{
 
 
-machine:"Stringer",
+        machine:"Stringer",
 
+        manufacturer:"ATW",
 
-daily:[
+        process:"Cell Stringing",
 
-"Check machine cleaning condition",
+        criticality:"High",
 
-"Check vacuum pressure",
 
-"Check cell loading sensor",
+        daily:[
 
-"Check ribbon feeding system",
+            "Clean machine working area and remove cell/ribbon debris",
 
-"Check abnormal noise"
+            "Check cell pickup vacuum condition",
 
-],
+            "Verify vacuum pressure stability",
 
+            "Check cell loading and presence sensors",
 
-weekly:[
+            "Check ribbon feeding condition",
 
-"Inspect servo motor condition",
+            "Verify ribbon alignment",
 
-"Check conveyor alignment",
+            "Check abnormal machine noise",
 
-"Check pneumatic leakage",
+            "Check servo alarm indication",
 
-"Clean sensors and cameras",
+            "Verify camera / vision status",
 
-"Verify process parameters"
+            "Check pneumatic pressure"
 
-],
+        ],
 
 
-monthly:[
+        weekly:[
 
-"Check servo drive parameters",
+            "Inspect servo motor and coupling condition",
 
-"Inspect encoder cable",
+            "Check conveyor and guide alignment",
 
-"Check mechanical lubrication",
+            "Inspect pneumatic leakage",
 
-"Inspect electrical panel",
+            "Clean sensors and vision cameras",
 
-"Backup PLC parameters"
+            "Inspect vacuum cups and vacuum tubing",
 
-],
+            "Check ribbon feeder movement",
 
+            "Verify cell positioning accuracy",
 
-criticalPoints:[
+            "Inspect cable routing and connector tightness",
 
-"Vacuum level",
+            "Check lubrication points",
 
-"Cell breakage rate",
+            "Verify interlock and safety sensor operation"
 
-"Servo alarm history",
+        ],
 
-"Ribbon alignment"
 
-]
+        monthly:[
 
+            "Review servo drive alarm history",
 
-},
+            "Inspect encoder cable and connectors",
 
+            "Check servo drive parameters",
 
+            "Inspect mechanical guide wear",
 
+            "Check linear guide and bearing condition",
 
+            "Inspect electrical panel for loose terminals",
 
+            "Check SMPS, relay and contactor condition",
 
-// =====================================================
-// LAMINATOR PM
-// =====================================================
+            "Verify PLC and HMI communication",
 
+            "Backup PLC / HMI parameters",
 
-"laminator":{
+            "Inspect camera mounting and calibration"
 
+        ],
 
-machine:"Laminator",
 
+        quarterly:[
 
-daily:[
+            "Perform complete mechanical alignment inspection",
 
-"Check temperature zones",
+            "Check servo motor insulation and operating condition",
 
-"Verify vacuum level",
+            "Inspect all pneumatic fittings and valves",
 
-"Check pressure system",
+            "Check machine earthing condition",
 
-"Inspect heating profile",
+            "Verify safety circuit performance",
 
-"Check abnormal sound"
+            "Inspect conveyor belt / timing belt wear",
 
-],
+            "Review repeated breakdown trend",
 
+            "Review cell breakage trend",
 
-weekly:[
+            "Validate critical spare availability"
 
-"Clean heating plates",
+        ],
 
-"Inspect thermocouple",
 
-"Check vacuum pump performance",
+        safetyChecks:[
 
-"Inspect pneumatic valves",
+            "Verify emergency stop function",
 
-"Check sealing condition"
+            "Check safety door interlock",
 
-],
+            "Check electrical panel earthing",
 
+            "Inspect exposed cables and connectors",
 
-monthly:[
+            "Verify pneumatic isolation condition"
 
-"Check heater current",
+        ],
 
-"Inspect SSR output",
 
-"Check vacuum pump oil",
+        criticalPoints:[
 
-"Inspect PLC backup",
+            "Vacuum pressure",
 
-"Check safety circuit"
+            "Cell pickup stability",
 
-],
+            "Cell breakage rate",
 
+            "Ribbon alignment",
 
-criticalPoints:[
+            "Soldering temperature",
 
-"Temperature stability",
+            "Servo alarm history",
 
-"Vacuum pressure",
+            "Camera alignment",
 
-"Lamination recipe",
+            "Pneumatic pressure"
 
-"Bubble defect trend"
+        ],
 
-]
 
+        samaRecommendation:
 
-},
+        "Closely monitor vacuum stability, servo alarm history, ribbon alignment and cell breakage trend. Repeated deviations should be investigated before they create a major breakdown."
 
 
+    },
 
 
 
+    // =================================================
+    // LAMINATOR PM
+    // MAKE: SC
+    // =================================================
 
+    "laminator":{
 
-// =====================================================
-// EL TESTER PM
-// =====================================================
 
+        machine:"Laminator",
 
-"el":{
+        manufacturer:"SC",
 
+        process:"Module Lamination",
 
-machine:"EL Tester",
+        criticality:"Critical",
 
 
-daily:[
+        daily:[
 
-"Clean camera lens",
+            "Check heating plate temperature",
 
-"Check image quality",
+            "Verify all temperature zones",
 
-"Verify inspection result",
+            "Check vacuum pressure",
 
-"Check lighting condition"
+            "Check vacuum pump operating condition",
 
-],
+            "Verify pneumatic pressure",
 
+            "Inspect lamination cycle time",
 
-weekly:[
+            "Check membrane visual condition",
 
-"Camera calibration check",
+            "Check abnormal sound / vibration",
 
-"Check communication",
+            "Verify temperature feedback",
 
-"Clean inspection area",
+            "Check active alarm history"
 
-"Verify defect detection"
+        ],
 
-],
 
+        weekly:[
 
-monthly:[
+            "Clean laminator working area",
 
-"Backup inspection parameters",
+            "Inspect heating plate surface",
 
-"Check camera health",
+            "Check thermocouple condition",
 
-"Inspect cables",
+            "Inspect vacuum pump performance",
 
-"Verify software settings"
+            "Check vacuum hose and pipe leakage",
 
-],
+            "Inspect solenoid valves",
 
+            "Check pneumatic cylinder condition",
 
-criticalPoints:[
+            "Inspect membrane and sealing condition",
 
-"Image quality",
+            "Verify safety interlocks",
 
-"False rejection",
+            "Review lamination recipe parameters"
 
-"Camera alignment"
+        ],
 
-]
 
+        monthly:[
 
-},
+            "Measure heater current",
 
+            "Inspect SSR output",
 
+            "Verify temperature controller response",
 
+            "Check thermocouple calibration condition",
 
+            "Inspect vacuum pump oil level / condition",
 
+            "Inspect vacuum pump filter",
 
+            "Check contactor and relay condition",
 
-// =====================================================
-// AOI PM
-// =====================================================
+            "Inspect electrical panel terminal tightness",
 
+            "Verify PLC / HMI communication",
 
-"aoi":{
+            "Backup PLC and recipe parameters"
 
+        ],
 
-machine:"AOI",
 
+        quarterly:[
 
-daily:[
+            "Verify temperature uniformity across heating plate",
 
-"Clean camera system",
+            "Inspect heater health",
 
-"Check inspection status",
+            "Perform vacuum system leakage test",
 
-"Verify NG detection"
+            "Inspect vacuum pump seal condition",
 
-],
+            "Check machine earthing",
 
+            "Inspect pneumatic valves and cylinders",
 
-weekly:[
+            "Review repeated temperature alarms",
 
-"Camera calibration",
+            "Review vacuum-related breakdown trend",
 
-"Check lighting",
+            "Inspect safety circuit",
 
-"Review false rejection"
+            "Validate critical spare availability"
 
-],
+        ],
 
 
-monthly:[
+        safetyChecks:[
 
-"System backup",
+            "Verify emergency stop",
 
-"Inspect communication",
+            "Check chamber safety interlock",
 
-"Update inspection parameters"
+            "Inspect high-temperature safety protection",
 
-],
+            "Verify electrical earthing",
 
+            "Check pneumatic isolation valve",
 
-criticalPoints:[
+            "Verify safety circuit functionality"
 
-"False NG",
+        ],
 
-"Camera focus",
 
-"Inspection accuracy"
+        criticalPoints:[
 
-]
+            "Temperature stability",
 
+            "Temperature uniformity",
 
-}
+            "Vacuum pressure",
+
+            "Vacuum pump performance",
+
+            "Thermocouple feedback",
+
+            "SSR output",
+
+            "Lamination recipe",
+
+            "Membrane condition",
+
+            "Bubble defect trend"
+
+        ],
+
+
+        samaRecommendation:
+
+        "Vacuum pressure and temperature stability are critical. Any repeated vacuum deterioration, temperature deviation or bubble defect trend should trigger detailed root cause analysis."
+
+
+    },
+
+
+
+    // =================================================
+    // EL TESTER PM
+    // =================================================
+
+    "el":{
+
+
+        machine:"EL Tester",
+
+        manufacturer:"To Be Updated",
+
+        process:"EL Inspection",
+
+        criticality:"High",
+
+
+        daily:[
+
+            "Clean camera lens",
+
+            "Clean inspection area",
+
+            "Check image quality",
+
+            "Verify module contact condition",
+
+            "Check illumination / imaging condition",
+
+            "Check communication status",
+
+            "Verify inspection result consistency"
+
+        ],
+
+
+        weekly:[
+
+            "Check camera mounting",
+
+            "Check camera calibration condition",
+
+            "Inspect communication cables",
+
+            "Check electrical contact points",
+
+            "Clean imaging chamber",
+
+            "Review abnormal EL image trend"
+
+        ],
+
+
+        monthly:[
+
+            "Perform camera calibration check",
+
+            "Inspect power supply",
+
+            "Backup inspection parameters",
+
+            "Inspect PC / controller health",
+
+            "Check cable condition",
+
+            "Verify software settings"
+
+        ],
+
+
+        quarterly:[
+
+            "Perform complete EL calibration",
+
+            "Inspect camera health",
+
+            "Review image quality trend",
+
+            "Check earthing",
+
+            "Inspect critical spare availability"
+
+        ],
+
+
+        safetyChecks:[
+
+            "Check electrical contact safety",
+
+            "Verify enclosure condition",
+
+            "Check emergency stop",
+
+            "Inspect grounding"
+
+        ],
+
+
+        criticalPoints:[
+
+            "Image quality",
+
+            "Camera condition",
+
+            "Contact stability",
+
+            "False detection",
+
+            "Calibration"
+
+        ],
+
+
+        samaRecommendation:
+
+        "Maintain camera calibration and electrical contact stability to avoid false interpretation of EL defects."
+
+
+    },
+
+
+
+    // =================================================
+    // AOI PM
+    // =================================================
+
+    "aoi":{
+
+
+        machine:"AOI",
+
+        manufacturer:"To Be Updated",
+
+        process:"Automatic Optical Inspection",
+
+        criticality:"Medium",
+
+
+        daily:[
+
+            "Clean camera system",
+
+            "Check lighting condition",
+
+            "Verify inspection status",
+
+            "Check NG detection",
+
+            "Check communication status",
+
+            "Review false rejection trend"
+
+        ],
+
+
+        weekly:[
+
+            "Clean lenses and lighting area",
+
+            "Check camera focus",
+
+            "Verify lighting intensity",
+
+            "Inspect camera mounting",
+
+            "Review false NG trend",
+
+            "Check communication cables"
+
+        ],
+
+
+        monthly:[
+
+            "Perform camera calibration",
+
+            "Backup inspection parameters",
+
+            "Check controller / PC health",
+
+            "Inspect power supply",
+
+            "Review threshold settings",
+
+            "Inspect electrical connections"
+
+        ],
+
+
+        quarterly:[
+
+            "Perform complete system calibration",
+
+            "Review inspection accuracy trend",
+
+            "Validate defect library",
+
+            "Check machine earthing",
+
+            "Review critical spare availability"
+
+        ],
+
+
+        safetyChecks:[
+
+            "Check emergency stop",
+
+            "Inspect electrical safety",
+
+            "Verify machine guards",
+
+            "Check earthing"
+
+        ],
+
+
+        criticalPoints:[
+
+            "False NG",
+
+            "Camera focus",
+
+            "Lighting stability",
+
+            "Inspection accuracy",
+
+            "Calibration"
+
+        ],
+
+
+        samaRecommendation:
+
+        "Monitor false rejection trend and camera calibration. Sudden increases in false NG should trigger camera, lighting and threshold verification."
+
+
+    }
 
 
 };
 
 
 
-
-
-
-
-
 // =====================================================
-// Get PM Details
+// GET PM DETAILS
 // =====================================================
 
 
 function getPMDetails(machine){
 
 
-machine =
-machine.toLowerCase();
+    if(!machine){
+
+        return null;
+
+    }
 
 
-
-for(let key in pmDatabase){
-
-
-if(machine.includes(key)){
+    machine =
+        String(machine).toLowerCase();
 
 
-return pmDatabase[key];
+    for(let key in pmDatabase){
+
+
+        if(
+            machine.includes(key)
+        ){
+
+            return pmDatabase[key];
+
+        }
+
+
+    }
+
+
+    return null;
 
 
 }
-
-
-}
-
-
-
-return null;
-
-
-}
-
-
-
-
-
 
 
 
 // =====================================================
-// Generate PM Report
+// CURRENT LANGUAGE
+// =====================================================
+
+
+function getPMLanguage(){
+
+
+    if(
+        typeof getSAMALanguage === "function"
+    ){
+
+        return getSAMALanguage();
+
+    }
+
+
+    return "en";
+
+
+}
+
+
+
+// =====================================================
+// LABELS
+// =====================================================
+
+
+function getPMLabels(){
+
+
+    const lang =
+        getPMLanguage();
+
+
+    if(lang === "hi"){
+
+        return {
+
+
+            title:
+            "🛠 प्रिवेंटिव मेंटेनेंस प्लान",
+
+
+            machine:
+            "मशीन",
+
+
+            make:
+            "मेक",
+
+
+            process:
+            "प्रोसेस",
+
+
+            criticality:
+            "क्रिटिकलिटी",
+
+
+            daily:
+            "दैनिक चेकलिस्ट",
+
+
+            weekly:
+            "साप्ताहिक चेकलिस्ट",
+
+
+            monthly:
+            "मासिक चेकलिस्ट",
+
+
+            quarterly:
+            "त्रैमासिक चेकलिस्ट",
+
+
+            safety:
+            "सेफ्टी चेक",
+
+
+            critical:
+            "क्रिटिकल मॉनिटरिंग पॉइंट्स",
+
+
+            recommendation:
+            "SAMA सुझाव",
+
+
+            unavailable:
+            "PM डेटा उपलब्ध नहीं है",
+
+
+            correctMachine:
+            "कृपया सही मशीन नाम दें।"
+
+
+        };
+
+    }
+
+
+    if(lang === "gu"){
+
+        return {
+
+
+            title:
+            "🛠 પ્રિવેન્ટિવ મેન્ટેનન્સ પ્લાન",
+
+
+            machine:
+            "મશીન",
+
+
+            make:
+            "મેક",
+
+
+            process:
+            "પ્રોસેસ",
+
+
+            criticality:
+            "ક્રિટિકલિટી",
+
+
+            daily:
+            "દૈનિક ચેકલિસ્ટ",
+
+
+            weekly:
+            "સાપ્તાહિક ચેકલિસ્ટ",
+
+
+            monthly:
+            "માસિક ચેકલિસ્ટ",
+
+
+            quarterly:
+            "ત્રિમાસિક ચેકલિસ્ટ",
+
+
+            safety:
+            "સેફ્ટી ચેક",
+
+
+            critical:
+            "ક્રિટિકલ મોનિટરિંગ પોઇન્ટ્સ",
+
+
+            recommendation:
+            "SAMA ભલામણ",
+
+
+            unavailable:
+            "PM ડેટા ઉપલબ્ધ નથી",
+
+
+            correctMachine:
+            "કૃપા કરીને યોગ્ય મશીન નામ આપો."
+
+
+        };
+
+    }
+
+
+    return {
+
+
+        title:
+        "🛠 Preventive Maintenance Plan",
+
+
+        machine:
+        "Machine",
+
+
+        make:
+        "Make",
+
+
+        process:
+        "Process",
+
+
+        criticality:
+        "Criticality",
+
+
+        daily:
+        "Daily Checklist",
+
+
+        weekly:
+        "Weekly Checklist",
+
+
+        monthly:
+        "Monthly Checklist",
+
+
+        quarterly:
+        "Quarterly Checklist",
+
+
+        safety:
+        "Safety Checks",
+
+
+        critical:
+        "Critical Monitoring Points",
+
+
+        recommendation:
+        "SAMA Recommendation",
+
+
+        unavailable:
+        "PM Data Not Available",
+
+
+        correctMachine:
+        "Please provide the correct machine name."
+
+
+    };
+
+
+}
+
+
+
+// =====================================================
+// FORMAT CHECKLIST
+// =====================================================
+
+
+function formatPMList(list, icon="✓"){
+
+
+    if(
+        !Array.isArray(list) ||
+        list.length === 0
+    ){
+
+        return "-";
+
+    }
+
+
+    return list
+
+        .map(
+            item =>
+            `${icon} ${item}`
+        )
+
+        .join("<br>");
+
+
+}
+
+
+
+// =====================================================
+// GENERATE PM REPORT
 // =====================================================
 
 
 function generatePMReport(machine){
 
 
-
-let data =
-getPMDetails(machine);
-
+    const data =
+        getPMDetails(machine);
 
 
-if(!data)
-
-return `
-
-<b>PM Data Not Available</b>
-
-<br><br>
-
-Please provide correct machine name.
-
-`;
+    const label =
+        getPMLabels();
 
 
+    if(!data){
+
+        return `
+
+        <b>${label.unavailable}</b>
+
+        <br><br>
+
+        ${label.correctMachine}
+
+        `;
+
+    }
 
 
-
-return `
-
-
-<b>🛠 Preventive Maintenance Plan</b>
+    return `
 
 
-<br><br>
+    <b>${label.title}</b>
 
 
-Machine:
-
-<b>${data.machine}</b>
+    <br><br>
 
 
-<br><br>
+    <b>${label.machine}:</b>
+
+    ${data.machine}
 
 
-
-<b>Daily Checklist</b>
-
-<br>
-
-${data.daily.map(x=>"✓ "+x).join("<br>")}
+    <br>
 
 
+    <b>${label.make}:</b>
 
-<br><br>
-
-
-<b>Weekly Checklist</b>
-
-<br>
-
-${data.weekly.map(x=>"✓ "+x).join("<br>")}
+    ${data.manufacturer}
 
 
-
-<br><br>
-
-
-<b>Monthly Checklist</b>
-
-<br>
-
-${data.monthly.map(x=>"✓ "+x).join("<br>")}
+    <br>
 
 
+    <b>${label.process}:</b>
 
-<br><br>
-
-
-<b>Critical Monitoring Points</b>
-
-<br>
-
-${data.criticalPoints.map(x=>"⚠ "+x).join("<br>")}
+    ${data.process}
 
 
-
-<br><br>
-
-
-SAMA Recommendation:
-
-<br>
-
-Follow PM schedule and update maintenance history.
+    <br>
 
 
-`;
+    <b>${label.criticality}:</b>
+
+    ${data.criticality}
+
+
+    <br><br>
+
+
+    <b>📅 ${label.daily}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.daily
+    )}
+
+
+    <br><br>
+
+
+    <b>📆 ${label.weekly}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.weekly
+    )}
+
+
+    <br><br>
+
+
+    <b>🗓 ${label.monthly}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.monthly
+    )}
+
+
+    <br><br>
+
+
+    <b>📋 ${label.quarterly}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.quarterly
+    )}
+
+
+    <br><br>
+
+
+    <b>🦺 ${label.safety}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.safetyChecks,
+        "⚠"
+    )}
+
+
+    <br><br>
+
+
+    <b>⚠ ${label.critical}</b>
+
+    <br>
+
+    ${formatPMList(
+        data.criticalPoints,
+        "•"
+    )}
+
+
+    <br><br>
+
+
+    <b>🤖 ${label.recommendation}:</b>
+
+    <br>
+
+    ${data.samaRecommendation}
+
+
+    `;
+
 
 }
+
+
+
+// =====================================================
+// PM DATABASE READY
+// =====================================================
+
+
+console.log(
+    "✅ SAMA PM Database Loaded"
+);
