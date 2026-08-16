@@ -1355,3 +1355,453 @@ body{
     }
 
 }
+
+/* =========================================================
+   MACHINE STATUS PAGE
+========================================================= */
+
+.machine-summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-bottom:18px;
+}
+
+.machine-kpi-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px;
+    background:#111518;
+    border:1px solid #2d3338;
+    border-radius:12px;
+}
+
+.machine-kpi-icon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:rgba(255,121,0,.12);
+    color:#ff7900;
+    font-size:20px;
+}
+
+.machine-kpi-card span{
+    display:block;
+    color:#8d979f;
+    font-size:12px;
+}
+
+.machine-kpi-card strong{
+    display:block;
+    margin-top:3px;
+    color:#ffffff;
+    font-size:23px;
+}
+
+.machine-toolbar{
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.machine-search-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 14px;
+    background:#111518;
+    border:1px solid #2d3338;
+    border-radius:10px;
+}
+
+.machine-search-wrap i{
+    color:#ff7900;
+}
+
+.machine-search-wrap input{
+    width:100%;
+    padding:12px 0;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#ffffff;
+}
+
+.machine-filter{
+    padding:11px 14px;
+    border-radius:10px;
+    border:1px solid #2d3338;
+    background:#111518;
+    color:white;
+    outline:none;
+}
+
+.machine-card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+    overflow-y:auto;
+    padding-bottom:20px;
+}
+
+.machine-status-card{
+    padding:20px;
+    border-radius:14px;
+    border:1px solid #2d3338;
+    background:linear-gradient(
+        145deg,
+        #14191d,
+        #0e1215
+    );
+    cursor:pointer;
+    transition:.25s;
+}
+
+.machine-status-card:hover{
+    transform:translateY(-4px);
+    border-color:#ff7900;
+    box-shadow:0 8px 25px rgba(255,121,0,.08);
+}
+
+.machine-status-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.machine-status-top h3{
+    margin-top:4px;
+    color:white;
+    font-size:19px;
+}
+
+.machine-type-label{
+    color:#ff7900;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
+
+.machine-running-badge{
+    height:max-content;
+    padding:6px 9px;
+    border:1px solid #333a40;
+    border-radius:20px;
+    color:#dce2e6;
+    font-size:11px;
+}
+
+.machine-meta{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.machine-meta div{
+    padding:10px;
+    border-radius:9px;
+    background:#0b0f12;
+}
+
+.machine-meta span{
+    display:block;
+    color:#747f88;
+    font-size:10px;
+}
+
+.machine-meta strong{
+    display:block;
+    margin-top:3px;
+    color:#d9dee2;
+    font-size:12px;
+}
+
+.machine-health-section{
+    margin-top:15px;
+}
+
+.machine-health-title{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:8px;
+}
+
+.machine-health-title span{
+    color:#9ba5ad;
+    font-size:12px;
+}
+
+.machine-health-title strong{
+    color:#ffffff;
+}
+
+.machine-health-bar{
+    height:6px;
+    overflow:hidden;
+    border-radius:10px;
+    background:#292f34;
+}
+
+.machine-health-fill{
+    height:100%;
+    border-radius:10px;
+    background:#ff7900;
+}
+
+.machine-health-section small{
+    display:block;
+    margin-top:7px;
+    color:#8a949d;
+}
+
+.view-machine-btn{
+    width:100%;
+    margin-top:18px;
+    padding:10px;
+    border:none;
+    border-radius:9px;
+    background:#ff7900;
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.view-machine-btn i{
+    margin-left:6px;
+}
+
+
+/* =========================================================
+   MACHINE MODAL
+========================================================= */
+
+.machine-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    z-index:999;
+}
+
+.machine-modal.open{
+    display:block;
+}
+
+.machine-modal-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(4px);
+}
+
+.machine-modal-card{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:min(900px,90vw);
+    max-height:88vh;
+    overflow-y:auto;
+    transform:translate(-50%,-50%);
+    padding:28px;
+    border:1px solid #343a40;
+    border-radius:16px;
+    background:#0e1215;
+    box-shadow:0 20px 60px rgba(0,0,0,.55);
+}
+
+.machine-modal-close{
+    position:absolute;
+    right:18px;
+    top:18px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#1d2226;
+    color:white;
+    cursor:pointer;
+}
+
+.machine-modal-close:hover{
+    background:#ff7900;
+}
+
+.machine-modal-header{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding-right:45px;
+}
+
+.machine-modal-header h2{
+    margin:5px 0;
+    color:#ffffff;
+}
+
+.machine-modal-header p{
+    color:#909aa2;
+    margin:0;
+}
+
+.machine-modal-health{
+    text-align:right;
+}
+
+.machine-modal-health strong{
+    display:block;
+    color:#ff7900;
+    font-size:28px;
+}
+
+.machine-modal-health span{
+    color:#a0a8ae;
+}
+
+.machine-detail-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin:25px 0;
+}
+
+.machine-detail-card{
+    padding:14px;
+    border:1px solid #2d3338;
+    border-radius:10px;
+    background:#12171a;
+}
+
+.machine-detail-card span{
+    color:#7f8991;
+    font-size:11px;
+}
+
+.machine-detail-card strong{
+    display:block;
+    margin-top:5px;
+    color:#ffffff;
+}
+
+.machine-modal-section-title{
+    margin:25px 0 14px;
+    color:#ff7900;
+}
+
+.machine-parameter-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.machine-detail-parameter{
+    padding:15px;
+    border:1px solid #2d3338;
+    border-radius:10px;
+    background:#12171a;
+}
+
+.machine-detail-parameter span{
+    display:block;
+    color:#8d979f;
+    font-size:11px;
+}
+
+.machine-detail-parameter strong{
+    display:block;
+    margin:5px 0;
+    color:#ffffff;
+}
+
+.machine-detail-parameter small{
+    color:#8d979f;
+}
+
+.machine-last-breakdown{
+    padding:18px;
+    border-radius:11px;
+    border:1px solid rgba(255,121,0,.25);
+    background:rgba(255,121,0,.07);
+}
+
+.machine-last-breakdown strong{
+    display:block;
+    color:#ff7900;
+    margin-bottom:5px;
+}
+
+.machine-last-breakdown span{
+    color:#8c969e;
+    font-size:12px;
+}
+
+.machine-last-breakdown p{
+    margin:10px 0 0;
+    color:#c1c8cd;
+}
+
+.machine-modal-note{
+    margin-top:25px;
+    padding:14px;
+    border-radius:9px;
+    background:#171c20;
+    color:#919aa1;
+    font-size:12px;
+}
+
+.no-machine-data{
+    grid-column:1/-1;
+    padding:40px;
+    text-align:center;
+    color:#8f999f;
+}
+
+
+/* =========================================================
+   MACHINE STATUS RESPONSIVE
+========================================================= */
+
+@media(max-width:1150px){
+
+    .machine-card-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .machine-summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:750px){
+
+    .machine-card-grid,
+    .machine-summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .machine-toolbar{
+        flex-direction:column;
+    }
+
+    .machine-detail-grid,
+    .machine-parameter-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:520px){
+
+    .machine-detail-grid,
+    .machine-parameter-grid{
+        grid-template-columns:1fr;
+    }
+
+}
