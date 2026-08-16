@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Alarm History - SAMA</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link
+rel="icon"
+type="image/png"
+href="../assets/solex-logo.png">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+<div class="logo-area">
+
+<img
+src="../assets/solex-logo.png"
+class="solex-logo"
+alt="Solex Logo">
+
+<h2>🤖 SAMA</h2>
+
+<p>AI Maintenance Assistant</p>
+
+</div>
+
+
+
+<ul>
+
+
+<li onclick="window.location.href='../index.html'">
+
+<i class="fa-solid fa-robot"></i>
+
+<span data-i18n="aiChat">
+AI Chat
+</span>
+
+</li>
+
+
+
+<li onclick="window.location.href='machine-status.html'">
+
+<i class="fa-solid fa-gears"></i>
+
+<span data-i18n="machineStatus">
+Machine Status
+</span>
+
+</li>
+
+
+
+<li class="active">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<span data-i18n="alarmHistory">
+Alarm History
+</span>
+
+</li>
+
+
+
+<li onclick="showComingSoon('Preventive Maintenance')">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+<span data-i18n="preventiveMaintenance">
+Preventive Maintenance
+</span>
+
+</li>
+
+
+
+<li onclick="showComingSoon('Spare Inventory')">
+
+<i class="fa-solid fa-box"></i>
+
+<span data-i18n="spareInventory">
+Spare Inventory
+</span>
+
+</li>
+
+
+
+<li onclick="showComingSoon('Breakdown History')">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+<span data-i18n="breakdownHistory">
+Breakdown History
+</span>
+
+</li>
+
+
+
+<li onclick="window.location.href='whySAMA.html'">
+
+<i class="fa-solid fa-lightbulb"></i>
+
+<span data-i18n="whySAMA">
+Why SAMA
+</span>
+
+</li>
+
+
+</ul>
+
+
+
+<div class="sidebar-footer">
+
+<p>SAMA v2.0</p>
+
+<small>
+Solex Digital Transformation
+</small>
+
+</div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+MAIN
+===================================================== -->
+
+<main class="main-content alarm-page">
+
+
+<!-- =====================================================
+TOPBAR
+===================================================== -->
+
+<header class="topbar">
+
+
+<div class="topbar-title">
+
+<h1>
+🚨 Alarm History
+</h1>
+
+<p>
+Machine alarms, severity, diagnosis and historical occurrence
+</p>
+
+</div>
+
+
+
+<div class="topbar-actions">
+
+
+<div class="language-control">
+
+<i class="fa-solid fa-globe"></i>
+
+<select
+id="samaLanguageSelector"
+class="language-selector"
+onchange="changeSAMALanguage(this.value)">
+
+<option value="en">
+English
+</option>
+
+<option value="hi">
+हिन्दी
+</option>
+
+<option value="gu">
+ગુજરાતી
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="system-status">
+
+<span class="status-dot"></span>
+
+<span>
+SAMA Online
+</span>
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+<!-- =====================================================
+ALARM SUMMARY
+===================================================== -->
+
+<section
+id="alarmSummary"
+class="alarm-summary-grid">
+</section>
+
+
+
+<!-- =====================================================
+FILTER BAR
+===================================================== -->
+
+<section class="alarm-toolbar">
+
+
+<div class="alarm-search-wrap">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+id="alarmSearch"
+placeholder="Search alarm code, machine, category...">
+
+</div>
+
+
+
+<select
+id="alarmMachineFilter"
+class="alarm-filter">
+
+<option value="all">
+All Machines
+</option>
+
+<option value="Stringer">
+ATW Stringer
+</option>
+
+<option value="Laminator">
+SC Laminator
+</option>
+
+<option value="EL">
+EL Tester
+</option>
+
+<option value="AOI">
+AOI
+</option>
+
+</select>
+
+
+
+<select
+id="alarmSeverityFilter"
+class="alarm-filter">
+
+<option value="all">
+All Severity
+</option>
+
+<option value="Critical">
+Critical
+</option>
+
+<option value="High">
+High
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+<option value="Low">
+Low
+</option>
+
+</select>
+
+
+
+<select
+id="alarmCategoryFilter"
+class="alarm-filter">
+
+<option value="all">
+All Categories
+</option>
+
+<option value="Servo">
+Servo
+</option>
+
+<option value="Vacuum">
+Vacuum
+</option>
+
+<option value="Sensor">
+Sensor
+</option>
+
+<option value="Temperature">
+Temperature
+</option>
+
+<option value="Pneumatic">
+Pneumatic
+</option>
+
+<option value="Vision">
+Vision
+</option>
+
+<option value="Communication">
+Communication
+</option>
+
+</select>
+
+
+</section>
+
+
+
+<!-- =====================================================
+ALARM TABLE
+===================================================== -->
+
+<section class="alarm-table-card">
+
+
+<div class="alarm-table-header">
+
+<div>
+
+<h3>
+Alarm Database
+</h3>
+
+<p>
+Click any alarm to view detailed SAMA diagnosis.
+</p>
+
+</div>
+
+
+<div
+id="alarmResultCount"
+class="alarm-result-count">
+</div>
+
+</div>
+
+
+
+<div class="alarm-table-scroll">
+
+
+<table class="alarm-table">
+
+
+<thead>
+
+<tr>
+
+<th>Alarm</th>
+
+<th>Machine</th>
+
+<th>Make</th>
+
+<th>Category</th>
+
+<th>Severity</th>
+
+<th>Description</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="alarmTableBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+ALARM DETAIL MODAL
+===================================================== -->
+
+<div
+id="alarmModal"
+class="machine-modal">
+
+
+<div
+class="machine-modal-overlay"
+onclick="closeAlarmModal()">
+</div>
+
+
+<div class="machine-modal-card alarm-modal-card">
+
+
+<button
+type="button"
+class="machine-modal-close"
+onclick="closeAlarmModal()">
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+
+<div id="alarmModalContent">
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- =====================================================
+JAVASCRIPT
+===================================================== -->
+
+<script src="../js/alarmDatabase.js"></script>
+
+<script src="../js/breakdownHistory.js"></script>
+
+<script src="../js/language.js"></script>
+
+<script src="../js/alarmHistory.js"></script>
+
+
+
+<script>
+
+
+function changeSAMALanguage(language){
+
+if(
+typeof setSAMALanguage === "function"
+){
+
+setSAMALanguage(language);
+
+}
+
+}
+
+
+
+function showComingSoon(feature){
+
+let language = "en";
+
+
+if(
+typeof getSAMALanguage === "function"
+){
+
+language =
+getSAMALanguage();
+
+}
+
+
+if(language === "hi"){
+
+alert(
+feature +
+" मॉड्यूल अभी विकासाधीन है।"
+);
+
+return;
+
+}
+
+
+if(language === "gu"){
+
+alert(
+feature +
+" મોડ્યુલ હાલમાં વિકાસ હેઠળ છે."
+);
+
+return;
+
+}
+
+
+alert(
+feature +
+" module is currently under development."
+);
+
+}
+
+
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+const selector =
+document.getElementById(
+"samaLanguageSelector"
+);
+
+
+if(
+selector &&
+typeof getSAMALanguage === "function"
+){
+
+selector.value =
+getSAMALanguage();
+
+}
+
+}
+);
+
+
+</script>
+
+
+</body>
+
+</html>
