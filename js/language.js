@@ -1,684 +1,519 @@
-// ============================================================
-// SAMA - MULTI LANGUAGE ENGINE
+// =====================================================
+// SAMA - Solex AI Maintenance Assistant
+// Multi-Language Controller
 // File: language.js
-// Languages:
-// English
-// Hindi
-// Gujarati
-// ============================================================
+// =====================================================
+//
+// Supported Languages:
+// English  - en
+// Hindi    - hi
+// Gujarati - gu
+//
+// =====================================================
 
 
 
-let samaLanguage = "en";
+// =====================================================
+// DEFAULT LANGUAGE
+// =====================================================
 
+let samaLanguage =
+    localStorage.getItem(
+        "samaLanguage"
+    ) || "en";
 
 
-// ============================================================
-// LANGUAGE MASTER
-// ============================================================
 
+// =====================================================
+// SUPPORTED LANGUAGES
+// =====================================================
 
-const samaTranslations = {
+const samaLanguages = {
 
-
-
-    // ========================================================
-    // ENGLISH
-    // ========================================================
-
-    en: {
-
-
-        appName:
-        "Solex AI Maintenance Assistant",
-
-
-        assistantName:
-        "SAMA",
-
-
-        subtitle:
-        "AI Maintenance Assistant",
-
-
-        online:
-        "Online",
-
-
-        aiChat:
-        "AI Chat",
-
-
-        machineStatus:
-        "Machine Status",
-
-
-        alarmHistory:
-        "Alarm History",
-
-
-        preventiveMaintenance:
-        "Preventive Maintenance",
-
-
-        spareInventory:
-        "Spare Inventory",
-
-
-        breakdownHistory:
-        "Breakdown History",
-
-
-        whySAMA:
-        "Why SAMA",
-
-
-        placeholder:
-        "Ask SAMA about machine, alarm, PM, spare...",
-
-
-        send:
-        "Send",
-
-
-        welcome:
-        "Welcome to SAMA",
-
-
-        intro:
-        "I am Solex AI Maintenance Assistant.",
-
-
-        canHelp:
-        "I can help with:",
-
-
-        machineBreakdown:
-        "Machine Breakdown",
-
-
-        alarmTroubleshooting:
-        "Alarm Troubleshooting",
-
-
-        pm:
-        "Preventive Maintenance",
-
-
-        spareRecommendation:
-        "Spare Recommendation",
-
-
-        machineHealth:
-        "Machine Health",
-
-
-        history:
-        "Breakdown History",
-
-
-        analyzing:
-        "SAMA is analyzing...",
-
-
-        machine:
-        "Machine",
-
-
-        manufacturer:
-        "Make",
-
-
-        status:
-        "Status",
-
-
-        healthScore:
-        "Health Score",
-
-
-        runtime:
-        "Runtime",
-
-
-        lastMaintenance:
-        "Last Maintenance",
-
-
-        nextPM:
-        "Next PM",
-
-
-        parameters:
-        "Machine Parameters",
-
-
-        alarmDiagnosis:
-        "Alarm Diagnosis",
-
-
-        alarmCode:
-        "Alarm Code",
-
-
-        description:
-        "Description",
-
-
-        possibleCause:
-        "Possible Cause",
-
-
-        recommendedAction:
-        "Recommended Action",
-
-
-        confidence:
-        "Confidence",
-
-
-        troubleshooting:
-        "Troubleshooting Analysis",
-
-
-        checks:
-        "Recommended Checks",
-
-
-        action:
-        "SAMA Action",
-
-
-        pmChecklist:
-        "Preventive Maintenance Checklist",
-
-
-        criticalSpare:
-        "Critical Spare Recommendation",
-
-
-        noMachine:
-        "Machine not found",
-
-
-        noAlarm:
-        "Alarm code not available in database",
-
-
-        verifyBeforeReset:
-        "Verify root cause before machine reset.",
-
-
-        fasterDiagnosis:
-        "Faster Diagnosis",
-
-
-        reducedMTTR:
-        "Reduced MTTR",
-
-
-        improvedOEE:
-        "Improved OEE",
-
-
-        knowledgeRetention:
-        "Knowledge Retention"
-
-
+    en:{
+        code:"en",
+        name:"English",
+        nativeName:"English",
+        icon:"🇬🇧"
     },
 
-
-
-    // ========================================================
-    // HINDI
-    // ========================================================
-
-    hi: {
-
-
-        appName:
-        "सोलेक्स एआई मेंटेनेंस असिस्टेंट",
-
-
-        assistantName:
-        "SAMA",
-
-
-        subtitle:
-        "एआई मेंटेनेंस असिस्टेंट",
-
-
-        online:
-        "ऑनलाइन",
-
-
-        aiChat:
-        "एआई चैट",
-
-
-        machineStatus:
-        "मशीन स्थिति",
-
-
-        alarmHistory:
-        "अलार्म इतिहास",
-
-
-        preventiveMaintenance:
-        "निवारक रखरखाव",
-
-
-        spareInventory:
-        "स्पेयर इन्वेंटरी",
-
-
-        breakdownHistory:
-        "ब्रेकडाउन इतिहास",
-
-
-        whySAMA:
-        "SAMA क्यों?",
-
-
-        placeholder:
-        "मशीन, अलार्म, PM या स्पेयर के बारे में SAMA से पूछें...",
-
-
-        send:
-        "भेजें",
-
-
-        welcome:
-        "SAMA में आपका स्वागत है",
-
-
-        intro:
-        "मैं सोलेक्स एआई मेंटेनेंस असिस्टेंट हूँ।",
-
-
-        canHelp:
-        "मैं इन विषयों में सहायता कर सकता हूँ:",
-
-
-        machineBreakdown:
-        "मशीन ब्रेकडाउन",
-
-
-        alarmTroubleshooting:
-        "अलार्म ट्रबलशूटिंग",
-
-
-        pm:
-        "निवारक रखरखाव",
-
-
-        spareRecommendation:
-        "स्पेयर सुझाव",
-
-
-        machineHealth:
-        "मशीन स्वास्थ्य",
-
-
-        history:
-        "ब्रेकडाउन इतिहास",
-
-
-        analyzing:
-        "SAMA विश्लेषण कर रहा है...",
-
-
-        machine:
-        "मशीन",
-
-
-        manufacturer:
-        "मेक",
-
-
-        status:
-        "स्थिति",
-
-
-        healthScore:
-        "हेल्थ स्कोर",
-
-
-        runtime:
-        "रनटाइम",
-
-
-        lastMaintenance:
-        "अंतिम रखरखाव",
-
-
-        nextPM:
-        "अगला PM",
-
-
-        parameters:
-        "मशीन पैरामीटर",
-
-
-        alarmDiagnosis:
-        "अलार्म डायग्नोसिस",
-
-
-        alarmCode:
-        "अलार्म कोड",
-
-
-        description:
-        "विवरण",
-
-
-        possibleCause:
-        "संभावित कारण",
-
-
-        recommendedAction:
-        "अनुशंसित कार्रवाई",
-
-
-        confidence:
-        "विश्वसनीयता",
-
-
-        troubleshooting:
-        "ट्रबलशूटिंग विश्लेषण",
-
-
-        checks:
-        "अनुशंसित जांच",
-
-
-        action:
-        "SAMA कार्रवाई",
-
-
-        pmChecklist:
-        "निवारक रखरखाव चेकलिस्ट",
-
-
-        criticalSpare:
-        "महत्वपूर्ण स्पेयर सुझाव",
-
-
-        noMachine:
-        "मशीन नहीं मिली",
-
-
-        noAlarm:
-        "अलार्म कोड डेटाबेस में उपलब्ध नहीं है",
-
-
-        verifyBeforeReset:
-        "मशीन रीसेट करने से पहले मूल कारण की पुष्टि करें।",
-
-
-        fasterDiagnosis:
-        "तेज़ समस्या पहचान",
-
-
-        reducedMTTR:
-        "कम MTTR",
-
-
-        improvedOEE:
-        "बेहतर OEE",
-
-
-        knowledgeRetention:
-        "ज्ञान संरक्षण"
-
-
+    hi:{
+        code:"hi",
+        name:"Hindi",
+        nativeName:"हिन्दी",
+        icon:"🇮🇳"
     },
 
-
-
-    // ========================================================
-    // GUJARATI
-    // ========================================================
-
-    gu: {
-
-
-        appName:
-        "સોલેક્સ AI મેન્ટેનન્સ આસિસ્ટન્ટ",
-
-
-        assistantName:
-        "SAMA",
-
-
-        subtitle:
-        "AI મેન્ટેનન્સ આસિસ્ટન્ટ",
-
-
-        online:
-        "ઓનલાઇન",
-
-
-        aiChat:
-        "AI ચેટ",
-
-
-        machineStatus:
-        "મશીન સ્ટેટસ",
-
-
-        alarmHistory:
-        "અલાર્મ હિસ્ટ્રી",
-
-
-        preventiveMaintenance:
-        "પ્રિવેન્ટિવ મેન્ટેનન્સ",
-
-
-        spareInventory:
-        "સ્પેર ઇન્વેન્ટરી",
-
-
-        breakdownHistory:
-        "બ્રેકડાઉન હિસ્ટ્રી",
-
-
-        whySAMA:
-        "SAMA શા માટે?",
-
-
-        placeholder:
-        "મશીન, અલાર્મ, PM અથવા સ્પેર વિશે SAMA ને પૂછો...",
-
-
-        send:
-        "મોકલો",
-
-
-        welcome:
-        "SAMA માં આપનું સ્વાગત છે",
-
-
-        intro:
-        "હું સોલેક્સ AI મેન્ટેનન્સ આસિસ્ટન્ટ છું.",
-
-
-        canHelp:
-        "હું નીચેના વિષયોમાં મદદ કરી શકું છું:",
-
-
-        machineBreakdown:
-        "મશીન બ્રેકડાઉન",
-
-
-        alarmTroubleshooting:
-        "અલાર્મ ટ્રબલશૂટિંગ",
-
-
-        pm:
-        "પ્રિવેન્ટિવ મેન્ટેનન્સ",
-
-
-        spareRecommendation:
-        "સ્પેર ભલામણ",
-
-
-        machineHealth:
-        "મશીન હેલ્થ",
-
-
-        history:
-        "બ્રેકડાઉન હિસ્ટ્રી",
-
-
-        analyzing:
-        "SAMA વિશ્લેષણ કરી રહ્યું છે...",
-
-
-        machine:
-        "મશીન",
-
-
-        manufacturer:
-        "મેક",
-
-
-        status:
-        "સ્ટેટસ",
-
-
-        healthScore:
-        "હેલ્થ સ્કોર",
-
-
-        runtime:
-        "રનટાઇમ",
-
-
-        lastMaintenance:
-        "છેલ્લું મેન્ટેનન્સ",
-
-
-        nextPM:
-        "આગામી PM",
-
-
-        parameters:
-        "મશીન પેરામીટર્સ",
-
-
-        alarmDiagnosis:
-        "અલાર્મ ડાયગ્નોસિસ",
-
-
-        alarmCode:
-        "અલાર્મ કોડ",
-
-
-        description:
-        "વર્ણન",
-
-
-        possibleCause:
-        "સંભવિત કારણ",
-
-
-        recommendedAction:
-        "ભલામણ કરેલ કાર્યવાહી",
-
-
-        confidence:
-        "વિશ્વસનીયતા",
-
-
-        troubleshooting:
-        "ટ્રબલશૂટિંગ વિશ્લેષણ",
-
-
-        checks:
-        "ભલામણ કરેલ ચેક્સ",
-
-
-        action:
-        "SAMA કાર્યવાહી",
-
-
-        pmChecklist:
-        "પ્રિવેન્ટિવ મેન્ટેનન્સ ચેકલિસ્ટ",
-
-
-        criticalSpare:
-        "મહત્વપૂર્ણ સ્પેર ભલામણ",
-
-
-        noMachine:
-        "મશીન મળી નથી",
-
-
-        noAlarm:
-        "અલાર્મ કોડ ડેટાબેઝમાં ઉપલબ્ધ નથી",
-
-
-        verifyBeforeReset:
-        "મશીન રીસેટ કરતા પહેલા મૂળ કારણ ચકાસો.",
-
-
-        fasterDiagnosis:
-        "ઝડપી નિદાન",
-
-
-        reducedMTTR:
-        "ઘટાડેલ MTTR",
-
-
-        improvedOEE:
-        "સુધારેલ OEE",
-
-
-        knowledgeRetention:
-        "જ્ઞાન જાળવણી"
-
-
+    gu:{
+        code:"gu",
+        name:"Gujarati",
+        nativeName:"ગુજરાતી",
+        icon:"🇮🇳"
     }
-
 
 };
 
 
 
-// ============================================================
-// TRANSLATION HELPER
-// ============================================================
+// =====================================================
+// UI TRANSLATIONS
+// =====================================================
+
+const samaTranslations = {
 
 
-function t(key) {
+    // =================================================
+    // ENGLISH
+    // =================================================
 
+    en:{
+
+        appName:
+        "Solex AI Maintenance Assistant",
+
+        subtitle:
+        "Industrial Troubleshooting & Maintenance Support",
+
+        aiChat:
+        "AI Chat",
+
+        machineStatus:
+        "Machine Status",
+
+        alarmHistory:
+        "Alarm History",
+
+        preventiveMaintenance:
+        "Preventive Maintenance",
+
+        spareInventory:
+        "Spare Inventory",
+
+        breakdownHistory:
+        "Breakdown History",
+
+        whySAMA:
+        "Why SAMA",
+
+        online:
+        "Online",
+
+        samaOnline:
+        "SAMA Online",
+
+        placeholder:
+        "Ask SAMA about machine, alarm, PM, spare...",
+
+        send:
+        "Send",
+
+        operator:
+        "Operator",
+
+        analyzing:
+        "SAMA is analyzing...",
+
+        machine:
+        "Machine",
+
+        make:
+        "Make",
+
+        process:
+        "Process",
+
+        status:
+        "Status",
+
+        alarm:
+        "Alarm",
+
+        alarmCode:
+        "Alarm Code",
+
+        description:
+        "Description",
+
+        possibleCauses:
+        "Possible Causes",
+
+        recommendedChecks:
+        "Recommended Checks",
+
+        correctiveAction:
+        "Corrective Action",
+
+        rootCause:
+        "Root Cause",
+
+        recommendation:
+        "SAMA Recommendation",
+
+        confidence:
+        "Confidence",
+
+        health:
+        "Machine Health",
+
+        criticality:
+        "Criticality",
+
+        downtime:
+        "Downtime",
+
+        breakdown:
+        "Breakdown",
+
+        pm:
+        "Preventive Maintenance",
+
+        spare:
+        "Spare Parts",
+
+        welcome:
+        "Welcome to SAMA",
+
+        welcomeDescription:
+        "Solex AI Maintenance Assistant",
+
+        comingSoon:
+        "module is currently under development."
+
+    },
+
+
+
+    // =================================================
+    // HINDI
+    // =================================================
+
+    hi:{
+
+        appName:
+        "सोलेक्स AI मेंटेनेंस असिस्टेंट",
+
+        subtitle:
+        "इंडस्ट्रियल ट्रबलशूटिंग और मेंटेनेंस सपोर्ट",
+
+        aiChat:
+        "AI चैट",
+
+        machineStatus:
+        "मशीन स्थिति",
+
+        alarmHistory:
+        "अलार्म हिस्ट्री",
+
+        preventiveMaintenance:
+        "प्रिवेंटिव मेंटेनेंस",
+
+        spareInventory:
+        "स्पेयर इन्वेंटरी",
+
+        breakdownHistory:
+        "ब्रेकडाउन हिस्ट्री",
+
+        whySAMA:
+        "SAMA क्यों?",
+
+        online:
+        "ऑनलाइन",
+
+        samaOnline:
+        "SAMA ऑनलाइन",
+
+        placeholder:
+        "मशीन, अलार्म, PM या स्पेयर के बारे में SAMA से पूछें...",
+
+        send:
+        "भेजें",
+
+        operator:
+        "ऑपरेटर",
+
+        analyzing:
+        "SAMA विश्लेषण कर रहा है...",
+
+        machine:
+        "मशीन",
+
+        make:
+        "मेक",
+
+        process:
+        "प्रोसेस",
+
+        status:
+        "स्थिति",
+
+        alarm:
+        "अलार्म",
+
+        alarmCode:
+        "अलार्म कोड",
+
+        description:
+        "विवरण",
+
+        possibleCauses:
+        "संभावित कारण",
+
+        recommendedChecks:
+        "अनुशंसित जांच",
+
+        correctiveAction:
+        "सुधारात्मक कार्रवाई",
+
+        rootCause:
+        "मूल कारण",
+
+        recommendation:
+        "SAMA सुझाव",
+
+        confidence:
+        "विश्वसनीयता",
+
+        health:
+        "मशीन हेल्थ",
+
+        criticality:
+        "क्रिटिकलिटी",
+
+        downtime:
+        "डाउनटाइम",
+
+        breakdown:
+        "ब्रेकडाउन",
+
+        pm:
+        "प्रिवेंटिव मेंटेनेंस",
+
+        spare:
+        "स्पेयर पार्ट्स",
+
+        welcome:
+        "SAMA में आपका स्वागत है",
+
+        welcomeDescription:
+        "Solex AI Maintenance Assistant",
+
+        comingSoon:
+        "मॉड्यूल अभी विकसित किया जा रहा है।"
+
+    },
+
+
+
+    // =================================================
+    // GUJARATI
+    // =================================================
+
+    gu:{
+
+        appName:
+        "સોલેક્સ AI મેન્ટેનન્સ આસિસ્ટન્ટ",
+
+        subtitle:
+        "ઇન્ડસ્ટ્રીયલ ટ્રબલશૂટિંગ અને મેન્ટેનન્સ સપોર્ટ",
+
+        aiChat:
+        "AI ચેટ",
+
+        machineStatus:
+        "મશીન સ્ટેટસ",
+
+        alarmHistory:
+        "અલાર્મ હિસ્ટ્રી",
+
+        preventiveMaintenance:
+        "પ્રિવેન્ટિવ મેન્ટેનન્સ",
+
+        spareInventory:
+        "સ્પેર ઇન્વેન્ટરી",
+
+        breakdownHistory:
+        "બ્રેકડાઉન હિસ્ટ્રી",
+
+        whySAMA:
+        "SAMA શા માટે?",
+
+        online:
+        "ઓનલાઇન",
+
+        samaOnline:
+        "SAMA ઓનલાઇન",
+
+        placeholder:
+        "મશીન, અલાર્મ, PM અથવા સ્પેર વિશે SAMA ને પૂછો...",
+
+        send:
+        "મોકલો",
+
+        operator:
+        "ઓપરેટર",
+
+        analyzing:
+        "SAMA વિશ્લેષણ કરી રહ્યું છે...",
+
+        machine:
+        "મશીન",
+
+        make:
+        "મેક",
+
+        process:
+        "પ્રોસેસ",
+
+        status:
+        "સ્ટેટસ",
+
+        alarm:
+        "અલાર્મ",
+
+        alarmCode:
+        "અલાર્મ કોડ",
+
+        description:
+        "વર્ણન",
+
+        possibleCauses:
+        "સંભવિત કારણો",
+
+        recommendedChecks:
+        "ભલામણ કરેલ તપાસ",
+
+        correctiveAction:
+        "સુધારાત્મક કાર્યવાહી",
+
+        rootCause:
+        "મૂળ કારણ",
+
+        recommendation:
+        "SAMA ભલામણ",
+
+        confidence:
+        "વિશ્વસનીયતા",
+
+        health:
+        "મશીન હેલ્થ",
+
+        criticality:
+        "ક્રિટિકલિટી",
+
+        downtime:
+        "ડાઉનટાઇમ",
+
+        breakdown:
+        "બ્રેકડાઉન",
+
+        pm:
+        "પ્રિવેન્ટિવ મેન્ટેનન્સ",
+
+        spare:
+        "સ્પેર પાર્ટ્સ",
+
+        welcome:
+        "SAMA માં આપનું સ્વાગત છે",
+
+        welcomeDescription:
+        "Solex AI Maintenance Assistant",
+
+        comingSoon:
+        "મોડ્યુલ હાલમાં વિકાસ હેઠળ છે."
+
+    }
+
+};
+
+
+
+// =====================================================
+// GET CURRENT LANGUAGE
+// =====================================================
+
+function getSAMALanguage(){
+
+    return samaLanguage;
+
+}
+
+
+
+// =====================================================
+// SET LANGUAGE
+// =====================================================
+
+function setSAMALanguage(language){
+
+    if(
+        !samaLanguages[
+            language
+        ]
+    ){
+
+        console.warn(
+            "Unsupported SAMA language:",
+            language
+        );
+
+        return false;
+
+    }
+
+
+    samaLanguage =
+        language;
+
+
+    localStorage.setItem(
+        "samaLanguage",
+        language
+    );
+
+
+    updateLanguageUI();
+
+
+    return true;
+
+}
+
+
+
+// =====================================================
+// TRANSLATION FUNCTION
+// =====================================================
+
+function t(key){
 
     const language =
-        samaTranslations[samaLanguage]
+        samaTranslations[
+            samaLanguage
+        ]
         ||
         samaTranslations.en;
 
 
-
     if(
-        language[key] !== undefined
-    ) {
+        language[key] !==
+        undefined
+    ){
 
         return language[key];
 
     }
 
 
+    // English fallback
 
     if(
-        samaTranslations.en[key] !== undefined
-    ) {
+        samaTranslations.en[key] !==
+        undefined
+    ){
 
         return samaTranslations.en[key];
 
     }
-
 
 
     return key;
@@ -687,87 +522,137 @@ function t(key) {
 
 
 
-// ============================================================
-// SET LANGUAGE
-// ============================================================
+// =====================================================
+// LANGUAGE SELECTOR
+// =====================================================
 
+function createLanguageSelector(){
 
-function setSAMALanguage(languageCode) {
-
+    // Avoid duplicate selector
 
     if(
-        !samaTranslations[languageCode]
-    ) {
+        document.getElementById(
+            "samaLanguageSelector"
+        )
+    ){
 
-        languageCode = "en";
+        return;
 
     }
 
 
+    const selector =
+        document.createElement(
+            "select"
+        );
 
-    samaLanguage =
-        languageCode;
+
+    selector.id =
+        "samaLanguageSelector";
 
 
+    selector.className =
+        "language-selector";
 
-    localStorage.setItem(
-        "samaLanguage",
-        languageCode
+
+    Object.values(
+        samaLanguages
+    )
+    .forEach(
+        language => {
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                language.code;
+
+
+            option.textContent =
+                language.nativeName;
+
+
+            if(
+                language.code ===
+                samaLanguage
+            ){
+
+                option.selected =
+                    true;
+
+            }
+
+
+            selector.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    selector.addEventListener(
+        "change",
+        function(){
+
+            setSAMALanguage(
+                this.value
+            );
+
+            refreshSAMAWelcome();
+
+        }
     );
 
 
 
-    applySAMALanguage();
+    // Add to topbar
 
-
-
-    if(
-        typeof refreshSAMAWelcome === "function"
-    ) {
-
-        refreshSAMAWelcome();
-
-    }
-
-}
-
-
-
-// ============================================================
-// GET CURRENT LANGUAGE
-// ============================================================
-
-
-function getSAMALanguage() {
-
-    return samaLanguage;
-
-}
-
-
-
-// ============================================================
-// LOAD SAVED LANGUAGE
-// ============================================================
-
-
-function loadSAMALanguage() {
-
-
-    const saved =
-        localStorage.getItem(
-            "samaLanguage"
+    const topbar =
+        document.querySelector(
+            ".topbar"
         );
 
 
+    if(topbar){
 
-    if(
-        saved &&
-        samaTranslations[saved]
-    ) {
+        const wrapper =
+            document.createElement(
+                "div"
+            );
 
-        samaLanguage =
-            saved;
+
+        wrapper.className =
+            "language-control";
+
+
+        const icon =
+            document.createElement(
+                "span"
+            );
+
+
+        icon.innerHTML =
+            "🌐";
+
+
+        wrapper.appendChild(
+            icon
+        );
+
+
+        wrapper.appendChild(
+            selector
+        );
+
+
+        topbar.appendChild(
+            wrapper
+        );
 
     }
 
@@ -775,72 +660,136 @@ function loadSAMALanguage() {
 
 
 
-// ============================================================
-// APPLY LANGUAGE TO PAGE
-// ============================================================
+// =====================================================
+// UPDATE UI LANGUAGE
+// =====================================================
+
+function updateLanguageUI(){
 
 
-function applySAMALanguage() {
+    // -----------------------------------------------
+    // Page title
+    // -----------------------------------------------
 
-
-    document
-        .querySelectorAll(
-            "[data-i18n]"
-        )
-        .forEach(element => {
-
-
-            const key =
-                element.getAttribute(
-                    "data-i18n"
-                );
-
-
-            if(key) {
-
-                element.textContent =
-                    t(key);
-
-            }
-
-        });
+    document.title =
+        "SAMA - " +
+        t("appName");
 
 
 
-    document
-        .querySelectorAll(
-            "[data-i18n-placeholder]"
-        )
-        .forEach(element => {
+    // -----------------------------------------------
+    // Sidebar
+    // -----------------------------------------------
+
+    updateText(
+        "[data-i18n='aiChat']",
+        t("aiChat")
+    );
 
 
-            const key =
-                element.getAttribute(
-                    "data-i18n-placeholder"
-                );
+    updateText(
+        "[data-i18n='machineStatus']",
+        t("machineStatus")
+    );
 
 
-            if(key) {
-
-                element.placeholder =
-                    t(key);
-
-            }
-
-        });
+    updateText(
+        "[data-i18n='alarmHistory']",
+        t("alarmHistory")
+    );
 
 
+    updateText(
+        "[data-i18n='preventiveMaintenance']",
+        t("preventiveMaintenance")
+    );
 
-    const languageSelector =
+
+    updateText(
+        "[data-i18n='spareInventory']",
+        t("spareInventory")
+    );
+
+
+    updateText(
+        "[data-i18n='breakdownHistory']",
+        t("breakdownHistory")
+    );
+
+
+    updateText(
+        "[data-i18n='whySAMA']",
+        t("whySAMA")
+    );
+
+
+
+    // -----------------------------------------------
+    // Topbar
+    // -----------------------------------------------
+
+    updateText(
+        "[data-i18n='appName']",
+        t("appName")
+    );
+
+
+    updateText(
+        "[data-i18n='subtitle']",
+        t("subtitle")
+    );
+
+
+    updateText(
+        "[data-i18n='samaOnline']",
+        t("samaOnline")
+    );
+
+
+
+    // -----------------------------------------------
+    // Send button
+    // -----------------------------------------------
+
+    updateText(
+        "[data-i18n='send']",
+        t("send")
+    );
+
+
+
+    // -----------------------------------------------
+    // Input placeholder
+    // -----------------------------------------------
+
+    const input =
         document.getElementById(
-            "languageSelector"
+            "userInput"
         );
 
 
+    if(input){
 
-    if(languageSelector) {
+        input.placeholder =
+            t("placeholder");
 
-        languageSelector.value =
+    }
+
+
+
+    // -----------------------------------------------
+    // Selector
+    // -----------------------------------------------
+
+    const selector =
+        document.getElementById(
+            "samaLanguageSelector"
+        );
+
+
+    if(selector){
+
+        selector.value =
             samaLanguage;
 
     }
@@ -849,290 +798,330 @@ function applySAMALanguage() {
 
 
 
-// ============================================================
-// TRANSLATE COMMON MAINTENANCE ACTIONS
-// ============================================================
+// =====================================================
+// SAFE TEXT UPDATE
+// =====================================================
 
+function updateText(
+    selector,
+    value
+){
 
-const samaMaintenancePhrases = {
+    const elements =
+        document.querySelectorAll(
+            selector
+        );
 
 
-    checkVacuumPressure: {
+    elements.forEach(
+        element => {
 
-        en:
-        "Check vacuum pressure",
+            element.textContent =
+                value;
 
-        hi:
-        "वैक्यूम प्रेशर जांचें",
-
-        gu:
-        "વેક્યૂમ પ્રેશર તપાસો"
-
-    },
-
-
-    inspectPickupCup: {
-
-        en:
-        "Inspect pickup cup condition",
-
-        hi:
-        "पिकअप कप की स्थिति जांचें",
-
-        gu:
-        "પિકઅપ કપની સ્થિતિ તપાસો"
-
-    },
-
-
-    checkServoDrive: {
-
-        en:
-        "Check servo drive status",
-
-        hi:
-        "सर्वो ड्राइव की स्थिति जांचें",
-
-        gu:
-        "સર્વો ડ્રાઇવ સ્ટેટસ તપાસો"
-
-    },
-
-
-    checkEncoder: {
-
-        en:
-        "Check encoder feedback",
-
-        hi:
-        "एनकोडर फीडबैक जांचें",
-
-        gu:
-        "એન્કોડર ફીડબેક તપાસો"
-
-    },
-
-
-    checkAirPressure: {
-
-        en:
-        "Check air pressure",
-
-        hi:
-        "एयर प्रेशर जांचें",
-
-        gu:
-        "એર પ્રેશર તપાસો"
-
-    },
-
-
-    inspectSensor: {
-
-        en:
-        "Inspect sensor condition",
-
-        hi:
-        "सेंसर की स्थिति जांचें",
-
-        gu:
-        "સેન્સરની સ્થિતિ તપાસો"
-
-    },
-
-
-    checkPLCAlarm: {
-
-        en:
-        "Check PLC alarm history",
-
-        hi:
-        "PLC अलार्म हिस्ट्री जांचें",
-
-        gu:
-        "PLC અલાર્મ હિસ્ટ્રી તપાસો"
-
-    },
-
-
-    verifyTemperature: {
-
-        en:
-        "Verify temperature feedback",
-
-        hi:
-        "टेम्परेचर फीडबैक सत्यापित करें",
-
-        gu:
-        "ટેમ્પરેચર ફીડબેક ચકાસો"
-
-    },
-
-
-    inspectSSR: {
-
-        en:
-        "Inspect SSR output",
-
-        hi:
-        "SSR आउटपुट जांचें",
-
-        gu:
-        "SSR આઉટપુટ તપાસો"
-
-    },
-
-
-    checkVacuumPump: {
-
-        en:
-        "Check vacuum pump condition",
-
-        hi:
-        "वैक्यूम पंप की स्थिति जांचें",
-
-        gu:
-        "વેક્યૂમ પંપની સ્થિતિ તપાસો"
-
-    }
-
-
-};
-
-
-
-// ============================================================
-// TRANSLATE MAINTENANCE PHRASE
-// ============================================================
-
-
-function translateMaintenancePhrase(
-    phraseKey
-) {
-
-
-    const phrase =
-        samaMaintenancePhrases[
-            phraseKey
-        ];
-
-
-
-    if(!phrase) {
-
-        return phraseKey;
-
-    }
-
-
-
-    return (
-        phrase[samaLanguage]
-        ||
-        phrase.en
+        }
     );
 
 }
 
 
 
-// ============================================================
-// LANGUAGE NAME
-// ============================================================
+// =====================================================
+// WELCOME MESSAGE
+// =====================================================
+
+function getSAMAWelcomeMessage(){
 
 
-function getLanguageName(
-    languageCode
-) {
+    if(
+        samaLanguage ===
+        "hi"
+    ){
+
+        return `
+
+        👋 <b>SAMA में आपका स्वागत है</b>
+
+        <br><br>
+
+        <b>S</b>olex
+        <b>A</b>I
+        <b>M</b>aintenance
+        <b>A</b>ssistant
+
+        <br><br>
+
+        मैं आपकी सहायता कर सकता हूँ:
+
+        <br><br>
+
+        ⚙ मशीन ब्रेकडाउन
+
+        <br>
+
+        🚨 अलार्म ट्रबलशूटिंग
+
+        <br>
+
+        🛠 प्रिवेंटिव मेंटेनेंस
+
+        <br>
+
+        📦 स्पेयर पार्ट्स
+
+        <br>
+
+        📊 मशीन हेल्थ
+
+        <br>
+
+        📚 ब्रेकडाउन हिस्ट्री
+
+        <br><br>
+
+        <b>उदाहरण:</b>
+
+        <br>
+
+        "ATW Stringer cell breakage"
+
+        <br>
+
+        "Servo alarm E37"
+
+        <br>
+
+        "SC Laminator PM"
+
+        <br>
+
+        "Laminator vacuum problem"
+
+        `;
+
+    }
 
 
-    const names = {
 
-        en: "English",
+    if(
+        samaLanguage ===
+        "gu"
+    ){
 
-        hi: "हिन्दी",
+        return `
 
-        gu: "ગુજરાતી"
+        👋 <b>SAMA માં આપનું સ્વાગત છે</b>
 
-    };
+        <br><br>
+
+        <b>S</b>olex
+        <b>A</b>I
+        <b>M</b>aintenance
+        <b>A</b>ssistant
+
+        <br><br>
+
+        હું તમને મદદ કરી શકું છું:
+
+        <br><br>
+
+        ⚙ મશીન બ્રેકડાઉન
+
+        <br>
+
+        🚨 અલાર્મ ટ્રબલશૂટિંગ
+
+        <br>
+
+        🛠 પ્રિવેન્ટિવ મેન્ટેનન્સ
+
+        <br>
+
+        📦 સ્પેર પાર્ટ્સ
+
+        <br>
+
+        📊 મશીન હેલ્થ
+
+        <br>
+
+        📚 બ્રેકડાઉન હિસ્ટ્રી
+
+        <br><br>
+
+        <b>ઉદાહરણ:</b>
+
+        <br>
+
+        "ATW Stringer cell breakage"
+
+        <br>
+
+        "Servo alarm E37"
+
+        <br>
+
+        "SC Laminator PM"
+
+        <br>
+
+        "Laminator vacuum problem"
+
+        `;
+
+    }
 
 
-    return (
-        names[languageCode]
-        ||
-        "English"
-    );
+
+    // =================================================
+    // ENGLISH
+    // =================================================
+
+    return `
+
+    👋 Welcome to <b>SAMA</b>
+
+    <br><br>
+
+    <b>S</b>olex
+    <b>A</b>I
+    <b>M</b>aintenance
+    <b>A</b>ssistant
+
+    <br><br>
+
+    I can help with:
+
+    <br><br>
+
+    ⚙ Machine Breakdown
+
+    <br>
+
+    🚨 Alarm Troubleshooting
+
+    <br>
+
+    🛠 Preventive Maintenance
+
+    <br>
+
+    📦 Spare Parts
+
+    <br>
+
+    📊 Machine Health
+
+    <br>
+
+    📚 Breakdown History
+
+    <br><br>
+
+    <b>Try:</b>
+
+    <br>
+
+    "ATW Stringer cell breakage"
+
+    <br>
+
+    "Servo alarm E37"
+
+    <br>
+
+    "SC Laminator PM"
+
+    <br>
+
+    "Laminator vacuum problem"
+
+    `;
 
 }
 
 
 
-// ============================================================
+// =====================================================
+// REFRESH WELCOME MESSAGE
+// =====================================================
+
+function refreshSAMAWelcome(){
+
+
+    const chatBox =
+        document.getElementById(
+            "chatBox"
+        );
+
+
+    if(!chatBox){
+
+        return;
+
+    }
+
+
+    // Only replace welcome if conversation
+    // has not started yet.
+
+    if(
+        typeof conversationHistory !==
+        "undefined"
+        &&
+        conversationHistory.length > 0
+    ){
+
+        return;
+
+    }
+
+
+    chatBox.innerHTML = "";
+
+
+    if(
+        typeof addBotMessage ===
+        "function"
+    ){
+
+        addBotMessage(
+            getSAMAWelcomeMessage()
+        );
+
+    }
+
+}
+
+
+
+// =====================================================
 // INITIALIZE LANGUAGE
-// ============================================================
-
+// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    function()
-    {
+    function(){
 
+        createLanguageSelector();
 
-        loadSAMALanguage();
-
-
-        applySAMALanguage();
-
-
-        const selector =
-            document.getElementById(
-                "languageSelector"
-            );
-
-
-
-        if(selector) {
-
-
-            selector.value =
-                samaLanguage;
-
-
-
-            selector.addEventListener(
-                "change",
-                function()
-                {
-
-
-                    setSAMALanguage(
-                        this.value
-                    );
-
-                }
-            );
-
-        }
-
+        updateLanguageUI();
 
     }
 );
 
 
 
-// ============================================================
+// =====================================================
 // READY
-// ============================================================
-
+// =====================================================
 
 console.log(
-    "🌐 SAMA Language Engine Loaded"
+    "✅ SAMA Language Engine Loaded"
 );
 
 
 console.log(
     "Current Language:",
-    getLanguageName(
-        samaLanguage
-    )
+    getSAMALanguage()
 );
