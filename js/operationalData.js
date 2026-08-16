@@ -101,6 +101,164 @@
             { id: "STR-01-SOLD", machine: "Stringer-01", line: "Line-1", name: "Soldering Temperature", actual: 345, setpoint: 345, min: 330, max: 360, unit: "°C", source: "Heater controller" },
             { id: "STR-01-VAC", machine: "Stringer-01", line: "Line-1", name: "Cell Vacuum", actual: -72, setpoint: -75, min: -90, max: -60, unit: "kPa", source: "Vacuum sensor" },
             { id: "FRM-01-AIR", machine: "Framing-01", line: "Line-3", name: "Air Pressure", actual: 0.47, setpoint: 0.60, min: 0.50, max: 0.70, unit: "MPa", source: "Pressure transmitter" }
+        ],
+
+        previousShift: {
+            shift: "Shift C",
+            window: "22:00–06:00",
+            supervisor: "Night Operations Team",
+            productionActual: 9264,
+            productionPlan: 9600,
+            planAchievement: 96.50,
+            inspected: 9192,
+            yield: 98.94,
+            rejectionRate: 1.06,
+            downtimeMinutes: 83,
+            breakdownCount: 2,
+            unresolvedItems: 4,
+            topDefect: "EL micro-crack",
+            topDefectCount: 34,
+            lineSummary: [
+                { line: "Line-1", actual: 3158, plan: 3200, rejection: 0.72, downtime: 18 },
+                { line: "Line-2", actual: 2986, plan: 3200, rejection: 1.41, downtime: 42 },
+                { line: "Line-3", actual: 3120, plan: 3200, rejection: 1.03, downtime: 23 }
+            ]
+        },
+
+        shiftHandover: {
+            fromShift: "Shift C",
+            toShift: "Shift A",
+            handoverAt: "06:00",
+            overallStatus: "Attention required",
+            safetyStatus: "No open safety incident",
+            carryForwardCount: 4,
+            acknowledgedCount: 3,
+            productionNote: "Recover 336-module previous-shift gap; protect Line-2 output during Laminator-02 monitoring.",
+            qualityNote: "Contain EL micro-crack increase on Line-2 and verify first three lots after vacuum stabilisation.",
+            maintenanceNote: "Framing-01 cylinder alarm remains the highest priority; Stringer-02 PM is in progress.",
+            ppcNote: "Backsheet material for Line-2 is released; confirm arrival at point-of-use before 08:30.",
+            managementNote: "Line-2 is the shared cross-functional risk for output, rejection and downtime."
+        },
+
+        problemBoard: [
+            {
+                id: "PRB-2401", priority: "Critical", department: "Maintenance", owner: "Mechanical Maintenance",
+                line: "Line-3", machine: "Framing-01", category: "Breakdown", status: "In progress",
+                openedAt: "05:42", ageMinutes: 138, issue: "Frame clamping cylinder not reaching forward position",
+                impact: "Line-3 framing stopped; estimated loss 118 modules/hour",
+                probableCause: "Low air pressure or cylinder reed-switch alignment",
+                safeOperatorAction: "Keep machine isolated, verify air supply indication and do not bypass the interlock",
+                nextAction: "Leak test pneumatic circuit, align sensor and validate ten dry cycles"
+            },
+            {
+                id: "PRB-2402", priority: "High", department: "Quality", owner: "Quality + Process Engineering",
+                line: "Line-2", machine: "Laminator-02", category: "Process deviation", status: "Monitoring",
+                openedAt: "04:55", ageMinutes: 185, issue: "Vacuum actual −89 kPa against approved maximum −90 kPa",
+                impact: "Bubble/void risk; first three lots require enhanced inspection",
+                probableCause: "Vacuum leakage, pump performance loss or seal contamination",
+                safeOperatorAction: "Hold affected lot identification and inform Quality; do not change the setpoint",
+                nextAction: "Maintenance leak check; Quality verifies post-lam visual and EL result"
+            },
+            {
+                id: "PRB-2403", priority: "High", department: "Quality", owner: "Pre-Lam Quality",
+                line: "Line-2", machine: "EL-Tester-01", category: "Defect trend", status: "Containment active",
+                openedAt: "03:20", ageMinutes: 280, issue: "EL micro-crack contribution increased above shift baseline",
+                impact: "34 affected modules; potential yield loss 0.37 percentage points",
+                probableCause: "Cell handling stress, string transport alignment or upstream crack propagation",
+                safeOperatorAction: "Segregate affected barcodes and preserve defect images for correlation",
+                nextAction: "Correlate by stringer, hour and operator; verify layup vacuum pickup"
+            },
+            {
+                id: "PRB-2404", priority: "Medium", department: "Maintenance", owner: "Electrical Maintenance",
+                line: "Line-1", machine: "Stringer-02", category: "Planned maintenance", status: "In progress",
+                openedAt: "06:10", ageMinutes: 110, issue: "Scheduled ribbon-path and vision-system PM",
+                impact: "Stringer capacity reduced; Line-1 operating with planned buffer",
+                probableCause: "Scheduled activity",
+                safeOperatorAction: "Use released Stringer-01 buffer and maintain FIFO",
+                nextAction: "Complete camera cleaning, ribbon alignment and dry-cycle validation"
+            },
+            {
+                id: "PRB-2405", priority: "Medium", department: "PPC", owner: "PPC + Production",
+                line: "Line-2", machine: "Laminator-02", category: "Material flow", status: "Material dispatched",
+                openedAt: "06:25", ageMinutes: 95, issue: "Backsheet replenishment delayed at point-of-use",
+                impact: "Laminator-02 temporarily idle; WIP sequence at risk",
+                probableCause: "Material staging delay",
+                safeOperatorAction: "Protect FIFO and do not substitute an unapproved material batch",
+                nextAction: "Confirm batch at line and reconcile material registration before restart"
+            }
+        ],
+
+        previousShiftDefects: [
+            { id: "DEF-701", line: "Line-2", process: "Pre-Lam EL", defect: "Micro-crack", count: 34, contribution: 31.8, trend: "Up", containment: "Barcode segregation + image review", owner: "Quality" },
+            { id: "DEF-702", line: "Line-2", process: "Post Lam", defect: "Bubble / void", count: 21, contribution: 19.6, trend: "Up", containment: "Enhanced VQC on three lots", owner: "Quality + Process" },
+            { id: "DEF-703", line: "Line-1", process: "Stringing", defect: "Ribbon misalignment", count: 18, contribution: 16.8, trend: "Stable", containment: "First-off verification after PM", owner: "Production" },
+            { id: "DEF-704", line: "Line-3", process: "Framing", defect: "Frame gap", count: 12, contribution: 11.2, trend: "Down", containment: "Clamp pressure check", owner: "Production + Quality" },
+            { id: "DEF-705", line: "Line-3", process: "Final Inspection", defect: "J-box excess sealant", count: 8, contribution: 7.5, trend: "Stable", containment: "Workstation sample approval", owner: "Quality" }
+        ],
+
+        breakdowns: [
+            {
+                id: "BD-1182", machine: "Framing-01", line: "Line-3", start: "05:42", end: null,
+                downtimeMinutes: 138, status: "Open", alarm: "Clamp forward timeout",
+                symptom: "Cylinder does not reach forward sensor within configured time",
+                rootCause: "Under investigation: air pressure measured below minimum and sensor alignment suspected",
+                actionTaken: "Machine isolated; regulator, hose joints and reed switch inspection started",
+                restorationPlan: "Restore ≥0.50 MPa, align sensor, perform ten dry cycles and release first-off module",
+                productionImpact: "Estimated 271 modules delayed"
+            },
+            {
+                id: "BD-1181", machine: "Laminator-02", line: "Line-2", start: "02:18", end: "03:00",
+                downtimeMinutes: 42, status: "Restored / monitoring", alarm: "Vacuum level not achieved",
+                symptom: "Vacuum plateaued at −87 kPa during evacuation stage",
+                rootCause: "Door-seal contamination created a minor leakage path",
+                actionTaken: "Seal cleaned, vacuum line inspected and empty cycle validated",
+                restorationPlan: "Trend five production cycles; inspect first three lots for bubbles/voids",
+                productionImpact: "Approx. 154 modules delayed"
+            },
+            {
+                id: "BD-1180", machine: "Stringer-01", line: "Line-1", start: "00:46", end: "01:04",
+                downtimeMinutes: 18, status: "Closed", alarm: "E37 servo following error",
+                symptom: "Ribbon-feed axis stopped during indexing",
+                rootCause: "Ribbon spool drag increased servo load beyond threshold",
+                actionTaken: "Spool tension corrected; axis homed and five strings verified",
+                restorationPlan: "Observe servo load each hour and inspect remaining spool condition",
+                productionImpact: "Approx. 72 strings delayed; recovered within shift"
+            }
+        ],
+
+        troubleshootingPlaybooks: [
+            {
+                id: "TS-FRM-CLAMP", machine: "Framing-01", keywords: ["frame", "framing", "clamp", "cylinder", "forward timeout"],
+                title: "Framing clamp/cylinder timeout", risk: "Mechanical movement and stored pneumatic energy",
+                productionChecks: ["Confirm the displayed alarm", "Stop automatic restart", "Verify supply-pressure indication", "Call Maintenance if the interlock remains active"],
+                maintenanceChecks: ["Apply LOTO", "Verify regulator output and leakage", "Inspect solenoid command/LED", "Check cylinder reed-switch position", "Manually test the valve only under approved procedure", "Run ten guarded dry cycles"],
+                qualityChecks: ["Hold the last module before the alarm", "Verify frame gap and squareness after restoration", "Release production after first-off approval"],
+                escalation: "Escalate if pressure cannot be restored, cylinder binds mechanically or the safety circuit is abnormal."
+            },
+            {
+                id: "TS-LAM-VAC", machine: "Laminator-02", keywords: ["laminator", "vacuum", "bubble", "void", "pressure"],
+                title: "Laminator vacuum not achieved / bubble risk", risk: "Hot surface, vacuum system and product quality risk",
+                productionChecks: ["Record actual vacuum and affected batch", "Do not change an approved setpoint", "Hold suspected lots and inform Quality"],
+                maintenanceChecks: ["Inspect door seal and vacuum hose", "Check pump current and oil condition", "Perform approved leak test", "Validate empty cycle against the vacuum curve"],
+                qualityChecks: ["Inspect first three lots after restoration", "Correlate bubble/void location with vacuum trend", "Release or contain lots based on approved criteria"],
+                escalation: "Escalate to Process Engineering for recurring deviation or any proposed setpoint change."
+            },
+            {
+                id: "TS-STR-E37", machine: "Stringer-01", keywords: ["stringer", "e37", "servo", "following error", "ribbon"],
+                title: "Stringer servo E37 / ribbon-feed following error", risk: "Moving axis and hot soldering system",
+                productionChecks: ["Record alarm code and axis", "Inspect visible ribbon jam without entering guarded area", "Call Maintenance after one approved reset attempt"],
+                maintenanceChecks: ["Apply LOTO where required", "Check ribbon spool drag and guide alignment", "Inspect servo load and axis obstruction", "Home axis and verify five strings"],
+                qualityChecks: ["Check ribbon alignment and solder coverage", "Segregate output since last good verification"],
+                escalation: "Escalate after repeat E37, abnormal servo load or encoder feedback instability."
+            },
+            {
+                id: "TS-EL-CRACK", machine: "EL-Tester-01", keywords: ["micro crack", "micro-crack", "el defect", "cell crack"],
+                title: "EL micro-crack increase", risk: "Hidden quality loss and repeated upstream handling damage",
+                productionChecks: ["Preserve barcode traceability", "Check handling and pickup sequence", "Do not mix held lots with released output"],
+                maintenanceChecks: ["Inspect vacuum pickup balance", "Verify conveyor alignment and vibration", "Check camera/lighting only if image artefact is suspected"],
+                qualityChecks: ["Classify crack pattern", "Correlate by stringer, hour, lot and operator", "Confirm whether the defect is real or imaging-related"],
+                escalation: "Escalate to Process Engineering when contribution remains above limit for two consecutive hours."
+            }
         ]
     };
 })();

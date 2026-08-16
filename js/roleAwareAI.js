@@ -131,6 +131,153 @@
             `${can("sama.parameters.view") ? `<b>Parameter alert:</b> Laminator-02 vacuum is outside its approved limit.<br>` : ""}` + freshness();
     }
 
+    function isCrossFunctional() {
+        return Boolean(user.admin || ["Management", "Operations Excellence"].includes(user.department));
+    }
+
+    function canDetailedMaintenance() {
+        return Boolean(can("sama.maintenance.view") && (user.admin || ["Maintenance", "Process Engineering", "Management", "Operations Excellence"].includes(user.department)));
+    }
+
+    function visibleProblems() {
+        if (isCrossFunctional()) return data.problemBoard;
+        if (user.department === "Maintenance") return data.problemBoard.filter(item => item.department === "Maintenance" || item.category === "Breakdown" || item.category === "Process deviation");
+        if (user.department === "Quality") return data.problemBoard.filter(item => item.department === "Quality" || ["Defect trend", "Process deviation"].includes(item.category));
+        if (user.department === "Process Engineering") return data.problemBoard.filter(item => ["Quality", "Maintenance"].includes(item.department) || item.category === "Process deviation");
+        if (user.department === "PPC") return data.problemBoard.filter(item => item.department === "PPC" || item.category === "Material flow");
+        return data.problemBoard;
+    }
+
+    function handoverDepartmentNote() {
+        const handover = data.shiftHandover;
+        if (user.department === "Production") return handover.productionNote;
+        if (user.department === "Quality") return handover.qualityNote;
+        if (user.department === "Maintenance") return handover.maintenanceNote;
+        if (user.department === "PPC") return handover.ppcNote;
+        if (user.department === "Process Engineering") return `${handover.qualityNote} ${handover.maintenanceNote}`;
+        return handover.managementNote;
+    }
+
+    function handoverResponse() {
+        if (!can("sama.operations.view")) return restrictedResponse("shift handover and carry-forward items", "SAMA operational viewer");
+        const handover = data.shiftHandover;
+        const problems = visibleProblems().slice(0, 5).map(item =>
+            `• <b>${safe(item.priority)} · ${safe(item.machine)}:</b> ${safe(item.issue)}<br>&nbsp;&nbsp;Owner: ${safe(item.owner)} · ${safe(item.status)} · Impact: ${safe(item.impact)}`
+        ).join("<br>");
+        return responseHeader(`🔄 ${handover.fromShift} → ${handover.toShift} Handover`) +
+            `<b>Handover time:</b> ${safe(handover.handoverAt)}<br>` +
+            `<b>Overall condition:</b> ${safe(handover.overallStatus)}<br>` +
+            `<b>Safety:</b> ${safe(handover.safetyStatus)}<br>` +
+            `<b>Carry-forward:</b> ${handover.carryForwardCount} items · ${handover.acknowledgedCount} acknowledged<br><br>` +
+            `<b>Your ${safe(user.department)} briefing:</b><br>${safe(handoverDepartmentNote())}<br><br>` +
+            `<b>Authorised priority items:</b><br>${problems || "No open item is assigned to this access profile."}` + freshness();
+    }
+
+    function previousShiftResponse() {
+        if (!can("sama.operations.view")) return restrictedResponse("previous-shift operational intelligence", "SAMA operational viewer");
+        const previous = data.previousShift;
+        const lines = can("sama.production.view") ? previous.lineSummary.map(line =>
+            `• <b>${safe(line.line)}:</b> ${number(line.actual)} / ${number(line.plan)} · rejection ${percent(line.rejection)} · downtime ${line.downtime} min`
+        ).join("<br>") : "Line output is not included in this login.";
+        const defects = can("sama.quality.view") ? data.previousShiftDefects.slice(0, 4).map(item =>
+            `• <b>${safe(item.defect)}:</b> ${number(item.count)} · ${safe(item.line)} · ${safe(item.trend)} trend · ${safe(item.containment)}`
+        ).join("<br>") : "Detailed defect categories are restricted for this login.";
+        const breakdowns = canDetailedMaintenance() ? data.breakdowns.map(item =>
+            `• <b>${safe(item.machine)}:</b> ${item.downtimeMinutes} min · ${safe(item.status)} · ${safe(item.alarm)}`
+        ).join("<br>") : data.breakdowns.map(item =>
+            `• <b>${safe(item.machine)}:</b> ${safe(item.status)} · ${item.downtimeMinutes} min · ${safe(item.productionImpact)}`
+        ).join("<br>");
+        return responseHeader(`🕘 ${previous.shift} Performance & Handover`) +
+            `${can("sama.production.view") ? `<b>Production:</b> ${number(previous.productionActual)} / ${number(previous.productionPlan)} (${percent(previous.planAchievement)})<br>` : ""}` +
+            `${can("sama.quality.view") ? `<b>Yield:</b> ${percent(previous.yield)} · <b>Rejection:</b> ${percent(previous.rejectionRate)}<br>` : ""}` +
+            `${can("sama.maintenance.view") ? `<b>Downtime:</b> ${previous.downtimeMinutes} min · <b>Breakdowns:</b> ${previous.breakdownCount}<br>` : ""}` +
+            `<b>Unresolved at handover:</b> ${previous.unresolvedItems}<br><br>` +
+            `<b>Line performance:</b><br>${lines}<br><br>` +
+            `<b>Previous-shift defects:</b><br>${defects}<br><br>` +
+            `<b>Breakdowns:</b><br>${breakdowns}` + freshness();
+    }
+
+    function activeProblemsResponse() {
+        if (!can("sama.operations.view")) return restrictedResponse("the active problem and ownership board", "SAMA operational viewer");
+        const rows = visibleProblems().map(item => {
+            const detail = user.department === "Production" && !isCrossFunctional()
+                ? `${safe(item.impact)}<br>&nbsp;&nbsp;Safe action: ${safe(item.safeOperatorAction)}`
+                : `${safe(item.issue)}<br>&nbsp;&nbsp;Probable cause: ${safe(item.probableCause)}<br>&nbsp;&nbsp;Next action: ${safe(item.nextAction)}`;
+            return `• <b>${safe(item.priority)} · ${safe(item.id)} · ${safe(item.machine)}</b><br>&nbsp;&nbsp;${detail}<br>&nbsp;&nbsp;Owner: ${safe(item.owner)} · Status: ${safe(item.status)}`;
+        }).join("<br><br>");
+        return responseHeader("🚦 Active Problem & Ownership Board") +
+            `<b>Visible open items:</b> ${visibleProblems().length}<br><br>${rows || "No active problem is assigned to your department profile."}` + freshness();
+    }
+
+    function previousDefectsResponse() {
+        if (!can("sama.quality.view")) {
+            if (can("sama.production.view")) {
+                return responseHeader("📉 Previous-Shift Rejection Summary") +
+                    `<b>Rejection:</b> ${percent(data.previousShift.rejectionRate)} · <b>Yield:</b> ${percent(data.previousShift.yield)}<br>` +
+                    `<b>Operator action:</b> Follow active containment instructions and preserve barcode traceability. Detailed defect categories remain restricted to Quality-authorised profiles.` + freshness();
+            }
+            return restrictedResponse("previous-shift defect categories and containment", "Quality, Process Engineering, Management or Operations Excellence");
+        }
+        const rows = data.previousShiftDefects.map(item =>
+            `• <b>${safe(item.defect)}:</b> ${number(item.count)} (${item.contribution.toFixed(1)}%) · ${safe(item.line)} / ${safe(item.process)} · Trend ${safe(item.trend)}<br>&nbsp;&nbsp;Containment: ${safe(item.containment)} · Owner: ${safe(item.owner)}`
+        ).join("<br><br>");
+        return responseHeader("🔎 Previous-Shift Defect Intelligence") +
+            `<b>Total inspected:</b> ${number(data.previousShift.inspected)}<br>` +
+            `<b>Yield:</b> ${percent(data.previousShift.yield)} · <b>Rejection:</b> ${percent(data.previousShift.rejectionRate)}<br>` +
+            `<b>Top defect:</b> ${safe(data.previousShift.topDefect)} (${data.previousShift.topDefectCount})<br><br>${rows}` + freshness();
+    }
+
+    function findBreakdown(text) {
+        const compact = String(text).toLowerCase().replaceAll(/[^a-z0-9]/g, "");
+        return data.breakdowns.find(item => compact.includes(item.machine.toLowerCase().replaceAll(/[^a-z0-9]/g, ""))) || null;
+    }
+
+    function breakdownResponse(text) {
+        const found = findBreakdown(text);
+        const selected = found ? [found] : data.breakdowns;
+        if (!canDetailedMaintenance()) {
+            if (!can("sama.operations.view")) return restrictedResponse("breakdown operational status", "SAMA operational viewer");
+            const impactRows = selected.map(item =>
+                `• <b>${safe(item.machine)}:</b> ${safe(item.status)} · ${item.downtimeMinutes} min<br>&nbsp;&nbsp;Production impact: ${safe(item.productionImpact)}<br>&nbsp;&nbsp;Control: Keep traceability and follow the assigned Maintenance/Quality release instruction.`
+            ).join("<br><br>");
+            return responseHeader("⚠ Breakdown Operational Status") + impactRows +
+                `<br><br><b>Access control:</b> Root cause, repair and guarded-area diagnosis remain visible only to authorised Maintenance/Engineering profiles.` + freshness();
+        }
+        const rows = selected.map(item =>
+            `• <b>${safe(item.id)} · ${safe(item.machine)} · ${safe(item.status)}</b><br>` +
+            `&nbsp;&nbsp;Alarm/symptom: ${safe(item.alarm)} — ${safe(item.symptom)}<br>` +
+            `&nbsp;&nbsp;Root cause: ${safe(item.rootCause)}<br>` +
+            `&nbsp;&nbsp;Action: ${safe(item.actionTaken)}<br>` +
+            `&nbsp;&nbsp;Restoration: ${safe(item.restorationPlan)}<br>` +
+            `&nbsp;&nbsp;Downtime/impact: ${item.downtimeMinutes} min · ${safe(item.productionImpact)}`
+        ).join("<br><br>");
+        return responseHeader(found ? `🛠 ${found.machine} Breakdown Record` : "🛠 Previous-Shift Breakdown Review") + rows + freshness();
+    }
+
+    function findPlaybook(text) {
+        const normalized = String(text).toLowerCase();
+        return data.troubleshootingPlaybooks.find(item => item.keywords.some(keyword => normalized.includes(keyword))) || null;
+    }
+
+    function troubleshootingResponse(text) {
+        if (!can("sama.operations.view")) return restrictedResponse("problem troubleshooting", "SAMA operational viewer");
+        const playbook = findPlaybook(text);
+        if (!playbook) return activeProblemsResponse();
+        const common = `<b>Safety/risk:</b> ${safe(playbook.risk)}<br><br>`;
+        const production = `<b>Safe production checks:</b><br>${playbook.productionChecks.map((step, index) => `${index + 1}. ${safe(step)}`).join("<br>")}`;
+        const maintenanceSteps = canDetailedMaintenance()
+            ? `<br><br><b>Maintenance diagnosis:</b><br>${playbook.maintenanceChecks.map((step, index) => `${index + 1}. ${safe(step)}`).join("<br>")}`
+            : "";
+        const qualitySteps = can("sama.quality.view")
+            ? `<br><br><b>Quality containment/release:</b><br>${playbook.qualityChecks.map((step, index) => `${index + 1}. ${safe(step)}`).join("<br>")}`
+            : "";
+        const limitation = !canDetailedMaintenance()
+            ? `<br><br><b>Control:</b> Your login receives safe operator actions only. Maintenance diagnosis and guarded-area work remain restricted.`
+            : "";
+        return responseHeader(`🧭 Troubleshooting: ${playbook.title}`) + common + production + maintenanceSteps + qualitySteps + limitation +
+            `<br><br><b>Escalation:</b> ${safe(playbook.escalation)}` + freshness();
+    }
+
     function roleSummary() {
         if (user.department === "Production") return productionResponse();
         if (user.department === "Quality" || user.department === "Process Engineering") return qualityResponse();
@@ -195,7 +342,7 @@
 
     function accessProfileResponse() {
         const visible = [];
-        if (can("sama.operations.view")) visible.push("Machine Status", "Cycle Time");
+        if (can("sama.operations.view")) visible.push("Machine Status", "Cycle Time", "Shift Handover", "Active Problem Board", "Safe Operator Troubleshooting");
         if (can("sama.production.view")) visible.push("Production Count", "Production Rejection");
         if (can("sama.quality.view")) visible.push("Detailed Quality & Defects");
         if (can("sama.maintenance.view")) visible.push("Maintenance, PM, Downtime, MTTR & MTBF");
@@ -214,6 +361,12 @@
         if (!text) return null;
 
         if (/(who am i|my access|my role|login type|department access|what can you answer)/.test(text)) return accessProfileResponse();
+        if (/(shift handover|handover update|handover briefing|carry forward|carry-forward|next shift|incoming shift|outgoing shift)/.test(text)) return handoverResponse();
+        if (/(previous shift|last shift|night shift|shift c)/.test(text)) return previousShiftResponse();
+        if (/(active problem|open problem|problem board|priority problem|pending issue|all problem|all active problem|problem and owner|problems and owners|issues and owners)/.test(text)) return activeProblemsResponse();
+        if (/(troubleshoot|troubleshooting|how to solve|how to fix|corrective action|problem solving|diagnose|problem with|problem in|issue with|issue in|machine problem|breakdown in)/.test(text)) return troubleshootingResponse(text);
+        if (/(previous.*defect|last.*defect|defect trend|top defect|micro-crack|micro crack|bubble defect|frame gap)/.test(text)) return previousDefectsResponse();
+        if (/(breakdown history|previous breakdown|last breakdown|breakdown record|root cause.*breakdown|restoration plan|show breakdown|current breakdown|breakdown update)/.test(text)) return breakdownResponse(text);
         if (/(my update|update me|today update|daily update|plant update|overall update|complete update|everything|all update|executive summary|management update)/.test(text)) return roleSummary();
         if (/(pending parameter|parameter request|change request|approval status)/.test(text)) return changeRequestResponse();
         if (/(vacuum|temperature|air pressure|motor current|servo load|process parameter|setpoint|parameter change|modify parameter|adjust parameter)/.test(text)) return parameterResponse(text);
@@ -230,6 +383,7 @@
         if (/(vacuum|temperature|pressure setting|setpoint|process parameter|change parameter|modify parameter)/.test(text) && !can("sama.parameters.view")) return restrictedResponse("process parameter details", "Parameter-authorised profile");
         if (/(defect category|root cause.*defect|quality grade|b grade|downgrade|scrap analysis|fpy)/.test(text) && !can("sama.quality.view")) return restrictedResponse("detailed quality and defect intelligence", "Quality, Process Engineering, Management or Operations Excellence");
         if (/(production plan|production count|line output|plan vs actual)/.test(text) && !can("sama.production.view")) return restrictedResponse("production intelligence", "Production, Management or Operations Excellence");
+        if (/(breakdown root cause|repair action|maintenance diagnosis|restoration plan)/.test(text) && !canDetailedMaintenance()) return restrictedResponse("detailed breakdown diagnosis and restoration actions", "Maintenance, Process Engineering, Management or Operations Excellence");
         if (/(alarm|breakdown|preventive maintenance|\bpm\b|spare|repair|troubleshoot|mttr|mtbf|downtime)/.test(text) && !can("sama.maintenance.view")) return restrictedResponse("maintenance troubleshooting and reliability intelligence", "Maintenance, Management or Operations Excellence");
         return null;
     };
@@ -237,15 +391,17 @@
     window.getRoleAwareWelcomeMessage = function getRoleAwareWelcomeMessage() {
         return responseHeader(`Welcome, ${user.name.split(" ")[0]}`) +
             `I recognised your <b>${safe(user.department)}</b> login. Every answer will be checked against your active department permissions before information is shown.<br><br>` +
-            `<b>Ask:</b> “Give me my update”, “Which machines are running?”, “What is my access?” or a permitted troubleshooting question.`;
+            `<b>New operational context:</b> shift handover, previous-shift production, defects, breakdowns, active problems, ownership and role-safe troubleshooting.<br><br>` +
+            `<b>Ask:</b> “Give me the shift handover”, “Show active problems”, “Explain the previous shift” or a permitted troubleshooting question.`;
     };
 
     function roleQuestions() {
-        if (user.department === "Production") return ["Give me my production update", "What is the production rejection?", "Which machines are running?", "Show cycle time status"];
-        if (user.department === "Quality") return ["Give me my quality update", "Show rejection and yield", "Laminator vacuum pressure", "Show pending parameter changes"];
-        if (user.department === "Maintenance") return ["Give me my maintenance update", "Which machines need attention?", "Show plant downtime and MTTR", "Which PM is pending?"];
-        if (user.department === "Process Engineering") return ["Give me my process update", "Show abnormal process parameters", "Laminator vacuum pressure", "Show pending parameter changes"];
-        return ["Give me complete plant update", "Production count and gap", "Show quality and yield", "Show maintenance status"];
+        if (user.department === "Production") return ["Give me the shift handover", "Show active problems and safe actions", "Give me my production update", "Which machines are running?"];
+        if (user.department === "Quality") return ["Give me the shift handover", "Show previous shift defects", "Troubleshoot Laminator bubble defect", "Show rejection and yield"];
+        if (user.department === "Maintenance") return ["Give me the shift handover", "Show all active problems and owners", "Troubleshoot Framing-01 cylinder alarm", "Show previous breakdowns"];
+        if (user.department === "Process Engineering") return ["Give me the shift handover", "Show previous shift defects", "Troubleshoot Laminator vacuum deviation", "Show abnormal process parameters"];
+        if (user.department === "PPC") return ["Give me the shift handover", "Show material flow problems", "Give me the previous shift production", "Show production gap"];
+        return ["Give me the complete shift handover", "Show all active problems and owners", "Explain the previous shift", "Give me complete plant update"];
     }
 
     function applyChatProfile() {

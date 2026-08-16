@@ -32,7 +32,7 @@
 
     const footer = sidebar.querySelector(".sidebar-footer");
     if (footer) {
-        footer.innerHTML = `<p>${access.user.name}</p><small>${access.user.department} · ${access.user.role}</small><button id="samaLogoutButton" type="button">Logout</button>`;
+        footer.innerHTML = `<p>${access.user.name}</p><small>${access.user.department} · ${access.user.role}</small><em>SAMA v7.0 · SOLEX DIGITAL</em><button id="samaLogoutButton" type="button">Logout</button>`;
         document.getElementById("samaLogoutButton").addEventListener("click", () => {
             sessionStorage.removeItem("solexPortalSession");
             window.top.location.replace("/solex-digital-portal/index.html");
@@ -49,6 +49,23 @@
     menuButton.setAttribute("aria-label", "Open SAMA navigation");
     sidebar.id = "samaSidebar";
     topbar.insertBefore(menuButton, topbar.firstChild);
+
+    const actions = topbar.querySelector(".topbar-actions");
+    if (actions && !actions.querySelector(".sama-user-chip")) {
+        const initials = access.user.name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
+        const chip = document.createElement("div");
+        chip.className = "sama-user-chip";
+        const avatar = document.createElement("span");
+        avatar.textContent = initials;
+        const detail = document.createElement("div");
+        const name = document.createElement("b");
+        name.textContent = access.user.name;
+        const department = document.createElement("small");
+        department.textContent = access.user.department;
+        detail.append(name, department);
+        chip.append(avatar, detail);
+        actions.appendChild(chip);
+    }
 
     function setSidebar(open) {
         document.body.classList.toggle("sama-sidebar-open", open);
